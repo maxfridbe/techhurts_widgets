@@ -1,0 +1,52 @@
+# Use a base image that includes a specific version of Gradle and JDK 17
+# Check Docker Hub for the latest appropriate tags: https://hub.docker.com/_/gradle
+FROM gradle:8.7.0-jdk17
+
+# Set environment variables for Android SDK
+ENV ANDROID_SDK_ROOT /opt/android-sdk
+ENV PATH $PATH:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools
+
+# Install Android SDK prerequisites (wget, unzip)
+# The 'gradle' base image is Debian-based, so apt-get is used
+RUN apt-get update && \
+    apt-get install -y wget unzip --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install Android SDK command-line tools
+# Check for the latest version at https://developer.android.com/studio#command-tools
+ARG CMDLINE_TOOLS_VERSION="11076708" # Example version, update if needed
+RUN wget "https://dl.google.com/android/repository/commandlinetools-linux-${CMDLINE_TOOLS_VERSION}_latest.zip" -O cmdline-tools.zip && \
+    mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    unzip cmdline-tools.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
+    rm cmdline-tools.zip
+
+# Accept SDK licenses automatically
+RUN yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses
+
+# Install required SDK components (adjust versions as needed for your project)
+RUN ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager \
+    "platform-tools" \
+    "platforms;android-34" \
+    "build-tools;34.0.0"
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the project source files from your host to the container
+# NOTE: You no longer need gradlew, gradlew.bat, or gradle/ locally.
+# Consider adding a .dockerignore file to avoid copying build/, .gradle/ etc.
+COPY . .
+
+# *** Generate the Gradle wrapper files INSIDE the container ***
+# Uses the 'gradle' command from the base image.
+# --gradle-version ensures it uses a specific version if needed, matching the base image helps.
+RUN gradle wrapper --gradle-version 8.7
+
+# Make the newly generated gradlew script executable
+RUN chmod +x ./gradlew
+
+# Run the Gradle build using the wrapper script generated in the previous step
+RUN ./gradlew assembleDebug --no-daemon
+
+# --- End of Dockerfile ---

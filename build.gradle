@@ -1,0 +1,12 @@
+// build.gradle (Project level)
+plugins {
+    // Apply the Android Application plugin using 'alias' for the app module
+    // Use a recent stable version, check here: https://developer.android.com/studio/releases/gradle-plugin
+    id 'com.android.application' version '8.2.0' apply false
+    // id 'org.jetbrains.kotlin.android' version '1.9.0' apply false // Add if using Kotlin
+}
+
+// Task to clean the build directory (optional, but common)
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

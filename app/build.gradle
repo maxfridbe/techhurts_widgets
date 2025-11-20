@@ -1,0 +1,58 @@
+// app/build.gradle (Module level)
+plugins {
+    id 'com.android.application'
+    // id 'org.jetbrains.kotlin.android' // Add if using Kotlin
+}
+
+android {
+    // Must match the package structure and AndroidManifest.xml
+    namespace 'com.example.helloworldwidget'
+    compileSdk 34 // Use a recent SDK version available in your Docker image/SDK install
+
+    defaultConfig {
+        applicationId "com.example.helloworldwidget"
+        minSdk 21       // Minimum Android version support
+        targetSdk 34    // Target Android version
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false // Keep it simple for now
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // Debug specific settings can go here
+        }
+    }
+    compileOptions {
+        // Set Java version compatibility
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // Add if using Kotlin:
+    // kotlinOptions {
+    //    jvmTarget = '1.8'
+    // }
+    buildFeatures {
+        // Disable features not used to speed up build
+        viewBinding false
+        dataBinding false
+        resValues false
+        buildConfig false
+    }
+}
+
+dependencies {
+    // No specific dependencies are strictly required for this minimal widget example.
+    // You might add libraries like AppCompat later if needed for more complex layouts or features.
+    // implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // Standard testing libraries (optional for just building the widget)
+    // testImplementation 'junit:junit:4.13.2'
+    // androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    // androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
