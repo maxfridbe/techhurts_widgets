@@ -25,41 +25,22 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     private static final String ACTION_TOGGLE_LOG_VISIBILITY = "com.techhurts.weatherwidget.TOGGLE_LOG_VISIBILITY";
     private static final String PREFS_NAME = "com.techhurts.weatherwidget.prefs";
     private static final String PREF_LOG_VISIBLE_PREFIX = "log_visible_";
+    private static final String ACTION_REFRESH = "com.techhurts.weatherwidget.ACTION_REFRESH";
 
-//    @Override
-//    public void onReceive(Context context, Intent intent) {
-//        final String action = intent.getAction();
-//        if (ACTION_TOGGLE_LOG_VISIBILITY.equals(action)) {
-//            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-//            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-//                SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-//                boolean isLogVisible = prefs.getBoolean(PREF_LOG_VISIBLE_PREFIX + appWidgetId, false);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                editor.putBoolean(PREF_LOG_VISIBLE_PREFIX + appWidgetId, !isLogVisible);
-//                editor.apply();
-//
-//                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
-//                views.setViewVisibility(R.id.log_scroll_view, !isLogVisible ? View.VISIBLE : View.GONE);
-//                
-//                // We also need to re-set the on-click handler every time we update the view
-//                Intent toggleIntent = new Intent(context, WeatherWidgetProvider.class);
-//                toggleIntent.setAction(ACTION_TOGGLE_LOG_VISIBILITY);
-//                toggleIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, toggleIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-//                views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
-//                
-//                // It's important to update the widget fully, not just the visibility.
-//                // We need to re-fetch the weather data and update all fields.
-//                // A simpler approach for the toggle is to just update the visibility
-//                // and assume the rest of the content is up-to-date.
-//                // Let's just update the widget with the modified views.
-//                appWidgetManager.updateAppWidget(appWidgetId, views);
-//            }
-//        } else {
-//            super.onReceive(context, intent);
-//        }
-//    }
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        final String action = intent.getAction();
+        if (ACTION_REFRESH.equals(action)) {
+            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                WidgetLogger.log("Received refresh action for widget ID: " + appWidgetId);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                updateAppWidget(context, appWidgetManager, appWidgetId);
+            }
+        }
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -79,43 +60,54 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         WidgetLogger.log("updateAppWidget started for widget ID: " + appWidgetId);
 
         executorService.execute(() -> {
+            WidgetConfigureActivity.LocationData locationData = WidgetConfigureActivity.loadLocationDataPref(context, appWidgetId);
+            final String locationName = (locationData != null) ? locationData.locationName : null;
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
+
+            // Set up the refresh button click listener
+            Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
+            refreshIntent.setAction(ACTION_REFRESH);
+            refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.widget_refresh_button, refreshPendingIntent);
+
+            // Setup intent to launch configuration activity if location data is not set
+            if (locationData == null || locationName == null || locationName.isEmpty()) {
+                WidgetLogger.log("Location data not configured for widget ID: " + appWidgetId + ". Launching configuration.");
+                Intent configIntent = new Intent(context, WidgetConfigureActivity.class);
+                configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                PendingIntent configPendingIntent = PendingIntent.getActivity(context, appWidgetId, configIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setTextViewText(R.id.widget_location, "Tap to Configure");
+                views.setTextViewText(R.id.widget_temperature, "");
+                views.setTextViewText(R.id.widget_forecast, "");
+                views.setTextViewText(R.id.widget_temp_emoji, "⚙️");
+                views.setTextViewText(R.id.widget_weather_emoji, "");
+                views.setOnClickPendingIntent(R.id.widget_root, configPendingIntent);
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+                return; // Exit early as no location data is set
+            }
+
+            // Set OnClickListener to open weather.gov with the specific location name when temperature is clicked
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forecast.weather.gov/zipcity.php?inputstring=" + Uri.encode(locationName)));
+            PendingIntent browserPendingIntent = PendingIntent.getActivity(context, appWidgetId, browserIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.widget_temperature, browserPendingIntent);
+            
+            if (!isNetworkAvailable(context)) {
+                WidgetLogger.log("No network connection available.");
+                handler.post(() -> {
+                    views.setTextViewText(R.id.widget_location, locationName);
+                    views.setTextViewText(R.id.widget_temperature, "");
+                    views.setTextViewText(R.id.widget_forecast, "No Network");
+                    views.setTextViewText(R.id.widget_temp_emoji, "❌");
+                    views.setTextViewText(R.id.widget_weather_emoji, "🌐");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                });
+                return; // Exit early as no network is available
+            }
+
             try {
-                String zipCode = WidgetConfigureActivity.loadZipCodePref(context, appWidgetId);
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
-
-                // Get the accent color from the theme
-                int accentColor;
-                TypedValue typedValue = new TypedValue();
-                if (context.getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true)) {
-                    accentColor = typedValue.data;
-                } else {
-                    // Fallback color if colorAccent is not found or for older Android versions
-                    accentColor = context.getResources().getColor(android.R.color.holo_blue_light, context.getTheme());
-                }
-                // Apply the desired transparency (#44)
-                int transparentAccentColor = (accentColor & 0x00FFFFFF) | (0x44 << 24); // Keep original RGB, set alpha to #44
-                views.setInt(R.id.widget_root, "setBackgroundColor", transparentAccentColor);
-                
-                // Set OnClickListener to open weather.gov with the specific zip code
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forecast.weather.gov/zipcity.php?inputstring=" + zipCode));
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
-                
-                if (!isNetworkAvailable(context)) {
-                    WidgetLogger.log("No network connection available.");
-                    handler.post(() -> {
-                        views.setTextViewText(R.id.widget_location, "N/A");
-                        views.setTextViewText(R.id.widget_temperature, "0°F");
-                        views.setTextViewText(R.id.widget_forecast, "No Network");
-                        views.setTextViewText(R.id.widget_temp_emoji, "❓");
-                        views.setTextViewText(R.id.widget_weather_emoji, "❓");
-                        appWidgetManager.updateAppWidget(appWidgetId, views);
-                    });
-                    return;
-                }
-
-                WidgetLogger.log("Fetching weather for " + zipCode);
-                String[] weatherData = WeatherService.getWeatherData(context, zipCode);
+                WidgetLogger.log("Fetching weather for " + locationName);
+                String[] weatherData = WeatherService.getWeatherData(context, locationData.latitude, locationData.longitude);
                 WidgetLogger.log("WeatherService returned: " + (weatherData != null ? java.util.Arrays.toString(weatherData) : "null"));
 
                 handler.post(() -> {
@@ -125,7 +117,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                         String shortForecast = weatherData[2];
 
                         WidgetLogger.log("Updating widget UI with weather data.");
-                        views.setTextViewText(R.id.widget_location, zipCode);
+                        views.setTextViewText(R.id.widget_location, locationName);
                         views.setTextViewText(R.id.widget_forecast, shortForecast);
 
                         try {
@@ -140,7 +132,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                         views.setTextViewText(R.id.widget_weather_emoji, getWeatherEmoji(shortForecast, name));
                     } else {
                         WidgetLogger.log("Weather data is null or invalid.");
-                        views.setTextViewText(R.id.widget_location, "N/A");
+                        views.setTextViewText(R.id.widget_location, locationName);
                         views.setTextViewText(R.id.widget_temperature, "0°F");
                         views.setTextViewText(R.id.widget_forecast, "Update Failed");
                         views.setTextViewText(R.id.widget_temp_emoji, "❓");
@@ -153,22 +145,17 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                 for (StackTraceElement ste : e.getStackTrace()) {
                     WidgetLogger.log("    " + ste.toString());
                 }
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
-                views.setTextViewText(R.id.widget_forecast, "Update Failed (Error)");
-                appWidgetManager.updateAppWidget(appWidgetId, views);
+                handler.post(() -> {
+                    views.setTextViewText(R.id.widget_location, locationName);
+                    views.setTextViewText(R.id.widget_temperature, "");
+                    views.setTextViewText(R.id.widget_forecast, "Update Failed (Error)");
+                    views.setTextViewText(R.id.widget_temp_emoji, "❓");
+                    views.setTextViewText(R.id.widget_weather_emoji, "❓");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                });
             }
         });
     }
-    
-//    private static void updateLogs(Context context, AppWidgetManager appWidgetManager, int appWidgetId, RemoteViews views) {
-//        StringBuilder logText = new StringBuilder();
-//        for (String log : WidgetLogger.getLogs()) {
-//            logText.append(log).append("\n");
-//        }
-//        views.setTextViewText(R.id.widget_log_viewer, logText.toString());
-//        appWidgetManager.updateAppWidget(appWidgetId, views);
-//        WidgetLogger.log("Final widget update complete for widget ID: " + appWidgetId);
-//    }
     
     private static String getTempEmoji(int temp) {
         if (temp > 95) return "🔥";
@@ -201,9 +188,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, 0).edit();
         for (int appWidgetId : appWidgetIds) {
             editor.remove(PREF_LOG_VISIBLE_PREFIX + appWidgetId);
-            WidgetConfigureActivity.deleteZipCodePref(context, appWidgetId);
+            WidgetConfigureActivity.deleteLocationDataPref(context, appWidgetId);
         }
         editor.apply();
     }
 }
-

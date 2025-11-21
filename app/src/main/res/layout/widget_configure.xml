@@ -13,12 +13,31 @@
         android:inputType="number"
         android:maxLines="1" />
 
+    <TextView
+        android:id="@+id/textViewLocationResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:visibility="gone" /> <!-- Initially hidden -->
+
+    <Button
+        android:id="@+id/buttonAcceptLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Accept Location"
+        android:enabled="false"
+        android:visibility="gone" /> <!-- Initially hidden and disabled -->
+
     <Button
         android:id="@+id/buttonConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:text="Confirm" />
+        android:text="Confirm"
+        android:enabled="false" />
 
 </LinearLayout>

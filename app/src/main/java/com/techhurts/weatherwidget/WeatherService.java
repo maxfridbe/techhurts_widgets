@@ -14,38 +14,22 @@ public class WeatherService {
 
 
     private static final String TAG = "WeatherService";
-    private static final String ZIPPOPOTAM_API_URL = "https://api.zippopotam.us/us/";
     private static final String WEATHER_API_BASE_URL = "https://api.weather.gov/points/";
 
-    public static String[] getWeatherData(Context context, String zipCode) {
-        WidgetLogger.log("getWeatherData started with zip code: " + zipCode);
-        if (zipCode == null || zipCode.length() != 5) {
-            WidgetLogger.log("Invalid zip code: " + zipCode);
-            return null;
-        }
+    public static String[] getWeatherData(Context context, double latitude, double longitude) {
+        WidgetLogger.log("getWeatherData started with latitude: " + latitude + ", longitude: " + longitude);
 
         try {
-            // 1. Geocode zip code to latitude and longitude using zippopotam.us
-            WidgetLogger.log("Starting geocoding for zip code: " + zipCode);
-            double[] coords = getCoordsFromZip(zipCode);
-            if (coords == null) {
-                WidgetLogger.log("Could not get coordinates for zip code: " + zipCode);
-                return null;
-            }
-            double lat = coords[0];
-            double lon = coords[1];
-            WidgetLogger.log("Geocoding successful. Lat: " + lat + ", Lon: " + lon);
-
-            // 2. Get gridpoint URL
-            WidgetLogger.log("Getting gridpoint URL for " + lat + "," + lon);
-            String gridpointUrl = getGridpointUrl(lat, lon);
+            // 1. Get gridpoint URL
+            WidgetLogger.log("Getting gridpoint URL for " + latitude + "," + longitude);
+            String gridpointUrl = getGridpointUrl(latitude, longitude);
             if (gridpointUrl == null) {
                 WidgetLogger.log("Failed to get gridpoint URL.");
                 return null;
             }
             WidgetLogger.log("Gridpoint URL: " + gridpointUrl);
 
-            // 3. Get forecast
+            // 2. Get forecast
             WidgetLogger.log("Getting forecast from: " + gridpointUrl);
             String[] forecast = getForecast(gridpointUrl);
             WidgetLogger.log("Forecast data: " + (forecast != null ? java.util.Arrays.toString(forecast) : "null"));
@@ -53,48 +37,6 @@ public class WeatherService {
 
         } catch (Exception e) {
             WidgetLogger.log("Exception in getWeatherData: " + e.getClass().getSimpleName() + " - " + e.getMessage());
-            for (StackTraceElement ste : e.getStackTrace()) {
-                WidgetLogger.log("    " + ste.toString());
-            }
-            return null;
-        }
-    }
-
-    private static double[] getCoordsFromZip(String zipCode) {
-        String fullUrl = ZIPPOPOTAM_API_URL + zipCode;
-        WidgetLogger.log("getCoordsFromZip URL: " + fullUrl);
-        try {
-            URL url = new URL(fullUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(10000);
-            connection.setReadTimeout(10000);
-
-            int responseCode = connection.getResponseCode();
-            WidgetLogger.log("getCoordsFromZip response code: " + responseCode);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder result = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-            reader.close();
-
-            String jsonResponse = result.toString();
-            WidgetLogger.log("getCoordsFromZip JSON response: " + jsonResponse);
-
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            JSONObject place = jsonObject.getJSONArray("places").getJSONObject(0);
-            double lat = Double.parseDouble(place.getString("latitude"));
-            double lon = Double.parseDouble(place.getString("longitude"));
-
-            return new double[]{lat, lon};
-        } catch (UnknownHostException e) {
-            WidgetLogger.log("Error getting coordinates: Unknown host - " + e.getMessage() + ". Please check internet connection and DNS settings.");
-            return null;
-        } catch (Exception e) {
-            WidgetLogger.log("Error getting coordinates from zip code: " + e.getClass().getSimpleName() + " - " + e.getMessage());
             for (StackTraceElement ste : e.getStackTrace()) {
                 WidgetLogger.log("    " + ste.toString());
             }
