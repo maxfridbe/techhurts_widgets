@@ -1,5 +1,5 @@
 
-package com.example.helloworldwidget;
+package com.techhurts.weatherwidget;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -8,19 +8,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.DatePicker; // Import DatePicker
-// Removed EditText import
+import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Locale; // Import Locale for formatting
+import java.util.Locale;
 
 public class WidgetConfigureActivity extends Activity {
 
-    private static final String PREFS_NAME = "com.example.helloworldwidget.WidgetPrefs";
-    private static final String PREF_PREFIX_KEY = "duedate_";
+    private static final String PREFS_NAME = "com.techhurts.weatherwidget.prefs";
+    private static final String PREF_PREFIX_KEY = "zipcode_";
 
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    DatePicker mDatePickerDueDate; // Changed from EditText
+    EditText mEditTextZipCode;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -29,8 +28,7 @@ public class WidgetConfigureActivity extends Activity {
         setResult(RESULT_CANCELED);
         setContentView(R.layout.widget_configure);
 
-        // Find the DatePicker instead of EditText
-        mDatePickerDueDate = findViewById(R.id.datePickerDueDate);
+        mEditTextZipCode = findViewById(R.id.editTextZipCode);
         Button confirmButton = findViewById(R.id.buttonConfirm);
 
         Intent intent = getIntent();
@@ -48,25 +46,18 @@ public class WidgetConfigureActivity extends Activity {
         confirmButton.setOnClickListener(v -> {
             final Context context = WidgetConfigureActivity.this;
 
-            // --- Get date from DatePicker ---
-            int year = mDatePickerDueDate.getYear();
-            int month = mDatePickerDueDate.getMonth(); // Month is 0-indexed (0=Jan, 1=Feb, ...)
-            int day = mDatePickerDueDate.getDayOfMonth();
+            String zipCodeText = mEditTextZipCode.getText().toString();
 
-            // Format the date string as YYYY-MM-DD
-            // Remember to add 1 to the month for correct formatting
-            String dueDateText = String.format(Locale.ROOT, "%04d-%02d-%02d", year, month + 1, day);
+            if (zipCodeText.length() != 5) {
+                Toast.makeText(context, "Please enter a valid 5-digit zip code", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            // Removed validation for EditText, DatePicker provides valid components
+            saveZipCodePref(context, mAppWidgetId, zipCodeText);
 
-            // Save the formatted date string
-            saveDueDatePref(context, mAppWidgetId, dueDateText);
-
-            // Update the widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            HelloWorldWidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId, dueDateText);
+            WeatherWidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
-            // Set result and finish
             Intent resultValue = new Intent();
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
             setResult(RESULT_OK, resultValue);
@@ -74,21 +65,18 @@ public class WidgetConfigureActivity extends Activity {
         });
     }
 
-    // Write the prefix to the SharedPreferences object for this widget
-    static void saveDueDatePref(Context context, int appWidgetId, String text) {
+    static void saveZipCodePref(Context context, int appWidgetId, String text) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
         prefs.apply();
     }
 
-    // Read the prefix from the SharedPreferences object for this widget.
-    static String loadDueDatePref(Context context, int appWidgetId) {
+    static String loadZipCodePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        return prefs.getString(PREF_PREFIX_KEY + appWidgetId, null); // Returns null if not found
+        return prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
     }
 
-    // Delete the preference for this widget
-    static void deleteDueDatePref(Context context, int appWidgetId) {
+    static void deleteZipCodePref(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.remove(PREF_PREFIX_KEY + appWidgetId);
         prefs.apply();

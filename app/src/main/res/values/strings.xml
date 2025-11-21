@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">HelloWorldWidget</string>
-    <string name="widget_label">Hello Widget</string>
-    <string name="widget_description">A simple hello world widget.</string>
-    <string name="widget_default_text">Hello Widget!</string>
+    <string name="app_name">WeatherWidget</string>
+    <string name="widget_label">Weather Widget</string>
+    <string name="widget_description">A simple weather widget.</string>
+    <string name="widget_default_text">Loading weather...</string>
 </resources>

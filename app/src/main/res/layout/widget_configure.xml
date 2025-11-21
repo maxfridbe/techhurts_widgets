@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <DatePicker
-        android:id="@+id/datePickerDueDate"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextZipCode"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-                android:datePickerMode="spinner"
-        android:layout_gravity="center_horizontal"/>
+        android:hint="Enter Zip Code"
+        android:inputType="number"
+        android:maxLines="1" />
 
     <Button
         android:id="@+id/buttonConfirm"
