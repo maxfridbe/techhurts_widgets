@@ -7,11 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.net.Uri;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 import java.util.concurrent.ExecutorService;
@@ -22,9 +23,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     private static final String TAG = "WeatherWidget";
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private static final Handler handler = new Handler(Looper.getMainLooper());
-    private static final String ACTION_TOGGLE_LOG_VISIBILITY = "com.techhurts.weatherwidget.TOGGLE_LOG_VISIBILITY";
-    private static final String PREFS_NAME = "com.techhurts.weatherwidget.prefs";
-    private static final String PREF_LOG_VISIBLE_PREFIX = "log_visible_";
     private static final String ACTION_REFRESH = "com.techhurts.weatherwidget.ACTION_REFRESH";
 
     @Override
@@ -32,10 +30,19 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         final String action = intent.getAction();
-        if (ACTION_REFRESH.equals(action)) {
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
+        if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            if (ACTION_REFRESH.equals(action)) {
                 WidgetLogger.log("Received refresh action for widget ID: " + appWidgetId);
+                
+                // Show loading indicator
+                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
+                views.setViewVisibility(R.id.widget_refresh_button, View.INVISIBLE);
+                views.setViewVisibility(R.id.loading_indicator, View.VISIBLE);
+                AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, views);
+
+                // Proceed with actual weather update
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 updateAppWidget(context, appWidgetManager, appWidgetId);
             }
@@ -51,8 +58,23 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
     private static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        if (connectivityManager == null) {
+            return false;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            android.net.Network network = connectivityManager.getActiveNetwork();
+            if (network == null) {
+                return false;
+            }
+            NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
+            return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                                  capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        } else {
+            // For older Android versions, use deprecated NetworkInfo
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        }
     }
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
@@ -78,85 +100,82 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                 configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 PendingIntent configPendingIntent = PendingIntent.getActivity(context, appWidgetId, configIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 views.setTextViewText(R.id.widget_location, "Tap to Configure");
-                views.setTextViewText(R.id.widget_temperature, "");
+                views.setTextViewText(R.id.widget_temperature, "⚙️");
                 views.setTextViewText(R.id.widget_forecast, "");
-                views.setTextViewText(R.id.widget_temp_emoji, "⚙️");
                 views.setTextViewText(R.id.widget_weather_emoji, "");
                 views.setOnClickPendingIntent(R.id.widget_root, configPendingIntent);
                 appWidgetManager.updateAppWidget(appWidgetId, views);
                 return; // Exit early as no location data is set
             }
 
-            // Set OnClickListener to open weather.gov with the specific location name when temperature is clicked
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forecast.weather.gov/zipcity.php?inputstring=" + Uri.encode(locationName)));
-            PendingIntent browserPendingIntent = PendingIntent.getActivity(context, appWidgetId, browserIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.widget_temperature, browserPendingIntent);
-            
-            if (!isNetworkAvailable(context)) {
-                WidgetLogger.log("No network connection available.");
-                handler.post(() -> {
-                    views.setTextViewText(R.id.widget_location, locationName);
-                    views.setTextViewText(R.id.widget_temperature, "");
-                    views.setTextViewText(R.id.widget_forecast, "No Network");
-                    views.setTextViewText(R.id.widget_temp_emoji, "❌");
-                    views.setTextViewText(R.id.widget_weather_emoji, "🌐");
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                });
-                return; // Exit early as no network is available
-            }
+            if (isNetworkAvailable(context)) {
+                try {
+                    WidgetLogger.log("Fetching weather for " + locationName);
+                    String[] weatherData = WeatherService.getWeatherData(context, locationData.latitude, locationData.longitude);
+                    WidgetLogger.log("WeatherService returned: " + (weatherData != null ? java.util.Arrays.toString(weatherData) : "null"));
 
-            try {
-                WidgetLogger.log("Fetching weather for " + locationName);
-                String[] weatherData = WeatherService.getWeatherData(context, locationData.latitude, locationData.longitude);
-                WidgetLogger.log("WeatherService returned: " + (weatherData != null ? java.util.Arrays.toString(weatherData) : "null"));
-
-                handler.post(() -> {
-                    if (weatherData != null && weatherData.length == 3) {
-                        String name = weatherData[0];
-                        String temperatureStr = weatherData[1];
-                        String shortForecast = weatherData[2];
-
-                        WidgetLogger.log("Updating widget UI with weather data.");
-                        views.setTextViewText(R.id.widget_location, locationName);
-                        views.setTextViewText(R.id.widget_forecast, shortForecast);
-
-                        try {
-                            int temp = Integer.parseInt(temperatureStr);
-                            views.setTextViewText(R.id.widget_temperature, temp + "°F");
-                            views.setTextViewText(R.id.widget_temp_emoji, getTempEmoji(temp));
-                        } catch (NumberFormatException nfe) {
-                            WidgetLogger.log("Error parsing temperature.");
-                            views.setTextViewText(R.id.widget_temperature, "0°F");
-                            views.setTextViewText(R.id.widget_temp_emoji, "❓");
-                        }
-                        views.setTextViewText(R.id.widget_weather_emoji, getWeatherEmoji(shortForecast, name));
+                    if (weatherData != null && weatherData.length == 3 && !weatherData[2].startsWith("Error:")) {
+                        WidgetConfigureActivity.saveWeatherData(context, appWidgetId, weatherData);
+                        updateWidgetUi(context, appWidgetManager, appWidgetId, locationName, weatherData);
                     } else {
-                        WidgetLogger.log("Weather data is null or invalid.");
-                        views.setTextViewText(R.id.widget_location, locationName);
-                        views.setTextViewText(R.id.widget_temperature, "0°F");
-                        views.setTextViewText(R.id.widget_forecast, "Update Failed");
-                        views.setTextViewText(R.id.widget_temp_emoji, "❓");
-                        views.setTextViewText(R.id.widget_weather_emoji, "❓");
+                        String[] cachedData = WidgetConfigureActivity.loadWeatherData(context, appWidgetId);
+                        if (cachedData != null) {
+                            updateWidgetUi(context, appWidgetManager, appWidgetId, locationName, cachedData);
+                        } else {
+                            handler.post(() -> {
+                                views.setTextViewText(R.id.widget_location, locationName);
+                                views.setTextViewText(R.id.widget_temperature, "❓");
+                                views.setTextViewText(R.id.widget_forecast, "Update Failed");
+                                views.setTextViewText(R.id.widget_weather_emoji, "❓");
+                                appWidgetManager.updateAppWidget(appWidgetId, views);
+                            });
+                        }
                     }
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                });
-            } catch (Exception e) {
-                WidgetLogger.log("Unhandled exception in background thread: " + e.getClass().getSimpleName() + " - " + e.getMessage());
-                for (StackTraceElement ste : e.getStackTrace()) {
-                    WidgetLogger.log("    " + ste.toString());
+                } catch (Exception e) {
+                    WidgetLogger.log("Unhandled exception in background thread: " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
-                handler.post(() -> {
-                    views.setTextViewText(R.id.widget_location, locationName);
-                    views.setTextViewText(R.id.widget_temperature, "");
-                    views.setTextViewText(R.id.widget_forecast, "Update Failed (Error)");
-                    views.setTextViewText(R.id.widget_temp_emoji, "❓");
-                    views.setTextViewText(R.id.widget_weather_emoji, "❓");
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                });
+            } else {
+                String[] cachedData = WidgetConfigureActivity.loadWeatherData(context, appWidgetId);
+                if (cachedData != null) {
+                    updateWidgetUi(context, appWidgetManager, appWidgetId, locationName, cachedData);
+                } else {
+                    handler.post(() -> {
+                        views.setTextViewText(R.id.widget_location, locationName);
+                        views.setTextViewText(R.id.widget_temperature, "❌");
+                        views.setTextViewText(R.id.widget_forecast, "No Network");
+                        views.setTextViewText(R.id.widget_weather_emoji, "🌐");
+                        appWidgetManager.updateAppWidget(appWidgetId, views);
+                    });
+                }
             }
         });
     }
-    
+
+    private static void updateWidgetUi(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String locationName, String[] weatherData) {
+        handler.post(() -> {
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
+            String name = weatherData[0];
+            String temperatureStr = weatherData[1];
+            String shortForecast = weatherData[2];
+
+            WidgetLogger.log("Updating widget UI with weather data.");
+            views.setTextViewText(R.id.widget_location, locationName);
+            views.setTextViewText(R.id.widget_forecast, shortForecast);
+
+            try {
+                int temp = Integer.parseInt(temperatureStr);
+                views.setTextViewText(R.id.widget_temperature, getTempEmoji(temp) + " " + temp + "°F");
+            } catch (NumberFormatException nfe) {
+                WidgetLogger.log("Error parsing temperature: " + temperatureStr);
+                views.setTextViewText(R.id.widget_temperature, "❓" + " 0°F");
+            }
+            views.setTextViewText(R.id.widget_weather_emoji, getWeatherEmoji(shortForecast, name));
+            views.setViewVisibility(R.id.widget_refresh_button, View.VISIBLE);
+            views.setViewVisibility(R.id.loading_indicator, View.GONE);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        });
+    }
+
     private static String getTempEmoji(int temp) {
         if (temp > 95) return "🔥";
         if (temp > 80) return "😎";
@@ -185,9 +204,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences("com.techhurts.weatherwidget.prefs", 0).edit();
         for (int appWidgetId : appWidgetIds) {
-            editor.remove(PREF_LOG_VISIBLE_PREFIX + appWidgetId);
             WidgetConfigureActivity.deleteLocationDataPref(context, appWidgetId);
         }
         editor.apply();

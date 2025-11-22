@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="74dp"
-    android:minHeight="144dp"
-    android:updatePeriodMillis="3600000"
-    android:previewImage="@android:drawable/ic_dialog_info"
+    android:minWidth="110dp"
+    android:minHeight="40dp"
+    android:updatePeriodMillis="86400000"
+    android:previewImage="@drawable/ic_widget_preview"
     android:initialLayout="@layout/weather_widget_layout"
-    android:description="@string/widget_description"
+    android:configure="com.techhurts.weatherwidget.WidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"
-    android:minResizeWidth="40dp"
-    android:minResizeHeight="40dp"
     android:widgetCategory="home_screen"
-    android:configure="com.techhurts.weatherwidget.WidgetConfigureActivity">
-    </appwidget-provider>
+    android:label="Weather Widget (TechHurts)">
+</appwidget-provider>

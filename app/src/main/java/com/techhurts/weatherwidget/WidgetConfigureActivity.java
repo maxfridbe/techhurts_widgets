@@ -1,4 +1,3 @@
-
 package com.techhurts.weatherwidget;
 
 import android.app.Activity;
@@ -14,10 +13,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +35,8 @@ public class WidgetConfigureActivity extends Activity {
     private static final String PREF_LAT_KEY = "latitude_";
     private static final String PREF_LON_KEY = "longitude_";
     private static final String PREF_LOCATION_NAME_KEY = "location_name_";
+    private static final String PREF_WEATHER_DATA_KEY = "weather_data_";
+
 
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     EditText mEditTextZipCode;
@@ -206,9 +211,11 @@ public class WidgetConfigureActivity extends Activity {
                 double longitude = Double.parseDouble(lonString);
                 return new LocationData(latitude, longitude, locationName);
             } catch (NumberFormatException e) {
+                WidgetLogger.log("NumberFormatException in loadLocationDataPref for appWidgetId " + appWidgetId + ": " + e.getMessage());
                 return null;
             }
         }
+        WidgetLogger.log("loadLocationDataPref returning null for appWidgetId " + appWidgetId + ": latString=" + latString + ", lonString=" + lonString + ", locationName=" + locationName);
         return null;
     }
 
@@ -217,8 +224,46 @@ public class WidgetConfigureActivity extends Activity {
         prefs.remove(PREF_LAT_KEY + appWidgetId);
         prefs.remove(PREF_LON_KEY + appWidgetId);
         prefs.remove(PREF_LOCATION_NAME_KEY + appWidgetId);
+        prefs.remove(PREF_WEATHER_DATA_KEY + appWidgetId);
         prefs.apply();
     }
+
+    static void saveWeatherData(Context context, int appWidgetId, String[] weatherData) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        JSONObject json = new JSONObject();
+        try {
+            json.put("name", weatherData[0]);
+            json.put("temperature", weatherData[1]);
+            json.put("shortForecast", weatherData[2]);
+            json.put("timestamp", System.currentTimeMillis());
+            prefs.putString(PREF_WEATHER_DATA_KEY + appWidgetId, json.toString());
+            prefs.apply();
+        } catch (JSONException e) {
+            WidgetLogger.log("Error saving weather data: " + e.getMessage());
+        }
+    }
+
+    static String[] loadWeatherData(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        String jsonString = prefs.getString(PREF_WEATHER_DATA_KEY + appWidgetId, null);
+        if (jsonString != null) {
+            try {
+                JSONObject json = new JSONObject(jsonString);
+                long timestamp = json.getLong("timestamp");
+                if (System.currentTimeMillis() - timestamp < 8 * 60 * 60 * 1000) { // 8 hours
+                    return new String[]{
+                            json.getString("name"),
+                            json.getString("temperature"),
+                            json.getString("shortForecast")
+                    };
+                }
+            } catch (JSONException e) {
+                WidgetLogger.log("Error loading weather data: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+
 
     // Helper class to return multiple location data
     public static class LocationData {

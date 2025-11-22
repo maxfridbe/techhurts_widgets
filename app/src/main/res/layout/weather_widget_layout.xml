@@ -1,33 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_background"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/widget_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:text="Location"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/widget_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:orientation="vertical"
-        android:layout_centerInParent="true"
         android:gravity="center">
 
         <TextView
             android:id="@+id/widget_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0°F"
+            android:text=""
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
@@ -35,41 +41,42 @@
             android:id="@+id/widget_forecast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forecast"
+            android:text=""
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="10sp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/widget_weather_emoji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/widget_weather_emoji"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="❓"
-                android:textSize="20sp"
-                android:layout_marginEnd="8dp"/>
-
-            <TextView
-                android:id="@+id/widget_temp_emoji"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="❓"
-                android:textSize="20sp" />
-        </LinearLayout>
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="21sp" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/widget_refresh_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:padding="8dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_refresh"
-        android:contentDescription="Refresh weather data" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/widget_refresh_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="Refresh"/>
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</LinearLayout>
