@@ -8,5 +8,5 @@
     android:configure="com.techhurts.weatherwidget.WidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:label="Weather Widget (TechHurts)">
+    android:label="TechHurts Weather Widget">
 </appwidget-provider>

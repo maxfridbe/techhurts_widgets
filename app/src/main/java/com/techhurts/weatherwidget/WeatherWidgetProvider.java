@@ -77,6 +77,20 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         }
     }
 
+    private static PendingIntent buildForecastPendingIntent(Context context, int appWidgetId) {
+        Intent intent = new Intent(context, ForecastActivity.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return PendingIntent.getActivity(context, appWidgetId + 1000, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    private static PendingIntent buildRefreshPendingIntent(Context context, int appWidgetId) {
+        Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
+        refreshIntent.setAction(ACTION_REFRESH);
+        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        return PendingIntent.getBroadcast(context, appWidgetId, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         WidgetLogger.clearLogs();
         WidgetLogger.log("updateAppWidget started for widget ID: " + appWidgetId);
@@ -86,12 +100,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             final String locationName = (locationData != null) ? locationData.locationName : null;
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
 
-            // Set up the refresh button click listener
-            Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
-            refreshIntent.setAction(ACTION_REFRESH);
-            refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.widget_refresh_button, refreshPendingIntent);
+            views.setOnClickPendingIntent(R.id.widget_refresh_button, buildRefreshPendingIntent(context, appWidgetId));
 
             // Setup intent to launch configuration activity if location data is not set
             if (locationData == null || locationName == null || locationName.isEmpty()) {
@@ -123,6 +132,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                             updateWidgetUi(context, appWidgetManager, appWidgetId, locationName, cachedData);
                         } else {
                             handler.post(() -> {
+                                views.setViewVisibility(R.id.widget_refresh_button, View.VISIBLE);
+                                views.setViewVisibility(R.id.loading_indicator, View.GONE);
                                 views.setTextViewText(R.id.widget_location, locationName);
                                 views.setTextViewText(R.id.widget_temperature, "❓");
                                 views.setTextViewText(R.id.widget_forecast, "Update Failed");
@@ -140,6 +151,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                     updateWidgetUi(context, appWidgetManager, appWidgetId, locationName, cachedData);
                 } else {
                     handler.post(() -> {
+                        views.setViewVisibility(R.id.widget_refresh_button, View.VISIBLE);
+                        views.setViewVisibility(R.id.loading_indicator, View.GONE);
                         views.setTextViewText(R.id.widget_location, locationName);
                         views.setTextViewText(R.id.widget_temperature, "❌");
                         views.setTextViewText(R.id.widget_forecast, "No Network");
@@ -154,6 +167,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     private static void updateWidgetUi(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String locationName, String[] weatherData) {
         handler.post(() -> {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget_layout);
+            views.setOnClickPendingIntent(R.id.widget_refresh_button, buildRefreshPendingIntent(context, appWidgetId));
+            views.setOnClickPendingIntent(R.id.widget_root, buildForecastPendingIntent(context, appWidgetId));
             String name = weatherData[0];
             String temperatureStr = weatherData[1];
             String shortForecast = weatherData[2];
@@ -176,7 +191,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         });
     }
 
-    private static String getTempEmoji(int temp) {
+    static String getTempEmoji(int temp) {
         if (temp > 95) return "🔥";
         if (temp > 80) return "😎";
         if (temp > 65) return "😊";
@@ -185,7 +200,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         return "🥶";
     }
 
-    private static String getWeatherEmoji(String forecast, String name) {
+    static String getWeatherEmoji(String forecast, String name) {
         String lowerCaseForecast = forecast.toLowerCase();
         if (lowerCaseForecast.contains("thunderstorm")) return "⛈️";
         if (lowerCaseForecast.contains("snow")) return "❄️";

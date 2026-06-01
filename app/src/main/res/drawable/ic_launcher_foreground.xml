@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Sun rays (yellow) centered at 70,38 using rotation groups -->
+    <group
+        android:translateX="70"
+        android:translateY="38">
+        <group android:rotation="0">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="45">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="90">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="135">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="180">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="225">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="270">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <group android:rotation="315">
+            <path android:fillColor="#FFD600" android:pathData="M-2,-18 h4 v6 h-4 Z" />
+        </group>
+        <!-- Sun circle -->
+        <path
+            android:fillColor="#FFD600"
+            android:pathData="M0,-13 A13,13,0,0,1,0,13 A13,13,0,0,1,0,-13 Z" />
+    </group>
+
+    <!-- Cloud (white) — Material-style cloud scaled 2x, placed at lower center -->
+    <!-- Original 24x24 Material cloud scaled x2, translated +30,+45 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M68.7,65.08 C67.34,58.18 61.28,53 54,53 48.22,53 43.2,56.28 40.7,61.08 34.68,61.72 30,66.82 30,73 30,79.62 35.38,85 42,85 H68 C73.52,85 78,80.52 78,75 78,69.72 73.9,65.44 68.7,65.08 Z" />
+
+</vector>

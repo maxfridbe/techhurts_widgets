@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TechHurts Calculator</string>
+    <string name="widget_label">TechHurts Calc</string>
+    <string name="widget_description">Calculator widget with persistent last result.</string>
+</resources>

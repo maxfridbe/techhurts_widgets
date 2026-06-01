@@ -7,8 +7,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class WeatherService {
 
@@ -94,9 +97,9 @@ public class WeatherService {
 
             connection.setRequestProperty("User-Agent", "MyWeatherWidget/1.0");
 
-            connection.setConnectTimeout(10000);
+            connection.setConnectTimeout(5000);
 
-            connection.setReadTimeout(10000);
+            connection.setReadTimeout(5000);
 
 
 
@@ -172,6 +175,40 @@ public class WeatherService {
 
 
 
+    public static List<String[]> getAllForecastPeriods(Context context, double latitude, double longitude) {
+        String forecastUrl = getGridpointUrl(latitude, longitude);
+        if (forecastUrl == null || forecastUrl.startsWith("Error:")) return null;
+        try {
+            URL url = new URL(forecastUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "MyWeatherWidget/1.0");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) return null;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) result.append(line);
+            reader.close();
+            JSONArray periods = new JSONObject(result.toString())
+                    .getJSONObject("properties").getJSONArray("periods");
+            List<String[]> list = new ArrayList<>();
+            for (int i = 0; i < periods.length(); i++) {
+                JSONObject period = periods.getJSONObject(i);
+                list.add(new String[]{
+                        period.getString("name"),
+                        String.valueOf(period.getInt("temperature")),
+                        period.getString("shortForecast")
+                });
+            }
+            return list;
+        } catch (Exception e) {
+            WidgetLogger.log("Exception in getAllForecastPeriods: " + e.getMessage());
+            return null;
+        }
+    }
+
     public static String[] getForecast(String forecastUrl) {
 
         WidgetLogger.log("getForecast URL: " + forecastUrl);
@@ -186,9 +223,9 @@ public class WeatherService {
 
             connection.setRequestProperty("User-Agent", "MyWeatherWidget/1.0");
 
-            connection.setConnectTimeout(10000);
+            connection.setConnectTimeout(5000);
 
-            connection.setReadTimeout(10000);
+            connection.setReadTimeout(5000);
 
 
 

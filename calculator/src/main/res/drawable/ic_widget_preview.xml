@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <!-- Widget background -->
+    <path
+        android:fillColor="#CC000000"
+        android:pathData="M8,0 H72 A8,8,0,0,1,80,8 V72 A8,8,0,0,1,72,80 H8 A8,8,0,0,1,0,72 V8 A8,8,0,0,1,8,0 Z" />
+
+    <!-- Line 1: expression placeholder -->
+    <path
+        android:fillColor="#CCFFFFFF"
+        android:pathData="M14,24 H50 A3,3,0,0,1,50,32 H14 A3,3,0,0,1,14,24 Z" />
+
+    <!-- Line 2: result placeholder (green tint) -->
+    <path
+        android:fillColor="#9090EE90"
+        android:pathData="M14,46 H44 A3,3,0,0,1,44,54 H14 A3,3,0,0,1,14,46 Z" />
+
+</vector>

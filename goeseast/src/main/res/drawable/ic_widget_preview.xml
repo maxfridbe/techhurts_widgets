@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="250dp"
+    android:height="250dp"
+    android:viewportWidth="250"
+    android:viewportHeight="250">
+    <!-- Black background (space) -->
+    <path android:fillColor="#030918" android:pathData="M0,0 H250 V250 H0 Z"/>
+    <!-- Simulated satellite image: cloud swirls over ocean blue -->
+    <path android:fillColor="#1565C0" android:pathData="M0,0 H250 V250 H0 Z"/>
+    <path android:fillColor="#2E7D32" android:fillAlpha="0.8"
+        android:pathData="M20,20 C80,10 160,30 180,90 C200,150 160,200 100,210 C40,220 0,170 10,110 C20,50 20,20 20,20 Z"/>
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.4"
+        android:pathData="M0,110 Q125,85 250,110 Q250,130 125,108 Q0,130 0,110 Z"/>
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.3"
+        android:pathData="M30,60 Q125,45 210,65 Q205,80 125,65 Q35,80 30,60 Z"/>
+    <!-- Timestamp overlay placeholder -->
+    <path android:fillColor="#000000" android:fillAlpha="0.5"
+        android:pathData="M190,230 H250 V250 H190 Z"/>
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.6"
+        android:pathData="M196,236 H244 V244 H196 Z"/>
+</vector>

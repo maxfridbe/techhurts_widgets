@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000">
+
+    <!-- Top bar: title + counter + clear + close -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="#CC000000"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Himawari-8 · 24h"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/animation_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAFFFFFF"
+            android:textSize="13sp"
+            android:paddingEnd="8dp"
+            android:text="" />
+
+        <Button
+            android:id="@+id/btn_crop"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:text="⚙"
+            android:textSize="16sp"
+            android:padding="0dp"
+            android:backgroundTint="#37474F"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:text="🗑"
+            android:textSize="16sp"
+            android:padding="0dp"
+            android:backgroundTint="#B71C1C"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:text="✕"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:padding="0dp"
+            android:backgroundTint="#424242"
+            android:stateListAnimator="@null" />
+    </LinearLayout>
+
+    <!-- Image -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/animation_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:background="#000000" />
+
+        <ProgressBar
+            android:id="@+id/animation_loading"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- Bottom bar: fps | share buttons | timestamp -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:background="#CC000000"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <Button
+            android:id="@+id/btn_fps_down"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="−"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:padding="0dp"
+            android:backgroundTint="#333333"
+            android:stateListAnimator="@null" />
+
+        <TextView
+            android:id="@+id/tv_fps"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:text="1fps" />
+
+        <Button
+            android:id="@+id/btn_fps_up"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:padding="0dp"
+            android:backgroundTint="#333333"
+            android:stateListAnimator="@null" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="#44FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_share_webp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:text="Still"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:padding="4dp"
+            android:backgroundTint="#00695C"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:id="@+id/btn_share_mp4"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:text="MP4"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:padding="4dp"
+            android:backgroundTint="#6A1B9A"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:id="@+id/btn_share_gif"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="GIF"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:padding="4dp"
+            android:backgroundTint="#1565C0"
+            android:stateListAnimator="@null" />
+
+        <TextView
+            android:id="@+id/animation_timestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="#AAFFFFFF"
+            android:textSize="11sp"
+            android:paddingEnd="4dp"
+            android:text="" />
+    </LinearLayout>
+</LinearLayout>

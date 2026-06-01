@@ -1,12 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24.0"
-    android:viewportHeight="24.0">
+    android:width="270dp"
+    android:height="135dp"
+    android:viewportWidth="270"
+    android:viewportHeight="135">
+
+    <!-- Widget background (dark rounded rect) -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,20c-4.41,0 -8,-3.59 -8,-8s3.59,-8 8,-8 8,3.59 8,8 -3.59,8 -8,8z"/>
+        android:fillColor="#CC000000"
+        android:pathData="M16,0 H254 A16,16,0,0,1,270,16 V119 A16,16,0,0,1,254,135 H16 A16,16,0,0,1,0,119 V16 A16,16,0,0,1,16,0 Z" />
+
+    <!-- Location label (white pill) -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M12,12m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"/>
+        android:fillColor="#88FFFFFF"
+        android:pathData="M95,10 H175 A6,6,0,0,1,175,22 H95 A6,6,0,0,1,95,10 Z" />
+
+    <!-- Sun icon (yellow) upper right -->
+    <group android:translateX="218" android:translateY="55">
+        <group android:rotation="0">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="45">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="90">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="135">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="180">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="225">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="270">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <group android:rotation="315">
+            <path android:fillColor="#FFD600" android:pathData="M-1.5,-16 h3 v5 h-3 Z" />
+        </group>
+        <path android:fillColor="#FFD600" android:pathData="M0,-11 A11,11,0,0,1,0,11 A11,11,0,0,1,0,-11 Z" />
+    </group>
+
+    <!-- Temperature text placeholder (large white bar) -->
+    <path
+        android:fillColor="#DDFFFFFF"
+        android:pathData="M40,32 H160 A6,6,0,0,1,160,62 H40 A6,6,0,0,1,40,32 Z" />
+
+    <!-- Short forecast text placeholder -->
+    <path
+        android:fillColor="#88FFFFFF"
+        android:pathData="M40,72 H190 A5,5,0,0,1,190,84 H40 A5,5,0,0,1,40,72 Z" />
+
+    <!-- Refresh button (bottom left circle) -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M22,112 A12,12,0,0,1,46,112 A12,12,0,0,1,22,112 Z" />
+
 </vector>

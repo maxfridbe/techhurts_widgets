@@ -12,5 +12,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "HelloWorldWidget"
+rootProject.name = "TechHurtsWidgets"
 include ':app'
+include ':calculator'
+include ':goeseast'
+include ':himawari8'

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+
+    <!-- Atmosphere glow -->
+    <path android:fillColor="#7B9EFF" android:fillAlpha="0.25"
+        android:pathData="M54,16 A38,38,0,0,1,54,92 A38,38,0,0,1,54,16 Z"/>
+    <!-- Ocean (Pacific-blue, slightly different from GOES East) -->
+    <path android:fillColor="#0277BD"
+        android:pathData="M54,20 A34,34,0,0,1,54,88 A34,34,0,0,1,54,20 Z"/>
+    <!-- East Asia continent (left of centre — Japan/China/Korea side) -->
+    <path android:fillColor="#4CAF50"
+        android:pathData="M30,26 C36,20 52,22 58,32 C64,42 58,56 48,62 C38,68 26,60 22,48 C18,36 24,32 30,26 Z"/>
+    <!-- Korea/Japan tip -->
+    <path android:fillColor="#388E3C"
+        android:pathData="M52,24 C58,22 64,26 62,34 C60,40 54,42 50,36 C46,30 46,26 52,24 Z"/>
+    <!-- Australia (lower right area of Himawari disk) -->
+    <path android:fillColor="#795548"
+        android:pathData="M66,68 C74,64 82,66 84,74 C86,82 78,86 70,84 C62,82 60,76 66,68 Z"/>
+    <!-- Cloud band -->
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.35"
+        android:pathData="M24,52 Q54,44 82,52 Q80,58 54,50 Q26,58 24,52 Z"/>
+    <!-- Polar ice -->
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.5"
+        android:pathData="M54,20 A34,34,0,0,1,88,54 Q70,26 54,20 Z"/>
+</vector>

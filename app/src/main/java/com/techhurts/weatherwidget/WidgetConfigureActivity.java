@@ -8,7 +8,11 @@ import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -119,6 +123,8 @@ public class WidgetConfigureActivity extends Activity {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 WeatherWidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
+                requestBatteryOptimizationExemption();
+
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_OK, resultValue);
@@ -139,6 +145,17 @@ public class WidgetConfigureActivity extends Activity {
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
             return;
+        }
+    }
+
+    private void requestBatteryOptimizationExemption() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
         }
     }
 
