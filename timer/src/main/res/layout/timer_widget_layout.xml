@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background">
+
+    <!-- Idle: timer icon -->
+    <ImageView
+        android:id="@+id/widget_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_timer"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:visibility="visible" />
+
+    <!-- Running or ringing: countdown dial drawn by TimerWidgetProvider -->
+    <ImageView
+        android:id="@+id/widget_dial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:padding="2dp"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.techhurts.timer'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.techhurts.timer"
+        minSdk 24
+        targetSdk 34
+        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger())
+        versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding false
+        dataBinding false
+        resValues false
+        buildConfig false
+    }
+}
+
+dependencies {
+}

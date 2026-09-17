@@ -1,6 +1,6 @@
 # TechHurts Android Widgets
 
-A containerized Android build system producing signed APKs for five home-screen widgets under the `com.techhurts` package namespace. GitHub Actions builds every push to `main` and publishes the APKs as a release.
+A containerized Android build system producing signed APKs for six home-screen widgets under the `com.techhurts` package namespace. GitHub Actions builds every push to `main` and publishes the APKs as a release.
 
 ---
 
@@ -12,6 +12,7 @@ A containerized Android build system producing signed APKs for five home-screen 
 | `:calculator` | `com.techhurts.calculator` | TechHurts Calc | 1×1 fixed |
 | `:goeseast` | `com.techhurts.goeseast` | GOES East | 4×4 min |
 | `:hisense_remote` | `com.techhurts.hisense_remote` | Hisense Remote | Resizable |
+| `:timer` | `com.techhurts.timer` | TechHurts Timer | 1×1 fixed |
 
 ### Weather Widget
 Displays current conditions and temperature from the National Weather Service (weather.gov). Tap the widget to open a full 7-day forecast screen with copy-to-clipboard. Tap the refresh icon to force an update. Configure your location by zip code on first use.
@@ -32,6 +33,11 @@ A resizable home-screen widget styled as a TV remote controller with support for
 - **IP Control HEX**: Binary serial command packets on port 5000 (common on commercial screens).
 
 Tapping buttons on the widget sends background HTTP/TCP/Protobuf control commands asynchronously (e.g. Power, Input, Volume, Mute, D-pad navigation, Back, Home). Tapping the title opens the configuration activity to edit the target IP/protocol, dynamically scan the network using mDNS (for Android/Google TVs) and SSDP (for Roku TVs), and pair new devices.
+
+### Timer Widget
+A 1×1 widget showing the calculator-style icon until a timer is set, then a countdown dial: a ring that empties as the time runs down with the remaining time in the middle, turning red while the alarm rings. Tap it to open the full screen, where you set hours/minutes/seconds (or tap a 1m/5m/10m/30m preset), start or cancel, and choose the alarm sound — the system alarm sound by default, or any mp3 picked with **Pick mp3** (access is persisted, so it still plays after a reboot).
+
+When the time is up the app rings the chosen sound on a loop, vibrates, and posts a high-priority notification with a **Stop alarm** action in the notification shade; the alarm also stops from the full screen, and gives up by itself after 10 minutes. The countdown is driven by a foreground service that ticks the widget every second, with an `AlarmManager` alarm clock as a backstop so the alarm still fires on time if the device dozes off or the process is killed.
 
 ---
 
@@ -64,6 +70,7 @@ output/
   com.techhurts.GOESEast.YY.MMDD.###.apk
   com.techhurts.Himawari8.YY.MMDD.###.apk
   com.techhurts.AndroidTVRemoteControl.YY.MMDD.###.apk
+  com.techhurts.Timer.YY.MMDD.###.apk
 ```
 
 ### Installing on a device
@@ -120,6 +127,18 @@ Or download them from the latest [release](../../releases).
 │       │   ├── HisenseRemoteWidgetProvider.java  # AppWidgetProvider & clicks
 │       │   ├── WidgetConfigureActivity.java      # Configuration & latency test
 │       │   └── RemoteCommandExecutor.java        # HTTP/TCP protocol logic
+│       └── res/
+│
+├── timer/                      # Countdown timer widget module
+│   ├── build.gradle
+│   └── src/main/
+│       ├── AndroidManifest.xml
+│       ├── java/com/techhurts/timer/
+│       │   ├── TimerWidgetProvider.java  # AppWidgetProvider + countdown dial
+│       │   ├── TimerActivity.java        # Duration, presets, alarm sound
+│       │   ├── TimerService.java         # Ticks, rings, Stop alarm action
+│       │   ├── TimerAlarmReceiver.java   # Doze backstop alarm
+│       │   └── TimerState.java           # Shared timer state in prefs
 │       └── res/
 │
 ├── .github/workflows/build.yml # CI: build, verify signatures, publish release

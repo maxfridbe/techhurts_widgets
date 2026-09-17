@@ -21,7 +21,9 @@ Guidance for AI coding agents working in this repo. `README.md` has the full fea
 | `goeseast` | `com.techhurts.goeseast` | `GoesEast` |
 | `himawari8` | `com.techhurts.himawari8` | `Himawari8` |
 | `hisense_remote` | `com.techhurts.hisense_remote` | `KeyStoreManager` |
+| `timer` | `com.techhurts.timer` | `TechHurtsTimer` |
 
+- The timer's countdown lives in `TimerService` (foreground, one-second ticks) with an `AlarmManager` alarm-clock backstop for Doze; `TimerState` is the single source of truth in prefs, read by both the widget and the activity.
 - `goeseast` and `himawari8` are near-copies (`CropConfig`, `CropPreviewView`, `GifEncoder`, `Mp4Encoder`, `ImageStore`); a fix in one usually belongs in the other.
 - `hisense_remote/src/main/java/com/kunal52/` is a vendored Android TV Remote v2 protocol library. `Pairingmessage.java` and `Remotemessage.java` are protoc-generated — don't hand-edit them.
 

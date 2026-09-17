@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <!-- Widget background -->
+    <path
+        android:fillColor="#CC000000"
+        android:pathData="M8,0 H72 A8,8,0,0,1,80,8 V72 A8,8,0,0,1,72,80 H8 A8,8,0,0,1,0,72 V8 A8,8,0,0,1,8,0 Z" />
+
+    <!-- Dial track -->
+    <path
+        android:fillColor="#40FFFFFF"
+        android:pathData="M40,40m-26,0a26,26 0 1,0 52,0a26,26 0 1,0 -52,0 M40,40m-20,0a20,20 0 1,1 0,0.1z" />
+
+    <!-- Remaining sweep -->
+    <path
+        android:fillColor="#FFB300"
+        android:pathData="M40,14 A26,26 0 0,1 66,40 L60,40 A20,20 0 0,0 40,20 Z" />
+
+    <!-- Remaining time placeholder -->
+    <path
+        android:fillColor="#CCFFFFFF"
+        android:pathData="M28,36 H52 A3,3,0,0,1,52,44 H28 A3,3,0,0,1,28,36 Z" />
+
+</vector>

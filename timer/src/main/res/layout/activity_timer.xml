@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#101010">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/dial"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/widget_label"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Duration -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_hours"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:hint="h"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#80FFFFFF" />
+
+            <EditText
+                android:id="@+id/et_minutes"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:hint="m"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#80FFFFFF" />
+
+            <EditText
+                android:id="@+id/et_seconds"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:hint="s"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#80FFFFFF" />
+        </LinearLayout>
+
+        <!-- Presets -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btn_1m" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="1m" />
+            <Button android:id="@+id/btn_5m" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="5m" />
+            <Button android:id="@+id/btn_10m" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="10m" />
+            <Button android:id="@+id/btn_30m" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="30m" />
+        </LinearLayout>
+
+        <!-- Controls; one row is visible at a time -->
+        <LinearLayout
+            android:id="@+id/row_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btn_start" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Start" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_running"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button android:id="@+id/btn_cancel" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Cancel timer" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button android:id="@+id/btn_stop_alarm" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Stop alarm" />
+        </LinearLayout>
+
+        <!-- Alarm sound -->
+        <TextView
+            android:id="@+id/tv_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="#CCFFFFFF"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btn_sound_default" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Default alarm" />
+            <Button android:id="@+id/btn_sound_pick" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Pick mp3" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
