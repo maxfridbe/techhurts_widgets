@@ -1,11 +1,13 @@
 name: build
 
+# Manual only: nothing builds or publishes until someone clicks "Run workflow".
 on:
-  push:
-    branches: [main]
-    tags: ['*']
-  pull_request:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the signed APKs as a GitHub release
+        type: boolean
+        default: true
 
 jobs:
   build:
@@ -68,21 +70,14 @@ jobs:
           path: output/*.apk
           if-no-files-found: error
 
-      # Signed builds only: a permanent release per tag, and a rolling
-      # "latest" pre-release for every push to main.
+      # Signed builds only, and only when the run was started with "publish" ticked.
+      # Each release is tagged with its version and marked as the latest release.
       - name: Publish release
-        if: github.event_name == 'push' && env.KEYSTORE_B64 != ''
+        if: inputs.publish && env.KEYSTORE_B64 != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           version=$(basename output/com.techhurts.Calculator.*.apk .apk | sed 's/^com\.techhurts\.Calculator\.//')
-          notes="Signed APKs built from ${GITHUB_SHA} (version ${version})."
-          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "$notes" output/*.apk \
-              || gh release upload "$GITHUB_REF_NAME" output/*.apk --clobber
-          else
-            gh release delete latest --cleanup-tag --yes || true
-            gh release create latest --prerelease --target "$GITHUB_SHA" \
-              --title "Latest build (${version})" --notes "$notes" output/*.apk
-          fi
+          gh release create "$version" --target "$GITHUB_SHA" --latest \
+            --title "$version" --notes "Signed APKs built from ${GITHUB_SHA}." output/*.apk

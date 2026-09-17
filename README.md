@@ -193,9 +193,9 @@ Under **Settings → Secrets and variables → Actions**, add:
 
 ## CI
 
-`.github/workflows/build.yml` runs on pushes to `main`, tags, pull requests and manual dispatch:
+`.github/workflows/build.yml` never runs on its own — pushes, tags and pull requests don't build anything. To build, open **Actions → build → Run workflow**:
 
 1. Builds the builder image with a GitHub Actions layer cache.
 2. With the signing secrets set, runs `make.sh` with `BUILD_TYPE=release`; without them, builds debug APKs with a throwaway key and warns.
 3. Verifies every APK signature with `apksigner` and uploads `output/*.apk` as the `apks` artifact.
-4. For signed builds, publishes a GitHub Release: every push to `main` replaces the rolling **latest** pre-release, and every pushed tag gets a permanent release.
+4. If **publish** is ticked (the default) and the build is signed, creates a GitHub Release tagged with the version (e.g. `26.0917.012`) and marks it latest. Untick it to only get the artifact.
