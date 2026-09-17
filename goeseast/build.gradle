@@ -2,8 +2,6 @@ plugins {
     id 'com.android.application'
 }
 
-def appVersionCode = project.hasProperty('goesVersionCode') ? goesVersionCode.toInteger() : 1
-
 android {
     namespace 'com.techhurts.goeseast'
     compileSdk 34
@@ -12,20 +10,11 @@ android {
         applicationId "com.techhurts.goeseast"
         minSdk 21
         targetSdk 34
-        versionCode appVersionCode
-        versionName "1.0.0.${appVersionCode}"
+        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger())
+        versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
     }
 
-    signingConfigs {
-        debug {
-            storeFile file("../debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
-    }
     buildTypes {
-        debug { signingConfig signingConfigs.debug }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

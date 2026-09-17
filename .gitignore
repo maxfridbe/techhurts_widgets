@@ -1,7 +1,19 @@
-/.gradle/
-/app/build/
-/output/
-/gradle/wrapper/gradle-wrapper.jar
-/gradle/wrapper/gradle-wrapper.properties
-/gradlew
-/gradlew.bat
+# Build products (builds run in the container, nothing here is source)
+**/build/
+**/.cxx/
+**/.gradle/
+output/
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Signing keys never go in the repo
+*.keystore
+*.jks
+keystore.properties
+
+# Local agent settings
+.claude/settings.local.json
+.claude/*.lock

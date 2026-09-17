@@ -1,12 +1,32 @@
 // build.gradle (Project level)
 plugins {
-    // Apply the Android Application plugin using 'alias' for the app module
-    // Use a recent stable version, check here: https://developer.android.com/studio/releases/gradle-plugin
     id 'com.android.application' version '8.2.0' apply false
-    // id 'org.jetbrains.kotlin.android' version '1.9.0' apply false // Add if using Kotlin
 }
 
-// Task to clean the build directory (optional, but common)
+// Signing: every app signs debug and release builds with the one key make.sh
+// passes in (appKeystoreFile / appKeystorePassword / appKeyAlias / appKeyPassword).
+// Without those properties AGP falls back to its default debug key.
+subprojects {
+    pluginManager.withPlugin('com.android.application') {
+        def keystore = findProperty('appKeystoreFile')
+        if (!keystore) return
+        android {
+            signingConfigs {
+                shared {
+                    storeFile file(keystore)
+                    storePassword findProperty('appKeystorePassword')
+                    keyAlias findProperty('appKeyAlias')
+                    keyPassword findProperty('appKeyPassword')
+                }
+            }
+            buildTypes {
+                debug { signingConfig signingConfigs.shared }
+                release { signingConfig signingConfigs.shared }
+            }
+        }
+    }
+}
+
 task clean(type: Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

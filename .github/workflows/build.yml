@@ -1,0 +1,86 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      # Signing key, set under Settings → Secrets and variables → Actions.
+      # Without it the APKs get a throwaway debug key and no release is published.
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build builder image (cached)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          tags: android-widget-builder:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Decode signing key
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "KEYSTORE_FILE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "BUILD_TYPE=release" >> "$GITHUB_ENV"
+          else
+            echo "::warning::ANDROID_KEYSTORE_B64 secret not set; building debug APKs with a throwaway key"
+            echo "BUILD_TYPE=debug" >> "$GITHUB_ENV"
+          fi
+
+      # Version YY.MMDD.### with ### taken from the workflow run number.
+      - name: Build APKs
+        run: |
+          CONTAINER_ENGINE=docker SKIP_IMAGE_BUILD=1 \
+          VERSION_BUILD=$(( GITHUB_RUN_NUMBER % 1000 )) \
+            ./make.sh
+
+      - name: Verify APK signatures
+        run: |
+          docker run --rm --entrypoint sh -v "$PWD/output:/out" android-widget-builder -c '
+            set -e
+            for f in /out/*.apk; do
+              echo "== $f"
+              /opt/android-sdk/build-tools/34.0.0/apksigner verify --print-certs "$f" | head -3
+            done'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apks
+          path: output/*.apk
+          if-no-files-found: error
+
+      # Signed builds only: a permanent release per tag, and a rolling
+      # "latest" pre-release for every push to main.
+      - name: Publish release
+        if: github.event_name == 'push' && env.KEYSTORE_B64 != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version=$(basename output/com.techhurts.Calculator.*.apk .apk | sed 's/^com\.techhurts\.Calculator\.//')
+          notes="Signed APKs built from ${GITHUB_SHA} (version ${version})."
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "$notes" output/*.apk \
+              || gh release upload "$GITHUB_REF_NAME" output/*.apk --clobber
+          else
+            gh release delete latest --cleanup-tag --yes || true
+            gh release create latest --prerelease --target "$GITHUB_SHA" \
+              --title "Latest build (${version})" --notes "$notes" output/*.apk
+          fi

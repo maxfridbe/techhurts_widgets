@@ -1,21 +1,14 @@
 plugins { id 'com.android.application' }
 
-def appVersionCode = project.hasProperty('himawariVersionCode') ? himawariVersionCode.toInteger() : 1
-
 android {
     namespace 'com.techhurts.himawari8'
     compileSdk 34
     defaultConfig {
         applicationId "com.techhurts.himawari8"
         minSdk 21; targetSdk 34
-        versionCode appVersionCode; versionName "1.0.0.${appVersionCode}"
-    }
-    signingConfigs {
-        debug { storeFile file("../debug.keystore"); storePassword "android"
-                keyAlias "androiddebugkey"; keyPassword "android" }
+        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger()); versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
     }
     buildTypes {
-        debug { signingConfig signingConfigs.debug }
         release { minifyEnabled false
                   proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' }
     }

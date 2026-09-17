@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Hisense WiFi Remote</string>
+    <string name="widget_label">AndroidTVRemoteControl</string>
+    <string name="widget_description">Wi-Fi remote widget for Hisense Smart TVs.</string>
+</resources>

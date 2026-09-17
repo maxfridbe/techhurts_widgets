@@ -1,20 +1,17 @@
-// app/build.gradle (Module level)
 plugins {
     id 'com.android.application'
 }
 
 android {
-    namespace 'com.techhurts.weatherwidget'
+    namespace 'com.techhurts.hisense_remote'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.techhurts.weatherwidget"
+        applicationId "com.techhurts.hisense_remote"
         minSdk 21
         targetSdk 34
         versionCode((project.findProperty('appVersionCode') ?: '1').toInteger())
         versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -36,4 +33,6 @@ android {
 }
 
 dependencies {
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'com.google.protobuf:protobuf-java:3.11.4'
 }
