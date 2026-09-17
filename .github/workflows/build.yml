@@ -32,6 +32,8 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: Decode signing key
         run: |
