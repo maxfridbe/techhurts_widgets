@@ -1,6 +1,6 @@
 # TechHurts Android Widgets
 
-A containerized Android build system producing signed APKs for six home-screen widgets under the `com.techhurts` package namespace. GitHub Actions builds every push to `main` and publishes the APKs as a release.
+A containerized Android build system producing signed APKs for six home-screen widgets under the `com.techhurts` package namespace. GitHub Actions builds and publishes a release when you bump the version (or run the workflow by hand).
 
 ---
 
