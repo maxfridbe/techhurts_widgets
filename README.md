@@ -158,20 +158,22 @@ Every build of every app gets one version: **`YY.MMDD.###`**, where `###` is the
 Every module signs debug and release builds with one key, configured once in the root `build.gradle` from properties that `make.sh` passes in. **Keys are never committed** (`*.keystore`, `*.jks` and `keystore.properties` are gitignored). `make.sh` looks for a key in this order:
 
 1. `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` environment variables (used by CI).
-2. `~/.config/vibe_widgets/release.jks` + `keystore.properties` (`storePassword=`, `keyPassword=`, `keyAlias=`; override the directory with `KEYSTORE_DIR`).
+2. `~/.config/techhurts/release.jks` + `keystore.properties` (`storePassword=`, `keyPassword=`, `keyAlias=`; override the directory with `KEYSTORE_DIR`).
 3. `./debug.keystore` with the standard Android debug passwords (the legacy local key).
 
 With none of these, AGP signs with a throwaway debug key that won't upgrade already-installed apps.
 
 ### Creating the release key
 
+All TechHurts apps share one key in `~/.config/techhurts/` (alias `androidbase`), so skip this if that directory already exists. To create a fresh one:
+
 ```bash
-mkdir -p ~/.config/vibe_widgets
-podman run --rm -it --entrypoint keytool -v ~/.config/vibe_widgets:/ks:Z android-widget-builder \
+mkdir -p ~/.config/techhurts
+podman run --rm -it --entrypoint keytool -v ~/.config/techhurts:/ks:Z android-widget-builder \
   -genkeypair -keystore /ks/release.jks -alias vibewidgets \
   -keyalg RSA -keysize 4096 -validity 10950 -dname "CN=vibe_widgets"
 printf 'storePassword=%s\nkeyPassword=%s\nkeyAlias=vibewidgets\n' '<password>' '<password>' \
-  > ~/.config/vibe_widgets/keystore.properties
+  > ~/.config/techhurts/keystore.properties
 ```
 
 Back up `release.jks` and its password: without them no future build can upgrade the installed apps. Switching keys requires uninstalling each app once.
@@ -182,7 +184,7 @@ Under **Settings → Secrets and variables → Actions**, add:
 
 | Secret | Value |
 |--------|-------|
-| `ANDROID_KEYSTORE_B64` | output of `base64 -w0 ~/.config/vibe_widgets/release.jks` |
+| `ANDROID_KEYSTORE_B64` | output of `base64 -w0 ~/.config/techhurts/release.jks` |
 | `ANDROID_KEYSTORE_PASSWORD` | store password |
 | `ANDROID_KEY_ALIAS` | `vibewidgets` |
 | `ANDROID_KEY_PASSWORD` | key password (optional if same as the store password) |

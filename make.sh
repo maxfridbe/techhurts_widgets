@@ -7,7 +7,7 @@
 #   CONTAINER_ENGINE=docker     force an engine instead of autodetecting
 #   SKIP_IMAGE_BUILD=1          assume the builder image already exists (CI)
 #   KEYSTORE_DIR=...            dir holding release.jks + keystore.properties
-#                               (default: ~/.config/vibe_widgets)
+#                               (default: ~/.config/techhurts)
 #   KEYSTORE_FILE / KEYSTORE_PASSWORD / KEY_ALIAS / KEY_PASSWORD
 #                               pass the signing key directly (CI)
 set -euo pipefail
@@ -44,7 +44,7 @@ case "$ENGINE" in podman) ZFLAG=",Z" ;; *) ZFLAG="" ;; esac
 # 3. ./debug.keystore with the standard debug passwords (legacy local key)
 # Keys are never committed; see README "Signing".
 prop() { grep -E "^$1=" "$2" | head -1 | cut -d= -f2-; }
-KEYSTORE_DIR="${KEYSTORE_DIR:-$HOME/.config/vibe_widgets}"
+KEYSTORE_DIR="${KEYSTORE_DIR:-$HOME/.config/techhurts}"
 if [ -n "${KEYSTORE_FILE:-}" ]; then
   : "${KEYSTORE_PASSWORD:?}" "${KEY_ALIAS:?}"; KEY_PASSWORD="${KEY_PASSWORD:-$KEYSTORE_PASSWORD}"
 elif [ -f "$KEYSTORE_DIR/release.jks" ] && [ -f "$KEYSTORE_DIR/keystore.properties" ]; then
