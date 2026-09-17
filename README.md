@@ -126,6 +126,7 @@ notifyf output/com.techhurts.WeatherWidget.YY.MMDD.###.apk
 ├── Dockerfile                  # Android SDK build image
 ├── make.sh                     # Single command to build all targets
 ├── version.properties          # Daily build counter (YY.MMDD.###)
+├── setversion.sh               # Set the next build's version
 ├── settings.gradle             # Multi-module Gradle root (TechHurtsWidgets)
 ├── build.gradle                # Root build file; shared signing config
 └── llm.md                      # Notes for AI coding agents
@@ -149,7 +150,14 @@ Every build of every app gets one version: **`YY.MMDD.###`**, where `###` is the
 - Locally, `make.sh` keeps the counter in the committed root `version.properties` (`versionDate` / `versionBuild`), resetting to `001` on the first build of a new day (max 999 per day).
 - `versionName` = `YY.MMDD.###`; `versionCode` = the same digits packed as the integer `YYMMDD###` (`260917003`), so it strictly increases and `adb install -r` upgrades always work.
 - Both are passed to Gradle as `-PappVersionCode` / `-PappVersionName`; no module hardcodes a version.
-- In CI, `###` is the workflow run number (mod 1000) and `version.properties` is left alone.
+- To pick the next version yourself, use `setversion.sh` (the date part must be today, since `###` resets daily):
+
+  ```bash
+  ./setversion.sh               # show the last and next version
+  ./setversion.sh 26.0917.020   # next build is 26.0917.020
+  ./setversion.sh 20            # same, using today's date
+  ```
+- In CI, `###` is one past the higher of the committed `version.properties` counter and today's newest release, so a CI build always outranks committed local builds and earlier releases. Commit `version.properties` after local builds you install, so CI stays ahead of them.
 
 ---
 

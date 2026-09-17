@@ -48,12 +48,28 @@ jobs:
             echo "BUILD_TYPE=debug" >> "$GITHUB_ENV"
           fi
 
-      # Version YY.MMDD.### with ### taken from the workflow run number.
-      - name: Build APKs
+      # Version YY.MMDD.###: ### is one past the higher of the committed
+      # version.properties counter and today's newest release, so every CI
+      # build outranks both local builds that were committed and earlier releases.
+      - name: Pick version
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          CONTAINER_ENGINE=docker SKIP_IMAGE_BUILD=1 \
-          VERSION_BUILD=$(( GITHUB_RUN_NUMBER % 1000 )) \
-            ./make.sh
+          set -euo pipefail
+          today=$(date +%y%m%d); prefix="${today:0:2}.${today:2:4}."
+          committed=0
+          if grep -q "^versionDate=$today$" version.properties; then
+            committed=$((10#$(sed -n 's/^versionBuild=//p' version.properties)))
+          fi
+          released=$(gh release list --limit 100 --json tagName -q '.[].tagName' \
+            | sed -n "s/^${prefix//./\\.}\([0-9]\{3\}\)$/\1/p" | sort -n | tail -1)
+          released=$((10#${released:-0}))
+          build=$(( (committed > released ? committed : released) + 1 ))
+          echo "committed=$committed released=$released -> build $build"
+          echo "VERSION_BUILD=$build" >> "$GITHUB_ENV"
+
+      - name: Build APKs
+        run: CONTAINER_ENGINE=docker SKIP_IMAGE_BUILD=1 ./make.sh
 
       - name: Verify APK signatures
         run: |
