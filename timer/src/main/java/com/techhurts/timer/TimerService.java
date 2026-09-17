@@ -256,8 +256,17 @@ public class TimerService extends Service {
     private void scheduleBackstopAlarm(long triggerAtMs) {
         AlarmManager am = getSystemService(AlarmManager.class);
         if (am == null) return;
-        am.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerAtMs, activityPendingIntent()),
-                backstopPendingIntent());
+        PendingIntent backstop = backstopPendingIntent();
+        try {
+            am.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerAtMs, activityPendingIntent()),
+                    backstop);
+        } catch (SecurityException e) {
+            // Exact alarms can still be denied (e.g. the user revoked
+            // SCHEDULE_EXACT_ALARM). An inexact alarm may fire late, but the
+            // one-second ticks already handle the common case.
+            Log.w(TAG, "exact alarm denied, falling back to inexact: " + e);
+            am.set(AlarmManager.RTC_WAKEUP, triggerAtMs, backstop);
+        }
     }
 
     private void cancelBackstopAlarm() {
