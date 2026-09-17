@@ -4,6 +4,25 @@ A containerized Android build system producing signed APKs for six home-screen w
 
 ---
 
+## Screenshots
+
+Captured from a headless emulator with [`android_screen_runner`](../android_screen_runner):
+`ashot run ../android_screen_runner/examples/techhurts-widgets.ts`.
+
+| Widgets on the home screen | GOES East, live |
+|---|---|
+| <img src="screenshots/widgets-home-1.webp" width="280" alt="Weather, calculator and timer widgets on the home screen"> | <img src="screenshots/widgets-home-2.webp" width="280" alt="GOES East satellite widget on the home screen"> |
+
+| Timer | Countdown | Calculator |
+|---|---|---|
+| <img src="screenshots/timer-01-setup.webp" width="200" alt="Timer setup screen"> | <img src="screenshots/timer-02-counting.webp" width="200" alt="Timer counting down"> | <img src="screenshots/calculator-02-result.webp" width="200" alt="Calculator"> |
+
+| Weather setup | TV remote | GOES East animation |
+|---|---|---|
+| <img src="screenshots/weather-01-configure.webp" width="200" alt="Weather widget zip code setup"> | <img src="screenshots/remote-01-configure.webp" width="200" alt="TV remote configuration"> | <img src="screenshots/goeseast-01-animation.webp" width="200" alt="GOES East 24 hour animation"> |
+
+---
+
 ## Widgets
 
 | Module | Package | Widget | Size |
