@@ -38,7 +38,6 @@ Tapping buttons on the widget sends background HTTP/TCP/Protobuf control command
 ## Prerequisites
 
 - **Podman** or **Docker** (podman is used when installed; `CONTAINER_ENGINE=docker` forces docker)
-- `notifyf` helper script on PATH (wraps Telegram bot upload — optional, only needed to push APKs to a device)
 
 No Android SDK or JDK installation required on the host — the build runs entirely inside the container defined by `Dockerfile`.
 
@@ -67,12 +66,13 @@ output/
   com.techhurts.AndroidTVRemoteControl.YY.MMDD.###.apk
 ```
 
-### Sending to a device
+### Installing on a device
 
 ```bash
-notifyf output/com.techhurts.Calculator.YY.MMDD.###.apk
-notifyf output/com.techhurts.WeatherWidget.YY.MMDD.###.apk
+adb install -r output/com.techhurts.Calculator.YY.MMDD.###.apk
 ```
+
+Or download them from the latest [release](../../releases).
 
 ---
 
