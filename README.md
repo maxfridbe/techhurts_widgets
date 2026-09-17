@@ -198,7 +198,7 @@ All TechHurts apps share one key in `~/.config/techhurts/` (alias `androidbase`)
 mkdir -p ~/.config/techhurts
 podman run --rm -it --entrypoint keytool -v ~/.config/techhurts:/ks:Z android-widget-builder \
   -genkeypair -keystore /ks/release.jks -alias vibewidgets \
-  -keyalg RSA -keysize 4096 -validity 10950 -dname "CN=vibe_widgets"
+  -keyalg RSA -keysize 4096 -validity 10950 -dname "CN=techhurts"
 printf 'storePassword=%s\nkeyPassword=%s\nkeyAlias=vibewidgets\n' '<password>' '<password>' \
   > ~/.config/techhurts/keystore.properties
 ```
