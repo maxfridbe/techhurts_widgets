@@ -10,7 +10,7 @@ Guidance for AI coding agents working in this repo. `README.md` has the full fea
 - Versions otherwise: `make.sh` bumps the daily counter in `version.properties` and injects `appVersionCode` / `appVersionName` into every module; each `build.gradle` just reads those properties.
 - `build/`, `.gradle/` and `output/` are build products and are gitignored.
 - Signing is configured once in the root `build.gradle`; never add `signingConfigs` to a module or commit a keystore. See README "Signing".
-- CI (`.github/workflows/build.yml`) only runs when started manually from the Actions tab; never add push/PR triggers. It runs the same `make.sh`, so keep it working non-interactively under docker (`CONTAINER_ENGINE=docker SKIP_IMAGE_BUILD=1 VERSION_BUILD=n`).
+- CI (`.github/workflows/build.yml`) only runs on a push that changes `version.properties` or on a manual dispatch; never add broader push/PR triggers. It runs the same `make.sh`, so keep it working non-interactively under docker (`CONTAINER_ENGINE=docker SKIP_IMAGE_BUILD=1 VERSION_BUILD=n`).
 
 ## Modules
 

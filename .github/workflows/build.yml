@@ -1,7 +1,11 @@
 name: build
 
-# Manual only: nothing builds or publishes until someone clicks "Run workflow".
+# Deliberate builds only: a push that bumps version.properties (see setversion.sh),
+# or a manual "Run workflow". Ordinary pushes, tags and PRs never build.
 on:
+  push:
+    branches: [main]
+    paths: ['version.properties']
   workflow_dispatch:
     inputs:
       publish:
@@ -86,10 +90,10 @@ jobs:
           path: output/*.apk
           if-no-files-found: error
 
-      # Signed builds only, and only when the run was started with "publish" ticked.
+      # Signed builds only: every version bump, and manual runs with "publish" ticked.
       # Each release is tagged with its version and marked as the latest release.
       - name: Publish release
-        if: inputs.publish && env.KEYSTORE_B64 != ''
+        if: (github.event_name == 'push' || inputs.publish) && env.KEYSTORE_B64 != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
