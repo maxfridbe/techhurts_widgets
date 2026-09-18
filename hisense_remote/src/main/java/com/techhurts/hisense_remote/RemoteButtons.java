@@ -18,8 +18,11 @@ import java.util.List;
  */
 final class RemoteButtons {
 
-    /** Keys beginning with this launch an app instead of sending a key code. */
+    /** Keys beginning with this launch an app, or open a URL, on the TV. */
     static final String APP_PREFIX = "APP:";
+
+    /** The editor swaps this for APP:<url> once an address is entered. */
+    static final String WEB_PLACEHOLDER = "APP:?";
 
     static final class Button {
         final String key;     // key code name, or APP:<app link>
@@ -79,7 +82,12 @@ final class RemoteButtons {
             new Button(APP_PREFIX + "https://pbskids.org",            0xF0333, "PBS Kids"),
             new Button(APP_PREFIX + "https://app.primevideo.com",     0xF0E0F, "Prime Video"),
             new Button(APP_PREFIX + "https://tv.apple.com",           0xF0179, "Apple TV"),
+            // Placeholder: the editor asks for the address when this is placed.
+            new Button(WEB_PLACEHOLDER,                               0xF059F, "Web link"),
     };
+
+    /** Dropped into a cell, this prompts for a URL to open in the TV's browser. */
+    static final int WEB_GLYPH = 0xF059F;
 
     /** The layout a freshly added widget starts with. */
     static List<String> defaultLayout() {
@@ -92,8 +100,15 @@ final class RemoteButtons {
     }
 
     static Button byKey(String key) {
+        if (key == null || key.isEmpty()) return null;
         for (Button b : ALL) {
             if (b.key.equals(key)) return b;
+        }
+        // A URL typed into the editor: show a globe labelled with its host.
+        if (key.startsWith(APP_PREFIX)) {
+            String link = key.substring(APP_PREFIX.length());
+            String host = link.replaceFirst("^[a-z]+://", "").replaceFirst("/.*$", "");
+            return new Button(key, WEB_GLYPH, host.isEmpty() ? "Web link" : host);
         }
         return null;
     }

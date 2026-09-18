@@ -161,8 +161,12 @@ public class RemoteLayoutActivity extends Activity {
 
     private void handleDrop(String payload, int target) {
         if (payload.startsWith(DRAG_FROM_PALETTE)) {
-            mCells.set(target, new RemoteLayout.Cell(
-                    payload.substring(DRAG_FROM_PALETTE.length()), mCells.get(target).color));
+            String key = payload.substring(DRAG_FROM_PALETTE.length());
+            if (RemoteButtons.WEB_PLACEHOLDER.equals(key)) {
+                askForUrl(target);
+                return;
+            }
+            mCells.set(target, new RemoteLayout.Cell(key, mCells.get(target).color));
         } else if (payload.startsWith(DRAG_FROM_CELL)) {
             int source = Integer.parseInt(payload.substring(DRAG_FROM_CELL.length()));
             RemoteLayout.Cell moved = mCells.get(source);
@@ -170,6 +174,28 @@ public class RemoteLayoutActivity extends Activity {
             mCells.set(target, moved);
         }
         buildGrid();
+    }
+
+    /** Turns a dropped globe into a button that opens a URL in the TV's browser. */
+    private void askForUrl(int target) {
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("https://example.com");
+        input.setText("https://");
+        input.setSelection(input.getText().length());
+        new AlertDialog.Builder(this)
+                .setTitle("Open on TV")
+                .setMessage("Address to open in the TV's browser:")
+                .setView(input)
+                .setPositiveButton("Add", (dialog, which) -> {
+                    String url = input.getText().toString().trim();
+                    if (url.length() > "https://".length()) {
+                        mCells.set(target, new RemoteLayout.Cell(
+                                RemoteButtons.APP_PREFIX + url, mCells.get(target).color));
+                        buildGrid();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     /** Per-button colour, or "Use widget colour" to fall back to the global one. */

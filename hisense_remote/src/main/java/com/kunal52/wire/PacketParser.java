@@ -22,6 +22,14 @@ public abstract class PacketParser extends Thread {
         while (!isAbort)
             try {
                 available = mInputStream.read();
+                if (available < 0) {
+                    // End of stream: the TV closed the session. Allocating a
+                    // byte[-1] here threw NegativeArraySizeException and took
+                    // the app down with it.
+                    isAbort = true;
+                    connectionClosed(new IOException("stream closed by peer"));
+                    return;
+                }
                 byte[] buf = new byte[available];
                 while (bytesRead < available) {
                     int read = mInputStream.read(buf, bytesRead, available - bytesRead);
