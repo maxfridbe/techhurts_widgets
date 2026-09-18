@@ -51,8 +51,7 @@ public class SSLSocketFactoryWrapper extends SSLSocketFactory {
   public SSLSocketFactoryWrapper(KeyManager[] keyManagers,
       TrustManager[] trustManagers) throws NoSuchAlgorithmException,
       KeyManagementException {
-    java.security.Security.addProvider(
-        new org.bouncycastle.jce.provider.BouncyCastleProvider());
+    SslUtil.ensureBouncyCastle();
     
     SSLContext sslcontext = SSLContext.getInstance("TLS");
     sslcontext.init(keyManagers, trustManagers, null);

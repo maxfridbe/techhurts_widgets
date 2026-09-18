@@ -96,11 +96,28 @@ public class SslUtil {
 	 * @throws GeneralSecurityException
 	 *             on error generating the certificate
 	 */
+
+	/**
+	 * Android registers its own cut-down provider under the name "BC", and
+	 * Security.addProvider() is a no-op while a provider of that name exists —
+	 * so the bundled BouncyCastle never got installed and certificate
+	 * generation failed with "no such algorithm: SHA256WithRSAEncryption for
+	 * provider BC". Swap the platform one out for the bundled build.
+	 */
+	public static synchronized void ensureBouncyCastle() {
+		java.security.Provider current = java.security.Security.getProvider("BC");
+		if (current != null && current.getClass().getName().startsWith("org.bouncycastle.")) {
+			return;
+		}
+		java.security.Security.removeProvider("BC");
+		java.security.Security.insertProviderAt(
+				new org.bouncycastle.jce.provider.BouncyCastleProvider(), 1);
+	}
+
 	@SuppressWarnings("deprecation")
 	public static X509Certificate generateX509V1Certificate(KeyPair pair,
 			String name) throws GeneralSecurityException {
-		java.security.Security
-				.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		ensureBouncyCastle();
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(2009, 0, 1);
@@ -148,8 +165,7 @@ public class SslUtil {
 	public static X509Certificate generateX509V3Certificate(KeyPair pair,
 			String name, Date notBefore, Date notAfter, BigInteger serialNumber)
 			throws GeneralSecurityException {
-		java.security.Security
-				.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		ensureBouncyCastle();
 
 		org.bouncycastle.x509.X509V3CertificateGenerator certGen = new org.bouncycastle.x509.X509V3CertificateGenerator();
 		X500Name dnName = new org.bouncycastle.asn1.x500.X500Name(name);

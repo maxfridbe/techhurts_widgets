@@ -34,14 +34,21 @@ public abstract class PacketParser extends Thread {
                 bytesRead = 0;
                 messageBufferReceived(buf);
             } catch (IOException e) {
-                isAbort=true;
-                throw new RuntimeException(e);
+                // A closed socket is the normal end of a session (disconnect,
+                // or the TV dropping us). Rethrowing killed the whole app from
+                // this background thread, so just stop reading.
+                isAbort = true;
+                connectionClosed(e);
             }
     }
 
 
     public void abort() {
         isAbort = true;
+    }
+
+    /** Called once when the stream ends; override to react to a lost link. */
+    public void connectionClosed(IOException cause) {
     }
 
     public abstract void messageBufferReceived(byte[] buf);

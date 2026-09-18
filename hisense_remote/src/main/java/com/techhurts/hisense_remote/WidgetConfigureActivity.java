@@ -177,8 +177,11 @@ public class WidgetConfigureActivity extends Activity {
             String protocol = getSelectedProtocol();
 
             if ("android_tv".equals(protocol)) {
-                File keystore = new File(getFilesDir(), "androidtv.keystore");
-                if (keystore.exists()) {
+                // A keystore file on disk proves nothing: a failed pairing
+                // leaves one behind, and skipping pairing on that basis saves a
+                // widget that can never talk to the TV. Trust only a pairing
+                // this app saw complete, per TV.
+                if (isPairedWith(ip)) {
                     saveAndFinish(ip, protocol);
                 } else {
                     btnSave.setEnabled(false);
@@ -228,6 +231,28 @@ public class WidgetConfigureActivity extends Activity {
         finish();
     }
 
+
+    private static final String PREF_PAIRED_PREFIX = "paired_";
+
+    private boolean isPairedWith(String ip) {
+        return getSharedPreferences("com.techhurts.hisense_remote.prefs", 0)
+                .getBoolean(PREF_PAIRED_PREFIX + ip, false)
+                && new File(getFilesDir(), "androidtv.keystore").exists();
+    }
+
+    private void rememberPairing(String ip) {
+        getSharedPreferences("com.techhurts.hisense_remote.prefs", 0).edit()
+                .putBoolean(PREF_PAIRED_PREFIX + ip, true).apply();
+    }
+
+    /** Clears a half-finished pairing so the next attempt starts clean. */
+    private void forgetPairing(String ip) {
+        getSharedPreferences("com.techhurts.hisense_remote.prefs", 0).edit()
+                .remove(PREF_PAIRED_PREFIX + ip).apply();
+        File keystore = new File(getFilesDir(), "androidtv.keystore");
+        if (keystore.exists()) keystore.delete();
+    }
+
     private void handleAndroidTvPairing(String ip, Runnable onSuccess) {
         File keystore = new File(getFilesDir(), "androidtv.keystore");
         if (keystore.exists()) {
@@ -236,6 +261,8 @@ public class WidgetConfigureActivity extends Activity {
         AndroidRemoteContext.getInstance().setKeyStoreFile(keystore);
 
         final AndroidRemoteTv remoteTv = new AndroidRemoteTv();
+        // Pairing opens a TLS socket, so it must not touch the main thread.
+        executorService.submit(() -> {
         try {
             remoteTv.connect(ip, new AndroidTvListener() {
                 @Override public void onSessionCreated() {}
@@ -261,7 +288,7 @@ public class WidgetConfigureActivity extends Activity {
                         });
                         builder.setNegativeButton("Cancel", (dialog, which) -> {
                             dialog.cancel();
-                            remoteTv.disconnect();
+                            executorService.submit(remoteTv::disconnect);
                             runOnUiThread(() -> {
                                 btnSave.setEnabled(true);
                                 btnSave.setText("Save Widget");
@@ -280,9 +307,12 @@ public class WidgetConfigureActivity extends Activity {
 
                 @Override
                 public void onConnected() {
+                    rememberPairing(ip);
+                    // Closing the session writes to a TLS socket, which throws
+                    // NetworkOnMainThreadException (and killed the app here).
+                    executorService.submit(remoteTv::disconnect);
                     runOnUiThread(() -> {
                         Toast.makeText(WidgetConfigureActivity.this, "TV Connected!", Toast.LENGTH_SHORT).show();
-                        remoteTv.disconnect();
                         if (onSuccess != null) {
                             onSuccess.run();
                         }
@@ -293,9 +323,10 @@ public class WidgetConfigureActivity extends Activity {
 
                 @Override
                 public void onError(String error) {
+                    forgetPairing(ip);
+                    executorService.submit(remoteTv::disconnect);
                     runOnUiThread(() -> {
                         Toast.makeText(WidgetConfigureActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
-                        remoteTv.disconnect();
                         btnSave.setEnabled(true);
                         btnSave.setText("Save Widget");
                     });
@@ -303,12 +334,14 @@ public class WidgetConfigureActivity extends Activity {
             });
         } catch (Exception e) {
             e.printStackTrace();
+            forgetPairing(ip);
             runOnUiThread(() -> {
                 Toast.makeText(WidgetConfigureActivity.this, "Pairing failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 btnSave.setEnabled(true);
                 btnSave.setText("Save Widget");
             });
         }
+        });
     }
 
     private void addDiscoveredDevice(String name, String ip, String protocol) {
