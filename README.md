@@ -9,9 +9,9 @@ A containerized Android build system producing signed APKs for six home-screen w
 Captured from a headless emulator with [`android_screen_runner`](../android_screen_runner):
 `ashot run ../android_screen_runner/examples/techhurts-widgets.ts`.
 
-| Widgets on the home screen | GOES East, live |
-|---|---|
-| <img src="screenshots/widgets-home-1.webp" width="280" alt="Weather, calculator and timer widgets on the home screen"> | <img src="screenshots/widgets-home-2.webp" width="280" alt="GOES East satellite widget on the home screen"> |
+| Widgets on the home screen | GOES East, live | Himawari-8, live |
+|---|---|---|
+| <img src="screenshots/widgets-home-1.webp" width="240" alt="Weather, calculator and timer widgets on the home screen"> | <img src="screenshots/widgets-home-2.webp" width="240" alt="GOES East satellite widget on the home screen"> | <img src="screenshots/widgets-home-3.webp" width="240" alt="Himawari-8 satellite widget on the home screen"> |
 
 | Timer | Countdown | Calculator |
 |---|---|---|

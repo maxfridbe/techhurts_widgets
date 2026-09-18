@@ -25,10 +25,10 @@ public class HimawariServiceTest {
     }
 
     @Test
-    public void fetchLatestImageUrl_isRammbUrl() {
-        String url = HimawariFetchLogic.fetchLatestImageUrl();
-        assertTrue("starts with RAMMB host", url.startsWith("https://rammb.cira.colostate.edu/"));
-        assertTrue("ends with .jpg", url.endsWith(".jpg"));
+    public void tileUrl_pointsAtSlider() {
+        String url = HimawariFetchLogic.tileUrl("20260917234000");
+        assertEquals("https://slider.cira.colostate.edu/data/imagery/2026/09/17"
+                + "/himawari---full_disk/geocolor/20260917234000/00/000_000.png", url);
         assertTrue("contains himawari", url.toLowerCase().contains("himawari"));
         System.out.println("[PASS] url = " + url);
     }
@@ -43,8 +43,8 @@ public class HimawariServiceTest {
         byte[] buf = new byte[64];
         conn.getInputStream().read(buf);
         conn.disconnect();
-        assertEquals("JPEG SOI [0]", (byte)0xFF, buf[0]);
-        assertEquals("JPEG SOI [1]", (byte)0xD8, buf[1]);
+        assertEquals("PNG signature [0]", (byte)0x89, buf[0]);
+        assertEquals("PNG signature [1]", (byte)0x50, buf[1]);
         System.out.println("[PASS] JPEG magic bytes confirmed");
     }
 }

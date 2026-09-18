@@ -6,12 +6,12 @@ import java.io.IOException;
 
 class HimawariService {
 
-    static String fetchLatestImageUrl() {
+    static String fetchLatestImageUrl() throws IOException {
         return HimawariFetchLogic.fetchLatestImageUrl();
     }
 
     /**
-     * Download the full-disk JPEG (~21 MB) and decode at auto-chosen inSampleSize
+     * Download the full-disk PNG and decode at auto-chosen inSampleSize
      * so the result is ≤1500 px on the long edge.  No crop — CropConfig handles that.
      */
     static Bitmap downloadFull(String url) throws IOException {
