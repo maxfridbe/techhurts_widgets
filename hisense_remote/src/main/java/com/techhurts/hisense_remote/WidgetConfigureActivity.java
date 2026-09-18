@@ -78,7 +78,7 @@ public class WidgetConfigureActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
-        setContentView(R.layout.widget_configure);
+        setContentView(R.layout.remote_widget_configure);
 
         editIp = findViewById(R.id.edit_ip);
         groupProtocol = findViewById(R.id.group_protocol);
@@ -168,6 +168,12 @@ public class WidgetConfigureActivity extends Activity {
             });
         });
 
+        findViewById(R.id.btn_layout).setOnClickListener(v -> {
+            Intent layoutIntent = new Intent(this, RemoteLayoutActivity.class);
+            layoutIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+            startActivity(layoutIntent);
+        });
+
         btnSave.setOnClickListener(v -> {
             String ip = editIp.getText().toString().trim();
             if (ip.isEmpty()) {
@@ -216,6 +222,11 @@ public class WidgetConfigureActivity extends Activity {
     }
 
     private void saveAndFinish(String ip, String protocol) {
+        // Remembered so widgets added later start already pointed at this TV.
+        getSharedPreferences("com.techhurts.hisense_remote.prefs", 0).edit()
+                .putString("last_ip", ip)
+                .putString("last_protocol", protocol)
+                .apply();
         SharedPreferences prefs = getSharedPreferences("com.techhurts.hisense_remote.prefs", 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("ip_" + mAppWidgetId, ip);

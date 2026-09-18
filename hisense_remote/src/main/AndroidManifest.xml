@@ -5,15 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
 
         <receiver
             android:name=".HisenseRemoteWidgetProvider"
-            android:label="@string/widget_label"
+            android:label="@string/remote_widget_label"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -39,6 +36,72 @@
             android:exported="true"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.NoDisplay" />
+
+        <!-- Drag-and-drop editor for the widget's button grid. -->
+        <activity
+            android:name=".RemoteLayoutActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+
+        <receiver
+            android:name=".Remote1x1Provider"
+            android:label="TV Remote 1×1"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/remote_widget_1x1" />
+        </receiver>
+
+        <receiver
+            android:name=".Remote2x1Provider"
+            android:label="TV Remote 2×1"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/remote_widget_2x1" />
+        </receiver>
+
+        <receiver
+            android:name=".Remote2x2Provider"
+            android:label="TV Remote 2×2"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/remote_widget_2x2" />
+        </receiver>
+
+        <receiver
+            android:name=".Remote3x1Provider"
+            android:label="TV Remote 3×1"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/remote_widget_3x1" />
+        </receiver>
+
+        <receiver
+            android:name=".Remote3x3Provider"
+            android:label="TV Remote 3×3"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/remote_widget_3x3" />
+        </receiver>
 
     </application>
 </manifest>

@@ -21,52 +21,68 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
         SharedPreferences prefs = context.getSharedPreferences("com.techhurts.hisense_remote.prefs", 0);
         String ip = prefs.getString("ip_" + appWidgetId, "");
         String protocol = prefs.getString("protocol_" + appWidgetId, "");
+        if (ip.isEmpty()) {
+            // A widget added later should just work with the TV already set up.
+            ip = prefs.getString("last_ip", "");
+            protocol = prefs.getString("last_protocol", "");
+        }
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.hisense_remote_widget_layout);
+        RemoteSize size = RemoteSize.of(context, appWidgetId);
+        RemoteViews views = new RemoteViews(context.getPackageName(), size.layout);
+
+        Intent configIntent = new Intent(context, WidgetConfigureActivity.class);
+        configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        configIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent configPendingIntent = PendingIntent.getActivity(
+                context, appWidgetId, configIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         if (ip.isEmpty()) {
             views.setTextViewText(R.id.txt_status, "Tap to Configure");
-            
-            Intent configIntent = new Intent(context, WidgetConfigureActivity.class);
-            configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            configIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent configPendingIntent = PendingIntent.getActivity(
-                context,
-                appWidgetId,
-                configIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-            );
+            views.setViewVisibility(R.id.txt_status, android.view.View.VISIBLE);
+            for (int index = 0; index < size.cells(); index++) {
+                int cellId = cellId(context, index, size);
+                if (cellId != 0) views.setViewVisibility(cellId, android.view.View.GONE);
+            }
             views.setOnClickPendingIntent(R.id.widget_root, configPendingIntent);
         } else {
-            views.setTextViewText(R.id.txt_status, ip + " (" + getProtocolLabel(protocol) + ")");
-            
-            Intent configIntent = new Intent(context, WidgetConfigureActivity.class);
-            configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            configIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent configPendingIntent = PendingIntent.getActivity(
-                context,
-                appWidgetId,
-                configIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-            );
-            views.setOnClickPendingIntent(R.id.txt_title, configPendingIntent);
+            if (size == RemoteSize.FLEX) {
+                views.setTextViewText(R.id.txt_status, ip + " (" + getProtocolLabel(protocol) + ")");
+                views.setOnClickPendingIntent(R.id.txt_title, configPendingIntent);
+            }
 
-            // Bind click pending intents for each remote button
-            views.setOnClickPendingIntent(R.id.btn_power, getPendingIntent(context, appWidgetId, "KEY_POWER"));
-            views.setOnClickPendingIntent(R.id.btn_input, getPendingIntent(context, appWidgetId, "KEY_INPUT"));
-            views.setOnClickPendingIntent(R.id.btn_up, getPendingIntent(context, appWidgetId, "KEY_UP"));
-            views.setOnClickPendingIntent(R.id.btn_left, getPendingIntent(context, appWidgetId, "KEY_LEFT"));
-            views.setOnClickPendingIntent(R.id.btn_ok, getPendingIntent(context, appWidgetId, "KEY_OK"));
-            views.setOnClickPendingIntent(R.id.btn_right, getPendingIntent(context, appWidgetId, "KEY_RIGHT"));
-            views.setOnClickPendingIntent(R.id.btn_down, getPendingIntent(context, appWidgetId, "KEY_DOWN"));
-            views.setOnClickPendingIntent(R.id.btn_back, getPendingIntent(context, appWidgetId, "KEY_BACK"));
-            views.setOnClickPendingIntent(R.id.btn_home, getPendingIntent(context, appWidgetId, "KEY_HOME"));
-            views.setOnClickPendingIntent(R.id.btn_vol_down, getPendingIntent(context, appWidgetId, "KEY_VOL_DOWN"));
-            views.setOnClickPendingIntent(R.id.btn_mute, getPendingIntent(context, appWidgetId, "KEY_MUTE"));
-            views.setOnClickPendingIntent(R.id.btn_vol_up, getPendingIntent(context, appWidgetId, "KEY_VOL_UP"));
+            // The grid is whatever RemoteLayoutActivity saved. A widget can't use
+            // a custom typeface, so each Nerd Font glyph is drawn into a bitmap.
+            java.util.List<RemoteLayout.Cell> cells = RemoteLayout.load(context, appWidgetId);
+            int globalColor = RemoteLayout.globalColor(context, appWidgetId);
+            int iconPx = Math.round(context.getResources().getDisplayMetrics().density * 24);
+
+            for (int index = 0; index < size.cells(); index++) {
+                int cellId = cellId(context, index, size);
+                if (cellId == 0) continue;
+                RemoteLayout.Cell cell = cells.get(index);
+                RemoteButtons.Button button = RemoteButtons.byKey(cell.key);
+                if (button == null) {
+                    views.setViewVisibility(cellId, android.view.View.INVISIBLE);
+                    continue;
+                }
+                int color = cell.color > 0 ? RemoteButtons.PALETTE[cell.color] : globalColor;
+                views.setViewVisibility(cellId, android.view.View.VISIBLE);
+                views.setImageViewBitmap(cellId,
+                        RemoteButtons.render(context, button.glyph, iconPx, color));
+                views.setContentDescription(cellId, button.label);
+                views.setOnClickPendingIntent(cellId,
+                        getPendingIntent(context, appWidgetId, button.key));
+            }
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    /** cell_<row>_<column> ids, resolved by name so the grid stays data-driven. */
+    private static int cellId(Context context, int index, RemoteSize size) {
+        String name = "cell_" + (index / size.columns) + "_" + (index % size.columns);
+        return context.getResources().getIdentifier(name, "id", context.getPackageName());
     }
 
     private static PendingIntent getPendingIntent(Context context, int appWidgetId, String key) {
@@ -117,6 +133,7 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
+        for (int id : appWidgetIds) RemoteLayout.remove(context, id);
         SharedPreferences.Editor editor = context.getSharedPreferences("com.techhurts.hisense_remote.prefs", 0).edit();
         for (int id : appWidgetIds) {
             editor.remove("ip_" + id);

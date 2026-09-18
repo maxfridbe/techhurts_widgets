@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">TechHurts Himawari-8</string>
-    <string name="widget_label">Himawari-8</string>
+    <string name="himawari_app_name">TechHurts Himawari-8</string>
+    <string name="himawari_widget_label">Himawari-8</string>
 </resources>

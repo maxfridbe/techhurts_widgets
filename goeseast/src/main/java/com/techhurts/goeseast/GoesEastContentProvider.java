@@ -18,11 +18,14 @@ import java.io.FileNotFoundException;
  */
 public class GoesEastContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "com.techhurts.goeseast.images";
+    /** Derived from the package, since this library ships in two apps. */
+    public static String authority(android.content.Context context) {
+        return context.getPackageName() + ".images";
+    }
 
     /** Build a unique URI for a given frame file (filename encodes the timestamp). */
-    static Uri uriForFile(File f) {
-        return Uri.parse("content://" + AUTHORITY + "/" + f.getName());
+    static Uri uriForFile(android.content.Context context, File f) {
+        return Uri.parse("content://" + authority(context) + "/" + f.getName());
     }
 
     @Override public boolean onCreate() { return true; }

@@ -61,7 +61,7 @@ public class WidgetConfigureActivity extends Activity {
         super.onCreate(icicle);
 
         setResult(RESULT_CANCELED);
-        setContentView(R.layout.widget_configure);
+        setContentView(R.layout.weather_widget_configure);
 
         mEditTextZipCode = findViewById(R.id.editTextZipCode);
         mTextViewLocationResult = findViewById(R.id.textViewLocationResult);

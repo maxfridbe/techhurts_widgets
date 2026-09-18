@@ -83,7 +83,7 @@ task="assemble${BUILD_TYPE^}"
 # --- Collect -----------------------------------------------------------------------
 # cp, not mv: under docker the build dirs are root-owned.
 rm -rf output && mkdir output
-for pair in app:WeatherWidget calculator:Calculator goeseast:GOESEast himawari8:Himawari8 hisense_remote:AndroidTVRemoteControl timer:Timer; do
+for pair in app-weather:WeatherWidget app-calc:Calculator app-goes:GOESEast app-himawari:Himawari8 app-remote:AndroidTVRemoteControl app-timer:Timer widgets:Widgets; do
   module=${pair%%:*}; name=${pair##*:}
   cp "$module/build/outputs/apk/$BUILD_TYPE/$module-$BUILD_TYPE.apk" "output/com.techhurts.$name.$VERSION_NAME.apk"
 done

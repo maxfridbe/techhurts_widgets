@@ -16,7 +16,7 @@
             android:layout_height="220dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:contentDescription="@string/widget_label"
+            android:contentDescription="@string/timer_widget_label"
             android:scaleType="fitCenter" />
 
         <TextView

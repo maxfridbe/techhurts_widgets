@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TechHurts GOES East</string>
-    <string name="widget_label">GOES East</string>
-    <string name="widget_description">Live GOES-19 East satellite imagery, North America, 24-hour animation.</string>
+    <string name="goes_app_name">TechHurts GOES East</string>
+    <string name="goes_widget_label">GOES East</string>
+    <string name="goes_widget_description">Live GOES-19 East satellite imagery, North America, 24-hour animation.</string>
 </resources>

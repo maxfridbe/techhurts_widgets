@@ -108,6 +108,12 @@ public class AndroidRemoteTv extends BaseAndroidRemoteTv {
         }
     }
 
+    public void sendAppLink(String appLink) {
+        if (mRemoteSession != null) {
+            mRemoteSession.sendAppLink(appLink);
+        }
+    }
+
     public void sendSecret(String code) {
         mPairingSession.provideSecret(code);
     }

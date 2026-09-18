@@ -163,6 +163,14 @@ public class RemoteSession {
         }
     }
 
+    public void sendAppLink(String appLink) {
+        try {
+            outputStream.write(mMessageManager.createAppLink(appLink));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public interface RemoteSessionListener {
         void onConnected();
 

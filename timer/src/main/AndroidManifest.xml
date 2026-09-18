@@ -15,15 +15,12 @@
         android:maxSdkVersion="32" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
 
         <receiver
             android:name=".TimerWidgetProvider"
-            android:label="@string/widget_label"
+            android:label="@string/timer_widget_label"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -1,6 +1,6 @@
 // app/build.gradle (Module level)
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
 
 android {
@@ -8,11 +8,8 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.techhurts.weatherwidget"
         minSdk 21
         targetSdk 34
-        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger())
-        versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

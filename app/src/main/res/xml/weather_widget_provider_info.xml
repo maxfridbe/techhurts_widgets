@@ -3,7 +3,7 @@
     android:minWidth="110dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/ic_widget_preview"
+    android:previewImage="@drawable/weather_ic_widget_preview"
     android:initialLayout="@layout/weather_widget_layout"
     android:configure="com.techhurts.weatherwidget.WidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"

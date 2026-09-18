@@ -18,7 +18,11 @@ public class PinWidgetActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppWidgetManager manager = AppWidgetManager.getInstance(this);
-        ComponentName provider = new ComponentName(this, HisenseRemoteWidgetProvider.class);
+        // "provider" picks a size variant, e.g. Remote2x2Provider.
+        String requested = getIntent().getStringExtra("provider");
+        ComponentName provider = requested == null || requested.isEmpty()
+                ? new ComponentName(this, HisenseRemoteWidgetProvider.class)
+                : new ComponentName(getPackageName(), getPackageName() + "." + requested);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && manager.isRequestPinAppWidgetSupported()) {
             manager.requestPinAppWidget(provider, null, null);
         } else {

@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+
+// The whole collection in one APK: every widget library merged together, so a
+// single install offers all of them in the launcher's widget picker.
+android {
+    namespace 'com.techhurts.widgets'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.techhurts.widgets"
+        minSdk 24            // the highest minSdk among the libraries (timer)
+        targetSdk 34
+        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger())
+        versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+    buildTypes {
+        debug { signingConfig signingConfigs.debug }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':app')
+    implementation project(':calculator')
+    implementation project(':goeseast')
+    implementation project(':himawari8')
+    implementation project(':hisense_remote')
+    implementation project(':timer')
+}

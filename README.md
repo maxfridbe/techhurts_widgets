@@ -1,6 +1,6 @@
 # TechHurts Android Widgets
 
-A containerized Android build system producing signed APKs for six home-screen widgets under the `com.techhurts` package namespace. GitHub Actions builds and publishes a release when you bump the version (or run the workflow by hand).
+A containerized Android build system producing signed APKs for six home-screen widgets under the `com.techhurts` package namespace, plus **TechHurts Widgets** — one APK containing all of them. GitHub Actions builds and publishes a release when you bump the version (or run the workflow by hand).
 
 ---
 
@@ -17,9 +17,14 @@ Captured from a headless emulator with [`android_screen_runner`](../android_scre
 |---|---|---|
 | <img src="screenshots/timer-01-setup.webp" width="200" alt="Timer setup screen"> | <img src="screenshots/timer-02-counting.webp" width="200" alt="Timer counting down"> | <img src="screenshots/calculator-02-result.webp" width="200" alt="Calculator"> |
 
-| Weather setup | TV remote | GOES East animation |
+| Weather setup | TV remote setup | GOES East animation |
 |---|---|---|
 | <img src="screenshots/weather-01-configure.webp" width="200" alt="Weather widget zip code setup"> | <img src="screenshots/remote-01-configure.webp" width="200" alt="TV remote configuration"> | <img src="screenshots/goeseast-01-animation.webp" width="200" alt="GOES East 24 hour animation"> |
+
+| Widget pack | Remote layout editor | Remote widget sizes |
+|---|---|---|
+| <img src="screenshots/pack-01-widget-list.webp" width="240" alt="TechHurts Widgets pack listing every widget"> | <img src="screenshots/remote-02-layout-editor.webp" width="240" alt="Drag-and-drop remote layout editor with colour swatches"> | <img src="screenshots/remote-03-widget-sizes.webp" width="240" alt="1x1, 2x1, 2x2 and 3x1 remote widgets on the home screen"> |
+
 
 ---
 
@@ -32,6 +37,7 @@ Captured from a headless emulator with [`android_screen_runner`](../android_scre
 | `:goeseast` | `com.techhurts.goeseast` | GOES East | 4×4 min |
 | `:hisense_remote` | `com.techhurts.hisense_remote` | Hisense Remote | Resizable |
 | `:timer` | `com.techhurts.timer` | TechHurts Timer | 1×1 fixed |
+| `:widgets` | `com.techhurts.widgets` | **All of the above, one install** | — |
 
 ### Weather Widget
 Displays current conditions and temperature from the National Weather Service (weather.gov). Tap the widget to open a full 7-day forecast screen with copy-to-clipboard. Tap the refresh icon to force an update. Configure your location by zip code on first use.
@@ -169,6 +175,25 @@ Or download them from the latest [release](../../releases).
 ├── build.gradle                # Root build file; shared signing config
 └── llm.md                      # Notes for AI coding agents
 ```
+
+---
+
+## The widget pack
+
+Each widget lives in an Android **library** module (`app`, `calculator`,
+`goeseast`, `himawari8`, `hisense_remote`, `timer`). Two kinds of application
+module consume them:
+
+- `app-weather`, `app-calc`, … — thin wrappers that give one library an
+  applicationId and an icon, producing the individual APKs as before.
+- `widgets` — depends on all six, so a single install offers every widget in
+  the launcher's picker. Its launcher entry lists them with an "add to home
+  screen" button each.
+
+Resource names are prefixed per library (`weather_ic_launcher`,
+`timer_app_name`, …) because everything merges into one APK, and the satellite
+content providers use `${applicationId}.images` so the pack and the standalone
+apps can be installed side by side.
 
 ---
 

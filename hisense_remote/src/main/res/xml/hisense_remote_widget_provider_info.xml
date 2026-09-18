@@ -9,6 +9,6 @@
     android:configure="com.techhurts.hisense_remote.WidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@drawable/ic_widget_preview"
+    android:previewImage="@drawable/remote_ic_widget_preview"
     android:label="AndroidTVRemoteControl">
 </appwidget-provider>

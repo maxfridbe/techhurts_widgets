@@ -282,7 +282,7 @@ public class GoesEastAnimationActivity extends Activity {
                     bmp.recycle();
                 }
 
-                Uri uri = Uri.parse("content://" + GoesEastContentProvider.AUTHORITY
+                Uri uri = Uri.parse("content://" + GoesEastContentProvider.authority(this)
                         + "/cache/" + outFile.getName());
                 Intent share = new Intent(Intent.ACTION_SEND).setType(mime)
                         .putExtra(Intent.EXTRA_STREAM, uri)

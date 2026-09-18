@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TechHurts Timer</string>
-    <string name="widget_label">TechHurts Timer</string>
-    <string name="widget_description">Countdown timer widget with an alarm you can stop from the notification shade.</string>
+    <string name="timer_app_name">TechHurts Timer</string>
+    <string name="timer_widget_label">TechHurts Timer</string>
+    <string name="timer_widget_description">Countdown timer widget with an alarm you can stop from the notification shade.</string>
 </resources>

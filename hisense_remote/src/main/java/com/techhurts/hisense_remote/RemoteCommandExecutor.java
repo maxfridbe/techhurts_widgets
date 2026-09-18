@@ -31,8 +31,9 @@ public class RemoteCommandExecutor {
     }
 
     private static void sendAndroidTvKey(Context context, String ip, String key) {
-        Remotemessage.RemoteKeyCode code = mapKeyToAndroidTv(key);
-        if (code == null) return;
+        boolean isAppLaunch = key.startsWith(RemoteButtons.APP_PREFIX);
+        Remotemessage.RemoteKeyCode code = isAppLaunch ? null : mapKeyToAndroidTv(key);
+        if (code == null && !isAppLaunch) return;
 
         try {
             File keystore = new File(context.getFilesDir(), "androidtv.keystore");
@@ -70,7 +71,11 @@ public class RemoteCommandExecutor {
                 }
             }
 
-            sAndroidRemoteTv.sendCommand(code, Remotemessage.RemoteDirection.SHORT);
+            if (isAppLaunch) {
+                sAndroidRemoteTv.sendAppLink(key.substring(RemoteButtons.APP_PREFIX.length()));
+            } else {
+                sAndroidRemoteTv.sendCommand(code, Remotemessage.RemoteDirection.SHORT);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if (sAndroidRemoteTv != null) {
@@ -94,6 +99,22 @@ public class RemoteCommandExecutor {
             case "KEY_VOL_UP": return Remotemessage.RemoteKeyCode.KEYCODE_VOLUME_UP;
             case "KEY_VOL_DOWN": return Remotemessage.RemoteKeyCode.KEYCODE_VOLUME_DOWN;
             case "KEY_MUTE": return Remotemessage.RemoteKeyCode.KEYCODE_VOLUME_MUTE;
+            case "KEY_PLAY": return Remotemessage.RemoteKeyCode.KEYCODE_MEDIA_PLAY;
+            case "KEY_PAUSE": return Remotemessage.RemoteKeyCode.KEYCODE_MEDIA_PAUSE;
+            case "KEY_STOP": return Remotemessage.RemoteKeyCode.KEYCODE_MEDIA_STOP;
+            case "KEY_REWIND": return Remotemessage.RemoteKeyCode.KEYCODE_MEDIA_REWIND;
+            case "KEY_FORWARD": return Remotemessage.RemoteKeyCode.KEYCODE_MEDIA_FAST_FORWARD;
+            case "KEY_MENU": return Remotemessage.RemoteKeyCode.KEYCODE_MENU;
+            case "KEY_GUIDE": return Remotemessage.RemoteKeyCode.KEYCODE_GUIDE;
+            case "KEY_SETTINGS": return Remotemessage.RemoteKeyCode.KEYCODE_SETTINGS;
+            case "KEY_TV": return Remotemessage.RemoteKeyCode.KEYCODE_TV;
+            case "KEY_HDMI_1": return Remotemessage.RemoteKeyCode.KEYCODE_TV_INPUT_HDMI_1;
+            case "KEY_HDMI_2": return Remotemessage.RemoteKeyCode.KEYCODE_TV_INPUT_HDMI_2;
+            case "KEY_HDMI_3": return Remotemessage.RemoteKeyCode.KEYCODE_TV_INPUT_HDMI_3;
+            case "KEY_HDMI_4": return Remotemessage.RemoteKeyCode.KEYCODE_TV_INPUT_HDMI_4;
+            case "KEY_MIC": return Remotemessage.RemoteKeyCode.KEYCODE_SEARCH;
+            case "KEY_NETFLIX": return Remotemessage.RemoteKeyCode.KEYCODE_BUTTON_1;
+            case "KEY_YOUTUBE": return Remotemessage.RemoteKeyCode.KEYCODE_BUTTON_2;
             default: return null;
         }
     }

@@ -1,12 +1,10 @@
-plugins { id 'com.android.application' }
+plugins { id 'com.android.library' }
 
 android {
     namespace 'com.techhurts.himawari8'
     compileSdk 34
     defaultConfig {
-        applicationId "com.techhurts.himawari8"
         minSdk 21; targetSdk 34
-        versionCode((project.findProperty('appVersionCode') ?: '1').toInteger()); versionName project.findProperty('appVersionName') ?: '0.0000.000-dev'
     }
     buildTypes {
         release { minifyEnabled false

@@ -282,7 +282,7 @@ public class HimawariAnimationActivity extends Activity {
                     bmp.recycle();
                 }
 
-                Uri uri = Uri.parse("content://" + HimawariContentProvider.AUTHORITY
+                Uri uri = Uri.parse("content://" + HimawariContentProvider.authority(this)
                         + "/cache/" + outFile.getName());
                 Intent share = new Intent(Intent.ACTION_SEND).setType(mime)
                         .putExtra(Intent.EXTRA_STREAM, uri)

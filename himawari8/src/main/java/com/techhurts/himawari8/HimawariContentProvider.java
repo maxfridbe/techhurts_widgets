@@ -9,10 +9,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class HimawariContentProvider extends ContentProvider {
-    public static final String AUTHORITY = "com.techhurts.himawari8.images";
+    /** Derived from the package, since this library ships in two apps. */
+    public static String authority(android.content.Context context) {
+        return context.getPackageName() + ".images";
+    }
 
-    static Uri uriForFile(File f) {
-        return Uri.parse("content://" + AUTHORITY + "/" + f.getName());
+    static Uri uriForFile(android.content.Context context, File f) {
+        return Uri.parse("content://" + authority(context) + "/" + f.getName());
     }
 
     @Override public boolean onCreate() { return true; }

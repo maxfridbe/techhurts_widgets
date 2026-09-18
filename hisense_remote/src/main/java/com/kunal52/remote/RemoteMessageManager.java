@@ -50,6 +50,20 @@ public class RemoteMessageManager extends MessageManager {
         return addLengthAndCreate(pairingMessageByteArray);
     }
 
+    /** Asks the TV to open an app by its app link, e.g. "plex://" or a https deep link. */
+    public byte[] createAppLink(String appLink) {
+        Remotemessage.RemoteAppLinkLaunchRequest request =
+                Remotemessage.RemoteAppLinkLaunchRequest.newBuilder().setAppLink(appLink).build();
+        Remotemessage.RemoteMessage remoteMessage = Remotemessage.RemoteMessage.newBuilder()
+                .setRemoteAppLinkLaunchRequest(request).build();
+        byte[] messageBytes = remoteMessage.toByteArray();
+        mPacketBuffer.put((byte) messageBytes.length).put(messageBytes);
+        byte[] out = new byte[mPacketBuffer.position()];
+        System.arraycopy(mPacketBuffer.array(), mPacketBuffer.arrayOffset(), out, 0, mPacketBuffer.position());
+        mPacketBuffer.clear();
+        return out;
+    }
+
     public byte[] createPower() {
         Remotemessage.RemoteKeyInject remoteKeyInject = Remotemessage.RemoteKeyInject.newBuilder().setDirection(Remotemessage.RemoteDirection.SHORT).setKeyCode(Remotemessage.RemoteKeyCode.KEYCODE_POWER).build();
         Remotemessage.RemoteMessage remoteMessage = Remotemessage.RemoteMessage.newBuilder().setRemoteKeyInject(remoteKeyInject).build();
