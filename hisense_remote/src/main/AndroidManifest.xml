@@ -103,5 +103,19 @@
                 android:resource="@xml/remote_widget_3x3" />
         </receiver>
 
+        <!-- "Send to TV" in the system share sheet -->
+        <activity
+            android:name=".ShareToTvActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="Send to TV"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

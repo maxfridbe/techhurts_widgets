@@ -21,9 +21,9 @@ Captured from a headless emulator with [`android_screen_runner`](../android_scre
 |---|---|---|
 | <img src="screenshots/weather-01-configure.webp" width="200" alt="Weather widget zip code setup"> | <img src="screenshots/remote-01-configure.webp" width="200" alt="TV remote configuration"> | <img src="screenshots/goeseast-01-animation.webp" width="200" alt="GOES East 24 hour animation"> |
 
-| Widget pack | Remote layout editor | Remote widget sizes |
-|---|---|---|
-| <img src="screenshots/pack-01-widget-list.webp" width="240" alt="TechHurts Widgets pack listing every widget"> | <img src="screenshots/remote-02-layout-editor.webp" width="240" alt="Drag-and-drop remote layout editor with colour swatches"> | <img src="screenshots/remote-03-widget-sizes.webp" width="240" alt="1x1, 2x1, 2x2 and 3x1 remote widgets on the home screen"> |
+| Widget pack | Remote layout editor | Remote widget sizes | Share to TV |
+|---|---|---|---|
+| <img src="screenshots/pack-01-widget-list.webp" width="200" alt="TechHurts Widgets pack listing every widget"> | <img src="screenshots/remote-02-layout-editor.webp" width="200" alt="Drag-and-drop remote layout editor with colour swatches"> | <img src="screenshots/remote-03-widget-sizes.webp" width="200" alt="1x1, 2x1, 2x2 and 3x1 remote widgets on the home screen"> | <img src="screenshots/remote-04-share-to-tv.webp" width="200" alt="Share sheet asking which TV to open a link on"> |
 
 
 ---
@@ -56,6 +56,8 @@ A resizable home-screen widget styled as a TV remote controller with support for
 - **Hisense Roku TV (ECP)**: Simple, zero-pairing HTTP connection on port 8060.
 - **IP Control ASCII**: Text-based TCP commands on port 8088 (common on B2B/Prosumer series).
 - **IP Control HEX**: Binary serial command packets on port 5000 (common on commercial screens).
+
+Buttons are laid out by dragging them into a grid (see the layout editor), in six widget sizes from 1×1 to 4×5, with a global colour and per-button overrides. Beyond key codes, buttons can launch apps (Netflix, YouTube, Plex, Disney+, Spotify, PBS Kids, Prime Video, Apple TV) or open any URL in the TV's browser, and **Send to TV** appears in the phone's share sheet for links — with a picker when more than one TV is set up.
 
 Tapping buttons on the widget sends background HTTP/TCP/Protobuf control commands asynchronously (e.g. Power, Input, Volume, Mute, D-pad navigation, Back, Home). Tapping the title opens the configuration activity to edit the target IP/protocol, dynamically scan the network using mDNS (for Android/Google TVs) and SSDP (for Roku TVs), and pair new devices.
 
