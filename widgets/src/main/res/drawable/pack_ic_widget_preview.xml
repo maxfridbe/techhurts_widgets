@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- pack: the artwork of the icon. The plate is the background layer, and the adaptive mask rounds it. -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+<!-- pack: widget picker preview. Gradients are flattened to one colour because a VectorDrawable gradient needs API 24 and these modules go back to 21. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="512"
     android:viewportHeight="512">
     <path
+        android:pathData="M148.0,24.0 h216.0 a124.0,124.0 0 0 1 124.0,124.0 v216.0 a124.0,124.0 0 0 1 -124.0,124.0 h-216.0 a124.0,124.0 0 0 1 -124.0,-124.0 v-216.0 a124.0,124.0 0 0 1 124.0,-124.0 Z"
+        android:fillColor="@color/pack_icon_plate_flat" />
+    <path
         android:pathData="M120.0,76.0 h272.0 a44.0,44.0 0 0 1 44.0,44.0 v272.0 a44.0,44.0 0 0 1 -44.0,44.0 h-272.0 a44.0,44.0 0 0 1 -44.0,-44.0 v-272.0 a44.0,44.0 0 0 1 44.0,-44.0 Z"
         android:fillColor="@color/pack_icon_tray"
         android:fillAlpha="0.6" />
     <path
-        android:pathData="M122.0,94.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="0.0"
-                android:startY="0.0"
-                android:endX="512.0"
-                android:endY="512.0">
-                <item android:offset="0.0" android:color="@color/pack_icon_tile_calc_light" />
-                <item android:offset="1.0" android:color="@color/pack_icon_tile_calc" />
-            </gradient>
-        </aapt:attr>
-    </path>
+        android:pathData="M122.0,94.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z"
+        android:fillColor="@color/pack_icon_tile_calc_flat" />
     <path
         android:pathData="M122.0,114.0 h98.0 a8.0,8.0 0 0 1 8.0,8.0 v20.0 a8.0,8.0 0 0 1 -8.0,8.0 h-98.0 a8.0,8.0 0 0 1 -8.0,-8.0 v-20.0 a8.0,8.0 0 0 1 8.0,-8.0 Z"
         android:fillColor="@color/pack_icon_ink"
@@ -85,19 +77,8 @@
         android:strokeWidth="3.5"
         android:strokeLineCap="round" />
     <path
-        android:pathData="M292.0,94.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="0.0"
-                android:startY="0.0"
-                android:endX="512.0"
-                android:endY="512.0">
-                <item android:offset="0.0" android:color="@color/pack_icon_tile_timer_light" />
-                <item android:offset="1.0" android:color="@color/pack_icon_tile_timer" />
-            </gradient>
-        </aapt:attr>
-    </path>
+        android:pathData="M292.0,94.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z"
+        android:fillColor="@color/pack_icon_tile_timer_flat" />
     <path
         android:pathData="M336.0,112.0 h10.0 a2.0,2.0 0 0 1 2.0,2.0 v6.0 a2.0,2.0 0 0 1 -2.0,2.0 h-10.0 a2.0,2.0 0 0 1 -2.0,-2.0 v-6.0 a2.0,2.0 0 0 1 2.0,-2.0 Z"
         android:fillColor="@color/pack_icon_ink" />
@@ -137,19 +118,8 @@
         android:strokeWidth="3.5"
         android:strokeLineCap="round" />
     <path
-        android:pathData="M122.0,264.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="0.0"
-                android:startY="0.0"
-                android:endX="512.0"
-                android:endY="512.0">
-                <item android:offset="0.0" android:color="@color/pack_icon_tile_sat_light" />
-                <item android:offset="1.0" android:color="@color/pack_icon_tile_sat" />
-            </gradient>
-        </aapt:attr>
-    </path>
+        android:pathData="M122.0,264.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z"
+        android:fillColor="@color/pack_icon_tile_sat_flat" />
     <path
         android:pathData="M94 380 C130 380 170 395 186 418 L94 418 Z"
         android:fillColor="@color/pack_icon_ink" />
@@ -187,19 +157,8 @@
             android:fillColor="@color/pack_icon_ink" />
     </group>
     <path
-        android:pathData="M292.0,264.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="0.0"
-                android:startY="0.0"
-                android:endX="512.0"
-                android:endY="512.0">
-                <item android:offset="0.0" android:color="@color/pack_icon_tile_remote_light" />
-                <item android:offset="1.0" android:color="@color/pack_icon_tile_remote" />
-            </gradient>
-        </aapt:attr>
-    </path>
+        android:pathData="M292.0,264.0 h98.0 a28.0,28.0 0 0 1 28.0,28.0 v98.0 a28.0,28.0 0 0 1 -28.0,28.0 h-98.0 a28.0,28.0 0 0 1 -28.0,-28.0 v-98.0 a28.0,28.0 0 0 1 28.0,-28.0 Z"
+        android:fillColor="@color/pack_icon_tile_remote_flat" />
     <path
         android:pathData="M341.0,278.0 h0.0 a24.0,24.0 0 0 1 24.0,24.0 v78.0 a24.0,24.0 0 0 1 -24.0,24.0 h-0.0 a24.0,24.0 0 0 1 -24.0,-24.0 v-78.0 a24.0,24.0 0 0 1 24.0,-24.0 Z"
         android:fillColor="@color/pack_icon_ink" />

@@ -9,6 +9,13 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 34
+        // Do not rasterise the vector icons to PNGs. AGP does that for API
+        // 21-23 because a VectorDrawable gained gradients in 24, and its
+        // rasteriser cannot follow an @color reference — which is the point of
+        // the icon colours living in values/. The graded plate sits in
+        // drawable-anydpi-v24 and a flat one in drawable/, so those APIs are
+        // served either way.
+        vectorDrawables.generatedDensities = []
     }
 
     buildTypes {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="goes_icon_plate_light">#0f93a9</color>
+    <color name="goes_icon_plate">#0e6b8c</color>
+    <color name="goes_icon_plate_dark">#0b4a6d</color>
+    <color name="goes_icon_ink">#FFFFFF</color>
+    <color name="goes_icon_plate_flat">#0D6D8B</color>
+</resources>

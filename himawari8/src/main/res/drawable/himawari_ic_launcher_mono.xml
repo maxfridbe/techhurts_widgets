@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Themed-icon layer: Android recolours this with the system accent, so it is one flat silhouette with no detail to lose. -->
+<!-- Themed-icon layer: Android recolours this with the system accent,
+     so it is one flat silhouette with no interior detail to lose. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M78.0,54.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M74.8,66.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M66.0,74.8 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M54.0,78.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M42.0,74.8 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M33.2,66.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M30.0,54.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M33.2,42.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M42.0,33.2 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M54.0,30.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M66.0,33.2 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M74.8,42.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,54 m-19,0 a19,19 0 1,0 38,0 a19,19 0 1,0 -38,0" />
+        android:fillColor="@color/himawari_icon_ink"
+        android:pathData="M256,256 m-150,0 a150,150 0 1 0 300,0 a150,150 0 1 0 -300,0 Z" />
 </vector>

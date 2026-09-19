@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="calc_icon_plate_light">#1495b4</color>
+    <color name="calc_icon_plate">#17709c</color>
+    <color name="calc_icon_plate_dark">#0f5175</color>
+    <color name="calc_icon_ink">#FFFFFF</color>
+    <color name="calc_icon_plate_flat">#137297</color>
+</resources>

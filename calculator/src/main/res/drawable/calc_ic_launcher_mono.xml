@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Themed-icon layer: Android recolours this with the system accent, so it is one flat silhouette with no detail to lose. -->
+<!-- Themed-icon layer: Android recolours this with the system accent,
+     so it is one flat silhouette with no interior detail to lose. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M28,18 h52 a8,8 0 0,1 8,8 v56 a8,8 0 0,1 -8,8 h-52 a8,8 0 0,1 -8,-8 v-56 a8,8 0 0,1 8,-8 Z" />
+        android:fillColor="@color/calc_icon_ink"
+        android:pathData="M110,100 h292 a36,36 0 0 1 36,36 v240 a36,36 0 0 1 -36,36 h-292 a36,36 0 0 1 -36,-36 v-240 a36,36 0 0 1 36,-36 Z" />
 </vector>

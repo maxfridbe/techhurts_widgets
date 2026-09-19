@@ -1,20 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Himawari: the word means sunflower, so the icon is one, with the Earth at its centre. -->
+<!-- himawari: the artwork of the icon. The plate is the background layer, and the adaptive mask rounds it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#FFC107"
-        android:pathData="M78.0,54.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M74.8,66.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M66.0,74.8 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M54.0,78.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M42.0,74.8 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M33.2,66.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M30.0,54.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M33.2,42.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M42.0,33.2 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M54.0,30.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M66.0,33.2 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0 M74.8,42.0 m-9,0 a9,7 0 1,0 18,0 a9,7 0 1,0 -18,0" />
+        android:pathData="M80 280 C180 280 270 340 300 432 L80 432 Z"
+        android:fillColor="@color/himawari_icon_ink" />
     <path
-        android:fillColor="#0277BD"
-        android:pathData="M54,54 m-19,0 a19,19 0 1,0 38,0 a19,19 0 1,0 -38,0" />
+        android:pathData="M120 290 C150 310 180 340 210 350 C240 360 260 395 285 432 L80 432 L80 290 Z"
+        android:fillColor="@color/himawari_icon_plate" />
     <path
-        android:fillColor="#4CAF50"
-        android:pathData="M44,46 a10,7 0 0,1 12,4 a8,6 0 0,1 -3,8 a11,8 0 0,1 -12,-5 Z" />
+        android:pathData="M220 320 C235 310 245 325 240 335 C235 345 220 340 220 320 Z"
+        android:fillColor="@color/himawari_icon_ink" />
     <path
-        android:fillColor="#4CAF50"
-        android:pathData="M58,60 a11,8 0 0,1 12,-3 a9,7 0 0,1 -4,10 a10,8 0 0,1 -10,-4 Z" />
+        android:pathData="M255.0,355.0 m-5.0,0 a5.0,5.0 0 1 0 10.0,0 a5.0,5.0 0 1 0 -10.0,0 Z"
+        android:fillColor="@color/himawari_icon_ink" />
+    <path
+        android:pathData="M170 375 C160 365 170 355 180 360 C195 365 190 385 175 390 C155 395 145 375 160 355"
+        android:strokeColor="@color/himawari_icon_ink"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <group
+        android:translateX="340"
+        android:translateY="180"
+        android:rotation="-25">
+        <path
+            android:pathData="M-20.0,-32.0 h40.0 a8.0,8.0 0 0 1 8.0,8.0 v48.0 a8.0,8.0 0 0 1 -8.0,8.0 h-40.0 a8.0,8.0 0 0 1 -8.0,-8.0 v-48.0 a8.0,8.0 0 0 1 8.0,-8.0 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+        <path
+            android:pathData="M-15.0,-24.0 h30.0 a5.0,5.0 0 0 1 5.0,5.0 v38.0 a5.0,5.0 0 0 1 -5.0,5.0 h-30.0 a5.0,5.0 0 0 1 -5.0,-5.0 v-38.0 a5.0,5.0 0 0 1 5.0,-5.0 Z"
+            android:fillColor="@color/himawari_icon_plate" />
+        <path
+            android:pathData="M0.0,2.0 m-15.0,0 a15.0,15.0 0 1 0 30.0,0 a15.0,15.0 0 1 0 -30.0,0 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+        <path
+            android:pathData="M0.0,2.0 m-10.0,0 a10.0,10.0 0 1 0 20.0,0 a10.0,10.0 0 1 0 -20.0,0 Z"
+            android:fillColor="@color/himawari_icon_plate_accent" />
+        <path
+            android:pathData="M0.0,2.0 m-4.0,0 a4.0,4.0 0 1 0 8.0,0 a4.0,4.0 0 1 0 -8.0,0 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+        <path
+            android:pathData="M-14 32 C-14 44 14 44 14 32 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+        <path
+            android:pathData="M0.0,32.0 L0.0,46.0"
+            android:fillColor="@color/himawari_icon_ink"
+            android:strokeColor="@color/himawari_icon_ink"
+            android:strokeWidth="4" />
+        <path
+            android:pathData="M28.0,0.0 L52.0,0.0"
+            android:fillColor="@color/himawari_icon_ink"
+            android:strokeColor="@color/himawari_icon_ink"
+            android:strokeWidth="7" />
+        <path
+            android:pathData="M58.0,-36.0 h78.0 a6.0,6.0 0 0 1 6.0,6.0 v60.0 a6.0,6.0 0 0 1 -6.0,6.0 h-78.0 a6.0,6.0 0 0 1 -6.0,-6.0 v-60.0 a6.0,6.0 0 0 1 6.0,-6.0 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+        <path
+            android:pathData="M58.0,-30.0 h38.0 v28.0 h-38.0 Z"
+            android:fillColor="@color/himawari_icon_plate" />
+        <path
+            android:pathData="M100.0,-30.0 h36.0 v28.0 h-36.0 Z"
+            android:fillColor="@color/himawari_icon_plate" />
+        <path
+            android:pathData="M58.0,2.0 h38.0 v28.0 h-38.0 Z"
+            android:fillColor="@color/himawari_icon_plate" />
+        <path
+            android:pathData="M100.0,2.0 h36.0 v28.0 h-36.0 Z"
+            android:fillColor="@color/himawari_icon_plate" />
+        <path
+            android:pathData="M-28.0,0.0 L-62.0,0.0"
+            android:fillColor="@color/himawari_icon_ink"
+            android:strokeColor="@color/himawari_icon_ink"
+            android:strokeWidth="5" />
+        <path
+            android:pathData="M-62,-14 L-78,0 L-62,14 Z"
+            android:fillColor="@color/himawari_icon_ink" />
+    </group>
 </vector>

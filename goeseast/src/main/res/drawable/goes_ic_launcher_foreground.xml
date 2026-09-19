@@ -1,24 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- GOES East: the disc of the Earth with a storm swirl over it. -->
+<!-- goes: the artwork of the icon. The plate is the background layer, and the adaptive mask rounds it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#0D47A1"
-        android:pathData="M54,54 m-32,0 a32,32 0 1,0 64,0 a32,32 0 1,0 -64,0" />
+        android:pathData="M420 290 C340 286 270 340 250 420 L420 420 Z"
+        android:fillColor="@color/goes_icon_ink" />
     <path
-        android:fillColor="#43A047"
-        android:pathData="M38,34 a14,10 0 0,1 16,6 a12,9 0 0,1 -4,12 a16,12 0 0,1 -18,-8 Z" />
+        android:pathData="M370 300 C345 320 310 330 300 365 C295 385 270 410 260 420 L420 420 L420 300 Z"
+        android:fillColor="@color/goes_icon_plate" />
     <path
-        android:fillColor="#43A047"
-        android:pathData="M60,62 a16,11 0 0,1 18,-4 a13,10 0 0,1 -6,14 a15,11 0 0,1 -14,-6 Z" />
+        android:pathData="M365 335 C380 345 390 380 400 400"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="12"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#E3F2FD"
-        android:fillAlpha="0.9"
-        android:pathData="M54,54 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0" />
+        android:pathData="M230 290 C250 310 270 330 285 360"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#90A4AE"
-        android:pathData="M54,54 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+        android:pathData="M210 270 C240 300 265 330 285 380"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M190 250 C230 290 265 340 285 400"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M130 400 L130 355 M130 355 L118 368 M130 355 L142 368"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M370 120 L415 120 M415 120 L402 108 M415 120 L402 132"
+        android:strokeColor="@color/goes_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <group
+        android:translateX="195"
+        android:translateY="195"
+        android:rotation="-45">
+        <path
+            android:pathData="M-16.0,-30.0 h32.0 a8.0,8.0 0 0 1 8.0,8.0 v44.0 a8.0,8.0 0 0 1 -8.0,8.0 h-32.0 a8.0,8.0 0 0 1 -8.0,-8.0 v-44.0 a8.0,8.0 0 0 1 8.0,-8.0 Z"
+            android:fillColor="@color/goes_icon_ink" />
+        <path
+            android:pathData="M-14.0,-22.0 h28.0 a4.0,4.0 0 0 1 4.0,4.0 v36.0 a4.0,4.0 0 0 1 -4.0,4.0 h-28.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-36.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M-12 30 L12 30 L18 46 L-18 46 Z"
+            android:fillColor="@color/goes_icon_ink" />
+        <path
+            android:pathData="M0.0,-38.0 m-7.0,0 a7.0,7.0 0 1 0 14.0,0 a7.0,7.0 0 1 0 -14.0,0 Z"
+            android:fillColor="@color/goes_icon_ink" />
+        <path
+            android:pathData="M0.0,-30.0 L0.0,-38.0"
+            android:fillColor="@color/goes_icon_ink"
+            android:strokeColor="@color/goes_icon_ink"
+            android:strokeWidth="5" />
+        <path
+            android:pathData="M-24.0,0.0 L-45.0,0.0"
+            android:fillColor="@color/goes_icon_ink"
+            android:strokeColor="@color/goes_icon_ink"
+            android:strokeWidth="6" />
+        <path
+            android:pathData="M-116.0,-28.0 h67.0 a4.0,4.0 0 0 1 4.0,4.0 v48.0 a4.0,4.0 0 0 1 -4.0,4.0 h-67.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-48.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+            android:fillColor="@color/goes_icon_ink" />
+        <path
+            android:pathData="M-116.0,-24.0 h32.0 v22.0 h-32.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M-78.0,-24.0 h30.0 v22.0 h-30.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M-116.0,2.0 h32.0 v22.0 h-32.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M-78.0,2.0 h30.0 v22.0 h-30.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M24.0,0.0 L45.0,0.0"
+            android:fillColor="@color/goes_icon_ink"
+            android:strokeColor="@color/goes_icon_ink"
+            android:strokeWidth="6" />
+        <path
+            android:pathData="M49.0,-28.0 h67.0 a4.0,4.0 0 0 1 4.0,4.0 v48.0 a4.0,4.0 0 0 1 -4.0,4.0 h-67.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-48.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+            android:fillColor="@color/goes_icon_ink" />
+        <path
+            android:pathData="M49.0,-24.0 h30.0 v22.0 h-30.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M85.0,-24.0 h31.0 v22.0 h-31.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M49.0,2.0 h30.0 v22.0 h-30.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+        <path
+            android:pathData="M85.0,2.0 h31.0 v22.0 h-31.0 Z"
+            android:fillColor="@color/goes_icon_plate" />
+    </group>
 </vector>

@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Remote: a handset with a power key and a d-pad, which is what the widget is. -->
+<!-- remote: the artwork of the icon. The plate is the background layer, and the adaptive mask rounds it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#263238"
-        android:pathData="M38,16 h32 a12,12 0 0,1 12,12 v52 a12,12 0 0,1 -12,12 h-32 a12,12 0 0,1 -12,-12 v-52 a12,12 0 0,1 12,-12 Z" />
+        android:pathData="M256.0,96.0 h0.0 a62.0,62.0 0 0 1 62.0,62.0 v196.0 a62.0,62.0 0 0 1 -62.0,62.0 h-0.0 a62.0,62.0 0 0 1 -62.0,-62.0 v-196.0 a62.0,62.0 0 0 1 62.0,-62.0 Z"
+        android:fillColor="@color/remote_icon_ink" />
     <path
-        android:fillColor="#FF5252"
-        android:pathData="M54,30 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
+        android:pathData="M240.6 140.2 A22 22 0 1 0 271.4 140.2"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#37474F"
-        android:pathData="M54,62 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0" />
+        android:pathData="M256.0,132.0 L256.0,154.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,47 l5,7 h-10 Z M54,77 l-5,-7 h10 Z M39,62 l7,-5 v10 Z M69,62 l-7,5 v-10 Z" />
+        android:pathData="M236.0,206.0 h40.0 a16.0,16.0 0 0 1 16.0,16.0 v0.0 a16.0,16.0 0 0 1 -16.0,16.0 h-40.0 a16.0,16.0 0 0 1 -16.0,-16.0 v-0.0 a16.0,16.0 0 0 1 16.0,-16.0 Z"
+        android:fillColor="@color/remote_icon_ink_soft" />
     <path
-        android:fillColor="#4FC3F7"
-        android:pathData="M54,62 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+        android:pathData="M228.0,222.0 L242.0,222.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M268.0,222.0 L282.0,222.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M275.0,215.0 L275.0,229.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M256.0,330.0 m-44.0,0 a44.0,44.0 0 1 0 88.0,0 a44.0,44.0 0 1 0 -88.0,0 Z"
+        android:fillColor="@color/remote_icon_plate" />
+    <path
+        android:pathData="M256,298 L264,310 L248,310 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M256,362 L264,350 L248,350 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M224,330 L236,322 L236,338 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M288,330 L276,322 L276,338 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M256.0,330.0 m-7.0,0 a7.0,7.0 0 1 0 14.0,0 a7.0,7.0 0 1 0 -14.0,0 Z"
+        android:fillColor="@color/remote_icon_ink" />
 </vector>

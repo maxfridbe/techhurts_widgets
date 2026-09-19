@@ -1,29 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Timer: a stopwatch with an amber wedge for the time still to run. -->
+<!-- timer: the artwork of the icon. The plate is the background layer, and the adaptive mask rounds it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M44,16 h20 a4,4 0 0,1 0,8 h-20 a4,4 0 0,1 0,-8 Z" />
+        android:pathData="M244.0,90.0 h24.0 a6.0,6.0 0 0 1 6.0,6.0 v12.0 a6.0,6.0 0 0 1 -6.0,6.0 h-24.0 a6.0,6.0 0 0 1 -6.0,-6.0 v-12.0 a6.0,6.0 0 0 1 6.0,-6.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M50,24 h8 v8 h-8 Z" />
+        android:pathData="M229.0,112.0 h54.0 a5.0,5.0 0 0 1 5.0,5.0 v8.0 a5.0,5.0 0 0 1 -5.0,5.0 h-54.0 a5.0,5.0 0 0 1 -5.0,-5.0 v-8.0 a5.0,5.0 0 0 1 5.0,-5.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <group
+        android:rotation="45"
+        android:pivotX="360"
+        android:pivotY="146">
+        <path
+            android:pathData="M357.0,132.0 h6.0 a5.0,5.0 0 0 1 5.0,5.0 v18.0 a5.0,5.0 0 0 1 -5.0,5.0 h-6.0 a5.0,5.0 0 0 1 -5.0,-5.0 v-18.0 a5.0,5.0 0 0 1 5.0,-5.0 Z"
+            android:fillColor="@color/timer_icon_ink" />
+    </group>
+    <group
+        android:rotation="-45"
+        android:pivotX="152"
+        android:pivotY="146">
+        <path
+            android:pathData="M149.0,132.0 h6.0 a5.0,5.0 0 0 1 5.0,5.0 v18.0 a5.0,5.0 0 0 1 -5.0,5.0 h-6.0 a5.0,5.0 0 0 1 -5.0,-5.0 v-18.0 a5.0,5.0 0 0 1 5.0,-5.0 Z"
+            android:fillColor="@color/timer_icon_ink" />
+    </group>
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,60 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
+        android:pathData="M256 128 C166 128 92 202 92 292 C92 382 166 456 256 456 C346 456 420 382 420 292 C420 202 346 128 256 128 Z M256 158 C330 158 390 218 390 292 C390 366 330 426 256 426 C182 426 122 366 122 292 C122 218 182 158 256 158 Z"
+        android:fillColor="@color/timer_icon_ink"
+        android:fillType="evenOdd" />
     <path
-        android:fillColor="#1A237E"
-        android:pathData="M54,60 m-24,0 a24,24 0 1,0 48,0 a24,24 0 1,0 -48,0" />
+        android:pathData="M256.0,170.0 h0.0 a4.0,4.0 0 0 1 4.0,4.0 v10.0 a4.0,4.0 0 0 1 -4.0,4.0 h-0.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-10.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
     <path
-        android:fillColor="#FFB300"
-        android:pathData="M54,60 L54,36 A24,24 0 0,1 74.8,72 Z" />
+        android:pathData="M256.0,396.0 h0.0 a4.0,4.0 0 0 1 4.0,4.0 v10.0 a4.0,4.0 0 0 1 -4.0,4.0 h-0.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-10.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M52,40 h4 v22 h-4 Z" />
+        android:pathData="M138.0,288.0 h10.0 a4.0,4.0 0 0 1 4.0,4.0 v0.0 a4.0,4.0 0 0 1 -4.0,4.0 h-10.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-0.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,60 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+        android:pathData="M364.0,288.0 h10.0 a4.0,4.0 0 0 1 4.0,4.0 v0.0 a4.0,4.0 0 0 1 -4.0,4.0 h-10.0 a4.0,4.0 0 0 1 -4.0,-4.0 v-0.0 a4.0,4.0 0 0 1 4.0,-4.0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <path
+        android:pathData="M335.0,213.0 m-5.0,0 a5.0,5.0 0 1 0 10.0,0 a5.0,5.0 0 1 0 -10.0,0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <path
+        android:pathData="M365.0,345.0 m-5.0,0 a5.0,5.0 0 1 0 10.0,0 a5.0,5.0 0 1 0 -10.0,0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <path
+        android:pathData="M177.0,371.0 m-5.0,0 a5.0,5.0 0 1 0 10.0,0 a5.0,5.0 0 1 0 -10.0,0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <path
+        android:pathData="M177.0,213.0 m-5.0,0 a5.0,5.0 0 1 0 10.0,0 a5.0,5.0 0 1 0 -10.0,0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <path
+        android:pathData="M256.0,292.0 m-16.0,0 a16.0,16.0 0 1 0 32.0,0 a16.0,16.0 0 1 0 -32.0,0 Z"
+        android:fillColor="@color/timer_icon_ink" />
+    <group
+        android:rotation="48"
+        android:pivotX="256"
+        android:pivotY="292">
+        <path
+            android:pathData="M253,292 L259,292 L257,210 L255,210 Z"
+            android:fillColor="@color/timer_icon_ink" />
+    </group>
+    <path
+        android:pathData="M256.0,292.0 m-7.0,0 a7.0,7.0 0 1 0 14.0,0 a7.0,7.0 0 1 0 -14.0,0 Z"
+        android:fillColor="@color/timer_icon_plate" />
 </vector>

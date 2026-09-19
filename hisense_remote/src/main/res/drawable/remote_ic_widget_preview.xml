@@ -1,34 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- remote: widget picker preview. Gradients are flattened to one colour because a VectorDrawable gradient needs API 24 and these modules go back to 21. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="80dp"
-    android:height="100dp"
-    android:viewportWidth="80"
-    android:viewportHeight="100">
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#CC1C1C1E"
-        android:pathData="M8,0 H72 A8,8,0,0,1,80,8 V92 A8,8,0,0,1,72,100 H8 A8,8,0,0,1,0,92 V8 A8,8,0,0,1,8,0 Z" />
+        android:pathData="M148.0,24.0 h216.0 a124.0,124.0 0 0 1 124.0,124.0 v216.0 a124.0,124.0 0 0 1 -124.0,124.0 h-216.0 a124.0,124.0 0 0 1 -124.0,-124.0 v-216.0 a124.0,124.0 0 0 1 124.0,-124.0 Z"
+        android:fillColor="@color/remote_icon_plate_flat" />
     <path
-        android:fillColor="#55FFFFFF"
-        android:pathData="M20,12 H60 V16 H20 Z" />
+        android:pathData="M256.0,96.0 h0.0 a62.0,62.0 0 0 1 62.0,62.0 v196.0 a62.0,62.0 0 0 1 -62.0,62.0 h-0.0 a62.0,62.0 0 0 1 -62.0,-62.0 v-196.0 a62.0,62.0 0 0 1 62.0,-62.0 Z"
+        android:fillColor="@color/remote_icon_ink" />
     <path
-        android:fillColor="#88FF3B30"
-        android:pathData="M14,24 H34 V32 H14 Z" />
+        android:pathData="M240.6 140.2 A22 22 0 1 0 271.4 140.2"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#88007AFF"
-        android:pathData="M46,24 H66 V32 H46 Z" />
+        android:pathData="M256.0,132.0 L256.0,154.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#88FFFFFF"
-        android:pathData="M35,38 H45 V48 H35 Z" />
+        android:pathData="M236.0,206.0 h40.0 a16.0,16.0 0 0 1 16.0,16.0 v0.0 a16.0,16.0 0 0 1 -16.0,16.0 h-40.0 a16.0,16.0 0 0 1 -16.0,-16.0 v-0.0 a16.0,16.0 0 0 1 16.0,-16.0 Z"
+        android:fillColor="@color/remote_icon_ink_soft" />
     <path
-        android:fillColor="#88FFFFFF"
-        android:pathData="M24,50 H34 V60 H24 Z" />
+        android:pathData="M228.0,222.0 L242.0,222.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#8800AAFF"
-        android:pathData="M35,50 H45 V60 H35 Z" />
+        android:pathData="M268.0,222.0 L282.0,222.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#88FFFFFF"
-        android:pathData="M46,50 H56 V60 H46 Z" />
+        android:pathData="M275.0,215.0 L275.0,229.0"
+        android:fillColor="@color/remote_icon_ink"
+        android:strokeColor="@color/remote_icon_plate"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
     <path
-        android:fillColor="#88FFFFFF"
-        android:pathData="M35,62 H45 V72 H35 Z" />
+        android:pathData="M256.0,330.0 m-44.0,0 a44.0,44.0 0 1 0 88.0,0 a44.0,44.0 0 1 0 -88.0,0 Z"
+        android:fillColor="@color/remote_icon_plate" />
+    <path
+        android:pathData="M256,298 L264,310 L248,310 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M256,362 L264,350 L248,350 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M224,330 L236,322 L236,338 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M288,330 L276,322 L276,338 Z"
+        android:fillColor="@color/remote_icon_ink" />
+    <path
+        android:pathData="M256.0,330.0 m-7.0,0 a7.0,7.0 0 1 0 14.0,0 a7.0,7.0 0 1 0 -14.0,0 Z"
+        android:fillColor="@color/remote_icon_ink" />
 </vector>

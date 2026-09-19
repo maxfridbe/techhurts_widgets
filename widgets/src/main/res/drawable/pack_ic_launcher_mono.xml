@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Themed-icon layer: Android recolours this with the system accent, so it is one flat silhouette with no detail to lose. -->
+<!-- Themed-icon layer: Android recolours this with the system accent,
+     so it is one flat silhouette with no interior detail to lose. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M24,24 h28 a5,5 0 0,1 5,5 v18 a5,5 0 0,1 -5,5 h-28 a5,5 0 0,1 -5,-5 v-18 a5,5 0 0,1 5,-5 Z" />
+        android:fillColor="@color/pack_icon_ink_upper"
+        android:pathData="M94,94 h154 v154 h-154 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M61,24 h23 a5,5 0 0,1 5,5 v18 a5,5 0 0,1 -5,5 h-23 a5,5 0 0,1 -5,-5 v-18 a5,5 0 0,1 5,-5 Z" />
+        android:fillColor="@color/pack_icon_ink_upper"
+        android:pathData="M264,94 h154 v154 h-154 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M24,57 h23 a5,5 0 0,1 5,5 v18 a5,5 0 0,1 -5,5 h-23 a5,5 0 0,1 -5,-5 v-18 a5,5 0 0,1 5,-5 Z" />
+        android:fillColor="@color/pack_icon_ink_upper"
+        android:pathData="M94,264 h154 v154 h-154 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M56,57 h28 a5,5 0 0,1 5,5 v18 a5,5 0 0,1 -5,5 h-28 a5,5 0 0,1 -5,-5 v-18 a5,5 0 0,1 5,-5 Z" />
+        android:fillColor="@color/pack_icon_ink_upper"
+        android:pathData="M264,264 h154 v154 h-154 Z" />
 </vector>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="pack_icon_plate">#0f172a</color>
+    <color name="pack_icon_plate_mid">#1e1b4b</color>
+    <color name="pack_icon_tray">#1e293b</color>
+    <color name="pack_icon_tile_calc_light">#06b6d4</color>
+    <color name="pack_icon_tile_calc">#0284c7</color>
+    <color name="pack_icon_ink">#ffffff</color>
+    <color name="pack_icon_ink_upper">#FFFFFF</color>
+    <color name="pack_icon_tile_timer_light">#f97316</color>
+    <color name="pack_icon_tile_timer">#ef4444</color>
+    <color name="pack_icon_tile_sat_light">#0d9488</color>
+    <color name="pack_icon_tile_sat">#0369a1</color>
+    <color name="pack_icon_tile_remote_light">#a855f7</color>
+    <color name="pack_icon_tile_remote">#7c3aed</color>
+    <color name="pack_icon_ink_soft">#ebd4fc</color>
+    <color name="pack_icon_plate_flat">#141835</color>
+    <color name="pack_icon_tile_calc_flat">#049DCD</color>
+    <color name="pack_icon_tile_timer_flat">#F45B2D</color>
+    <color name="pack_icon_tile_sat_flat">#087E94</color>
+    <color name="pack_icon_tile_remote_flat">#9247F2</color>
+</resources>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Flat plate for API 21-23, where a VectorDrawable has no gradients.
+    drawable-anydpi-v24 has the graded one; adaptive icons are v26, so
+    in practice the graded plate is the one that shows.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
-    android:viewportWidth="108" android:viewportHeight="108">
-    <!-- Deep indigo — distinct from GOES East navy and Calculator teal -->
-    <path android:fillColor="#1A0066" android:pathData="M0,0 H108 V108 H0 Z"/>
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.7"
-        android:pathData="M18,15 A2,2,0,1,0,22,15 A2,2,0,1,0,18,15 Z
-                          M88,25 A1.5,1.5,0,1,0,91,25 A1.5,1.5,0,1,0,88,25 Z
-                          M75,12 A1,1,0,1,0,77,12 A1,1,0,1,0,75,12 Z
-                          M92,85 A2,2,0,1,0,96,85 A2,2,0,1,0,92,85 Z
-                          M20,78 A1,1,0,1,0,22,78 A1,1,0,1,0,20,78 Z
-                          M80,92 A1.5,1.5,0,1,0,83,92 A1.5,1.5,0,1,0,80,92 Z"/>
+    android:viewportWidth="512" android:viewportHeight="512">
+    <path
+        android:fillColor="@color/himawari_icon_plate"
+        android:pathData="M0,0 h512 v512 h-512 Z" />
 </vector>

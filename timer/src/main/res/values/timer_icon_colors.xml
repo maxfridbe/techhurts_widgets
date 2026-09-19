@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="timer_icon_plate_light">#ff5e36</color>
+    <color name="timer_icon_plate">#f03838</color>
+    <color name="timer_icon_plate_dark">#cc1f3b</color>
+    <color name="timer_icon_ink">#FFFFFF</color>
+    <color name="timer_icon_plate_flat">#E93C38</color>
+</resources>

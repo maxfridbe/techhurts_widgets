@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="remote_icon_plate_dark">#3c1d68</color>
+    <color name="remote_icon_plate">#552187</color>
+    <color name="remote_icon_plate_light">#73239a</color>
+    <color name="remote_icon_ink">#FFFFFF</color>
+    <color name="remote_icon_ink_soft">#e9dff7</color>
+    <color name="remote_icon_plate_flat">#562083</color>
+</resources>

@@ -1,23 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- calc: widget picker preview. Gradients are flattened to one colour because a VectorDrawable gradient needs API 24 and these modules go back to 21. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="80dp"
-    android:height="80dp"
-    android:viewportWidth="80"
-    android:viewportHeight="80">
-
-    <!-- Widget background -->
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
     <path
-        android:fillColor="#CC000000"
-        android:pathData="M8,0 H72 A8,8,0,0,1,80,8 V72 A8,8,0,0,1,72,80 H8 A8,8,0,0,1,0,72 V8 A8,8,0,0,1,8,0 Z" />
-
-    <!-- Line 1: expression placeholder -->
+        android:pathData="M148.0,24.0 h216.0 a124.0,124.0 0 0 1 124.0,124.0 v216.0 a124.0,124.0 0 0 1 -124.0,124.0 h-216.0 a124.0,124.0 0 0 1 -124.0,-124.0 v-216.0 a124.0,124.0 0 0 1 124.0,-124.0 Z"
+        android:fillColor="@color/calc_icon_plate_flat" />
     <path
-        android:fillColor="#CCFFFFFF"
-        android:pathData="M14,24 H50 A3,3,0,0,1,50,32 H14 A3,3,0,0,1,14,24 Z" />
-
-    <!-- Line 2: result placeholder (green tint) -->
+        android:pathData="M146.0,100.0 h220.0 a36.0,36.0 0 0 1 36.0,36.0 v240.0 a36.0,36.0 0 0 1 -36.0,36.0 h-220.0 a36.0,36.0 0 0 1 -36.0,-36.0 v-240.0 a36.0,36.0 0 0 1 36.0,-36.0 Z"
+        android:fillColor="@color/calc_icon_ink" />
     <path
-        android:fillColor="#9090EE90"
-        android:pathData="M14,46 H44 A3,3,0,0,1,44,54 H14 A3,3,0,0,1,14,46 Z" />
-
+        android:pathData="M154.0,128.0 h204.0 a18.0,18.0 0 0 1 18.0,18.0 v38.0 a18.0,18.0 0 0 1 -18.0,18.0 h-204.0 a18.0,18.0 0 0 1 -18.0,-18.0 v-38.0 a18.0,18.0 0 0 1 18.0,-18.0 Z"
+        android:fillColor="@color/calc_icon_plate" />
+    <path
+        android:pathData="M150.0,226.0 h84.0 a14.0,14.0 0 0 1 14.0,14.0 v54.0 a14.0,14.0 0 0 1 -14.0,14.0 h-84.0 a14.0,14.0 0 0 1 -14.0,-14.0 v-54.0 a14.0,14.0 0 0 1 14.0,-14.0 Z"
+        android:fillColor="@color/calc_icon_plate" />
+    <path
+        android:pathData="M192.0,247.0 L192.0,287.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M172.0,267.0 L212.0,267.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M278.0,226.0 h84.0 a14.0,14.0 0 0 1 14.0,14.0 v54.0 a14.0,14.0 0 0 1 -14.0,14.0 h-84.0 a14.0,14.0 0 0 1 -14.0,-14.0 v-54.0 a14.0,14.0 0 0 1 14.0,-14.0 Z"
+        android:fillColor="@color/calc_icon_plate" />
+    <path
+        android:pathData="M300.0,267.0 L340.0,267.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M150.0,324.0 h84.0 a14.0,14.0 0 0 1 14.0,14.0 v54.0 a14.0,14.0 0 0 1 -14.0,14.0 h-84.0 a14.0,14.0 0 0 1 -14.0,-14.0 v-54.0 a14.0,14.0 0 0 1 14.0,-14.0 Z"
+        android:fillColor="@color/calc_icon_plate" />
+    <path
+        android:pathData="M177.0,350.0 L207.0,380.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M207.0,350.0 L177.0,380.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M278.0,324.0 h84.0 a14.0,14.0 0 0 1 14.0,14.0 v54.0 a14.0,14.0 0 0 1 -14.0,14.0 h-84.0 a14.0,14.0 0 0 1 -14.0,-14.0 v-54.0 a14.0,14.0 0 0 1 14.0,-14.0 Z"
+        android:fillColor="@color/calc_icon_plate" />
+    <path
+        android:pathData="M298.0,357.0 L342.0,357.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M298.0,373.0 L342.0,373.0"
+        android:fillColor="@color/calc_icon_ink"
+        android:strokeColor="@color/calc_icon_ink"
+        android:strokeWidth="9"
+        android:strokeLineCap="round" />
 </vector>

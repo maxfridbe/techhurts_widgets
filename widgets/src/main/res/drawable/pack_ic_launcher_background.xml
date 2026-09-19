@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Flat plate for API 21-23, where a VectorDrawable has no gradients.
+    drawable-anydpi-v24 has the graded one; adaptive icons are v26, so
+    in practice the graded plate is the one that shows.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
-    android:viewportWidth="108" android:viewportHeight="108">
-    <path android:fillColor="#263238" android:pathData="M0,0 H108 V108 H0 Z" />
+    android:viewportWidth="512" android:viewportHeight="512">
+    <path
+        android:fillColor="@color/pack_icon_plate_mid"
+        android:pathData="M0,0 h512 v512 h-512 Z" />
 </vector>

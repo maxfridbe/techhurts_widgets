@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon plate. Full-bleed: the adaptive icon mask decides the shape. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+    <path
+        android:pathData="M0,0 h512 v512 h-512 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="0.0"
+                android:startY="0.0"
+                android:endX="512.0"
+                android:endY="512.0">
+                <item android:offset="0.0" android:color="@color/himawari_icon_plate_dark" />
+                <item android:offset="0.5" android:color="@color/himawari_icon_plate" />
+                <item android:offset="1.0" android:color="@color/himawari_icon_plate_accent" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

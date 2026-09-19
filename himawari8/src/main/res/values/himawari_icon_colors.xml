@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Every colour the icon is drawn with, so it can be restyled without
+    touching path data: override any of these in an overlay or a
+    qualified values/ folder and the icon follows.
+-->
+<resources>
+    <color name="himawari_icon_plate_dark">#1e1b4b</color>
+    <color name="himawari_icon_plate">#312e81</color>
+    <color name="himawari_icon_plate_accent">#be185d</color>
+    <color name="himawari_icon_ink">#FFFFFF</color>
+    <color name="himawari_icon_plate_flat">#592063</color>
+</resources>

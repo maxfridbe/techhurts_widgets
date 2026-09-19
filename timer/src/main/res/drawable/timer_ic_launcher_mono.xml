@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Themed-icon layer: Android recolours this with the system accent, so it is one flat silhouette with no detail to lose. -->
+<!-- Themed-icon layer: Android recolours this with the system accent,
+     so it is one flat silhouette with no interior detail to lose. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M44,16 h20 a4,4 0 0,1 0,8 h-20 a4,4 0 0,1 0,-8 Z" />
+        android:fillColor="@color/timer_icon_ink"
+        android:pathData="M256,128 m-164,164 a164,164 0 1 0 328,0 a164,164 0 1 0 -328,0 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,60 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
+        android:fillColor="@color/timer_icon_ink"
+        android:pathData="M224,90 h64 a10,10 0 0 1 0,40 h-64 a10,10 0 0 1 0,-40 Z" />
 </vector>
