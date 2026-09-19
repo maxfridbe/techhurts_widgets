@@ -38,24 +38,24 @@
 
             <ImageView
                 android:id="@+id/cell_0_0"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="3dp"
                 android:background="@drawable/remote_button_bg"
                 android:padding="4dp"
                 android:scaleType="fitCenter" />
             <ImageView
                 android:id="@+id/cell_0_1"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="3dp"
                 android:background="@drawable/remote_button_bg"
                 android:padding="4dp"
                 android:scaleType="fitCenter" />
             <ImageView
                 android:id="@+id/cell_0_2"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="3dp"
                 android:background="@drawable/remote_button_bg"
                 android:padding="4dp"

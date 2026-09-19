@@ -37,6 +37,22 @@
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.NoDisplay" />
 
+        <!--
+            The way back into a remote already on the home screen: a widget's
+            configure activity runs once, at placement, and most launchers give
+            no way back to it. This is a normal app entry that lists them.
+        -->
+        <activity
+            android:name=".RemoteSettingsActivity"
+            android:exported="true"
+            android:label="TV Remote"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <!-- Drag-and-drop editor for the widget's button grid. -->
         <activity
             android:name=".RemoteLayoutActivity"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="180dp"
-    android:minHeight="180dp"
+    android:minWidth="170dp"
+    android:minHeight="170dp"
     android:targetCellWidth="3"
     android:targetCellHeight="3"
     android:updatePeriodMillis="0"
@@ -10,5 +10,6 @@
     android:configure="com.techhurts.hisense_remote.WidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable"
     android:label="TV Remote 3×3">
 </appwidget-provider>

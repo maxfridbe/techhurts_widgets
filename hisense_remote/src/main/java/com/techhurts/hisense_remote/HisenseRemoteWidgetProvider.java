@@ -49,13 +49,20 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
             if (size == RemoteSize.FLEX) {
                 views.setTextViewText(R.id.txt_status, ip + " (" + getProtocolLabel(protocol) + ")");
                 views.setOnClickPendingIntent(R.id.txt_title, configPendingIntent);
+            } else {
+                // Hidden explicitly, not left to the layout's default: the host
+                // keeps showing the last thing it was told, so a widget that was
+                // "Tap to Configure" before it had a TV said so for ever after.
+                views.setViewVisibility(R.id.txt_status, android.view.View.GONE);
             }
 
             // The grid is whatever RemoteLayoutActivity saved. A widget can't use
             // a custom typeface, so each Nerd Font glyph is drawn into a bitmap.
             java.util.List<RemoteLayout.Cell> cells = RemoteLayout.load(context, appWidgetId);
             int globalColor = RemoteLayout.globalColor(context, appWidgetId);
-            int iconPx = Math.round(context.getResources().getDisplayMetrics().density * 24);
+            // Matches the 48dp cells in remote_grid_*.xml; a smaller bitmap would
+            // just be upscaled and come out soft.
+            int iconPx = Math.round(context.getResources().getDisplayMetrics().density * 48);
 
             for (int index = 0; index < size.cells(); index++) {
                 int cellId = cellId(context, index, size);
