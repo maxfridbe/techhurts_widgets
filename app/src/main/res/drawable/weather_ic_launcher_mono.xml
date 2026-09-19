@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Weather: a sun behind a cloud. Rays are wedges so they stay crisp when scaled. -->
+<!-- Themed-icon layer: Android recolours this with the system accent, so it is one flat silhouette with no detail to lose. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="#FFD600"
+        android:fillColor="#FFFFFF"
         android:pathData="M79.0,57.0 L87.0,57.0 L87.0,51.0 L79.0,51.0 Z M69.6,73.8 L75.2,79.5 L79.5,75.2 L73.8,69.6 Z M51.0,79.0 L51.0,87.0 L57.0,87.0 L57.0,79.0 Z M34.2,69.6 L28.5,75.2 L32.8,79.5 L38.4,73.8 Z M29.0,51.0 L21.0,51.0 L21.0,57.0 L29.0,57.0 Z M38.4,34.2 L32.8,28.5 L28.5,32.8 L34.2,38.4 Z M57.0,29.0 L57.0,21.0 L51.0,21.0 L51.0,29.0 Z M73.8,38.4 L79.5,32.8 L75.2,28.5 L69.6,34.2 Z" />
     <path
-        android:fillColor="#FFC107"
+        android:fillColor="#FFFFFF"
         android:pathData="M54,54 m-21,0 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0" />
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M40,74 a11,11 0 0,1 2,-21 a15,15 0 0,1 28,-4 a10,10 0 0,1 -2,25 Z" />
-    <path
-        android:fillColor="#E3F2FD"
-        android:pathData="M40,74 h28 a4,4 0 0,1 0,8 h-28 a4,4 0 0,1 0,-8 Z" />
 </vector>

@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
@@ -59,8 +60,11 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
             // The grid is whatever RemoteLayoutActivity saved. A widget can't use
             // a custom typeface, so each Nerd Font glyph is drawn into a bitmap.
             java.util.List<RemoteLayout.Cell> cells = RemoteLayout.load(context, appWidgetId);
-            int globalColor = RemoteLayout.globalColor(context, appWidgetId);
-            int globalButton = RemoteLayout.globalButtonColor(context, appWidgetId);
+            int globalColor = RemoteColors.icon(
+                    context, RemoteLayout.globalColorIndex(context, appWidgetId), Color.WHITE);
+            int globalButton = RemoteColors.button(
+                    context, RemoteLayout.globalButtonColorIndex(context, appWidgetId),
+                    Color.TRANSPARENT);
             // Matches the 48dp cells in remote_grid_*.xml; a smaller bitmap would
             // just be upscaled and come out soft.
             int iconPx = Math.round(context.getResources().getDisplayMetrics().density * 48);
@@ -74,9 +78,8 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
                     views.setViewVisibility(cellId, android.view.View.INVISIBLE);
                     continue;
                 }
-                int color = cell.color > 0 ? RemoteButtons.PALETTE[cell.color] : globalColor;
-                int buttonColor = cell.buttonColor > 0
-                        ? RemoteButtons.buttonColor(cell.buttonColor) : globalButton;
+                int color = RemoteColors.icon(context, cell.color, globalColor);
+                int buttonColor = RemoteColors.button(context, cell.buttonColor, globalButton);
                 views.setViewVisibility(cellId, android.view.View.VISIBLE);
                 views.setImageViewBitmap(cellId,
                         RemoteButtons.renderButton(context, button.glyph, iconPx, color, buttonColor));

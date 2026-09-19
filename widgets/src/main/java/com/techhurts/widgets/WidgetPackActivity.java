@@ -3,6 +3,7 @@ package com.techhurts.widgets;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,6 +84,20 @@ public class WidgetPackActivity extends Activity {
             });
             root.addView(button);
         }
+
+        // The remote is the one widget with more to set up than a pin, and its
+        // own launcher entry is removed in this build, so the way in is here.
+        Button remoteSettings = new Button(this);
+        remoteSettings.setText("TV Remote settings");
+        remoteSettings.setAllCaps(false);
+        LinearLayout.LayoutParams remoteParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        remoteParams.setMargins(0, 24, 0, 16);
+        remoteSettings.setLayoutParams(remoteParams);
+        remoteSettings.setOnClickListener(v -> startActivity(new Intent(
+                this, com.techhurts.hisense_remote.RemoteSettingsActivity.class)));
+        root.addView(remoteSettings);
 
         ScrollView scroller = new ScrollView(this);
         scroller.addView(root);

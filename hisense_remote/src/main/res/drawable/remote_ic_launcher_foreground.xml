@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Remote: a handset with a power key and a d-pad, which is what the widget is. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="#0088CC"
-        android:pathData="M38,20 H70 A12,12,0,0,1,82,32 V88 A12,12,0,0,1,70,100 H38 A12,12,0,0,1,26,88 V32 A12,12,0,0,1,38,20 Z" />
+        android:fillColor="#263238"
+        android:pathData="M38,16 h32 a12,12 0 0,1 12,12 v52 a12,12 0 0,1 -12,12 h-32 a12,12 0 0,1 -12,-12 v-52 a12,12 0 0,1 12,-12 Z" />
     <path
-        android:fillColor="#121212"
-        android:pathData="M32,26 H76 V42 H32 Z" />
+        android:fillColor="#FF5252"
+        android:pathData="M54,30 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
     <path
-        android:fillColor="#FF3B30"
-        android:pathData="M34,48 A4,4 0,1,1 42,48 A4,4 0,1,1 34,48 Z" />
-    <path
-        android:fillColor="#007AFF"
-        android:pathData="M48,56 A6,6 0,1,1 60,56 A6,6 0,1,1 48,56 Z" />
+        android:fillColor="#37474F"
+        android:pathData="M54,62 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0" />
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M36,68 h10 v8 h-10 Z M62,68 h10 v8 h-10 Z" />
+        android:pathData="M54,47 l5,7 h-10 Z M54,77 l-5,-7 h10 Z M39,62 l7,-5 v10 Z M69,62 l-7,5 v-10 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M36,80 h10 v8 h-10 Z M49,80 h10 v8 h-10 Z M62,80 h10 v8 h-10 Z" />
+        android:fillColor="#4FC3F7"
+        android:pathData="M54,62 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
 </vector>

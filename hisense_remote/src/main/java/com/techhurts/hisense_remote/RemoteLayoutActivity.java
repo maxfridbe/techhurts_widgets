@@ -114,19 +114,60 @@ public class RemoteLayoutActivity extends Activity {
         mColorRow.removeAllViews();
         for (int i = 0; i < RemoteButtons.PALETTE.length; i++) {
             final int index = i;
-            TextView swatch = new TextView(this);
-            swatch.setText(index == mGlobalColor ? "●" : "○");
-            swatch.setTextSize(24);
-            swatch.setTextColor(RemoteButtons.PALETTE[index]);
-            swatch.setGravity(Gravity.CENTER);
-            swatch.setPadding(10, 4, 10, 4);
-            swatch.setOnClickListener(v -> {
-                mGlobalColor = index;
-                buildColorRow();
-                buildGrid();
-            });
-            mColorRow.addView(swatch);
+            mColorRow.addView(swatch(
+                    RemoteButtons.PALETTE[index],
+                    mGlobalColor == index,
+                    false,
+                    v -> {
+                        mGlobalColor = index;
+                        buildColorRow();
+                        buildGrid();
+                    }));
         }
+        // Whatever accent Android is themed with, which follows the wallpaper.
+        mColorRow.addView(swatch(
+                RemoteColors.accent(this),
+                mGlobalColor == RemoteColors.ACCENT,
+                false,
+                v -> {
+                    mGlobalColor = RemoteColors.ACCENT;
+                    buildColorRow();
+                    buildGrid();
+                }));
+        mColorRow.addView(pickerSwatch(
+                RemoteColors.isCustom(mGlobalColor) ? mGlobalColor : Color.WHITE,
+                RemoteColors.isCustom(mGlobalColor),
+                "Icon colour",
+                color -> {
+                    mGlobalColor = RemoteColors.toStored(color);
+                    buildColorRow();
+                    buildGrid();
+                }));
+    }
+
+    /** One swatch: a filled ring when chosen, an empty one when not. */
+    private TextView swatch(int color, boolean chosen, boolean filled, View.OnClickListener click) {
+        TextView view = new TextView(this);
+        view.setText(filled ? (chosen ? "■" : "□") : (chosen ? "●" : "○"));
+        view.setTextSize(filled ? 22 : 24);
+        view.setTextColor(color);
+        view.setGravity(Gravity.CENTER);
+        view.setPadding(10, 4, 10, 4);
+        view.setOnClickListener(click);
+        return view;
+    }
+
+    /** The last swatch in a row opens the picker rather than choosing a colour. */
+    private TextView pickerSwatch(int color, boolean chosen, String title,
+                                  ColorPickerDialog.OnPicked onPicked) {
+        TextView view = new TextView(this);
+        view.setText(chosen ? "◉" : "＋");
+        view.setTextSize(chosen ? 24 : 20);
+        view.setTextColor(chosen ? color : Color.parseColor("#AAFFFFFF"));
+        view.setGravity(Gravity.CENTER);
+        view.setPadding(10, 4, 10, 4);
+        view.setOnClickListener(v -> ColorPickerDialog.show(this, title, color, onPicked));
+        return view;
     }
 
     /**
@@ -138,21 +179,35 @@ public class RemoteLayoutActivity extends Activity {
         mButtonColorRow.removeAllViews();
         for (int i = 0; i < RemoteButtons.BUTTON_PALETTE.length; i++) {
             final int index = i;
-            TextView swatch = new TextView(this);
-            swatch.setText(index == mGlobalButtonColor ? "■" : "□");
-            swatch.setTextSize(22);
-            swatch.setTextColor(index == 0
-                    ? Color.parseColor("#88FFFFFF")
-                    : swatchColor(RemoteButtons.BUTTON_PALETTE[index]));
-            swatch.setGravity(Gravity.CENTER);
-            swatch.setPadding(10, 4, 10, 4);
-            swatch.setOnClickListener(v -> {
-                mGlobalButtonColor = index;
-                buildButtonColorRow();
-                buildGrid();
-            });
-            mButtonColorRow.addView(swatch);
+            mButtonColorRow.addView(swatch(
+                    index == 0 ? Color.parseColor("#88FFFFFF")
+                               : swatchColor(RemoteButtons.BUTTON_PALETTE[index]),
+                    mGlobalButtonColor == index,
+                    true,
+                    v -> {
+                        mGlobalButtonColor = index;
+                        buildButtonColorRow();
+                        buildGrid();
+                    }));
         }
+        mButtonColorRow.addView(swatch(
+                swatchColor(RemoteColors.accent(this)),
+                mGlobalButtonColor == RemoteColors.ACCENT,
+                true,
+                v -> {
+                    mGlobalButtonColor = RemoteColors.ACCENT;
+                    buildButtonColorRow();
+                    buildGrid();
+                }));
+        mButtonColorRow.addView(pickerSwatch(
+                RemoteColors.isCustom(mGlobalButtonColor) ? mGlobalButtonColor : Color.WHITE,
+                RemoteColors.isCustom(mGlobalButtonColor),
+                "Button colour",
+                color -> {
+                    mGlobalButtonColor = RemoteColors.toStored(color);
+                    buildButtonColorRow();
+                    buildGrid();
+                }));
     }
 
     /**
@@ -262,30 +317,55 @@ public class RemoteLayoutActivity extends Activity {
 
     /** Per-button icon colour, or "Use widget colour" for the global one. */
     private void pickIconColor(int index) {
-        String[] names = new String[RemoteButtons.PALETTE_NAMES.length];
-        names[0] = "Use widget colour";
-        System.arraycopy(RemoteButtons.PALETTE_NAMES, 1, names, 1, names.length - 1);
-        new AlertDialog.Builder(this)
-                .setTitle("Icon colour")
-                .setItems(names, (dialog, which) -> {
+        chooseColor("Icon colour", RemoteButtons.PALETTE_NAMES,
+                mCells.get(index).color, chosen -> {
                     RemoteLayout.Cell cell = mCells.get(index);
-                    mCells.set(index, new RemoteLayout.Cell(cell.key, which, cell.buttonColor));
+                    mCells.set(index, new RemoteLayout.Cell(cell.key, chosen, cell.buttonColor));
                     buildGrid();
-                })
-                .show();
+                });
     }
 
     private void pickButtonColor(int index) {
-        String[] names = new String[RemoteButtons.BUTTON_PALETTE_NAMES.length];
-        names[0] = "Use widget colour";
-        System.arraycopy(RemoteButtons.BUTTON_PALETTE_NAMES, 1, names, 1, names.length - 1);
-        new AlertDialog.Builder(this)
-                .setTitle("Button colour")
-                .setItems(names, (dialog, which) -> {
+        chooseColor("Button colour", RemoteButtons.BUTTON_PALETTE_NAMES,
+                mCells.get(index).buttonColor, chosen -> {
                     RemoteLayout.Cell cell = mCells.get(index);
-                    mCells.set(index, new RemoteLayout.Cell(cell.key, cell.color, which));
+                    mCells.set(index, new RemoteLayout.Cell(cell.key, cell.color, chosen));
                     buildGrid();
+                });
+    }
+
+    private interface OnColorChosen {
+        /** The value to store, not the colour itself — see RemoteColors. */
+        void chosen(int stored);
+    }
+
+    /**
+     * The palette, then the system accent, then the picker. The last two are
+     * appended rather than being palette entries because neither is a fixed
+     * colour: the accent follows the wallpaper and the picker is anything.
+     */
+    private void chooseColor(String title, String[] paletteNames, int current,
+                             OnColorChosen onChosen) {
+        String[] names = new String[paletteNames.length + 2];
+        names[0] = "Use widget colour";
+        System.arraycopy(paletteNames, 1, names, 1, paletteNames.length - 1);
+        names[paletteNames.length] = "System accent";
+        names[paletteNames.length + 1] = "Pick a colour…";
+
+        new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                .setTitle(title)
+                .setItems(names, (dialog, which) -> {
+                    if (which == paletteNames.length) {
+                        onChosen.chosen(RemoteColors.ACCENT);
+                    } else if (which == paletteNames.length + 1) {
+                        int start = RemoteColors.isCustom(current) ? current : Color.WHITE;
+                        ColorPickerDialog.show(this, title, start,
+                                color -> onChosen.chosen(RemoteColors.toStored(color)));
+                    } else {
+                        onChosen.chosen(which);
+                    }
                 })
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -304,13 +384,14 @@ public class RemoteLayoutActivity extends Activity {
         holder.setPadding(6, 10, 6, 10);
         holder.setBackgroundResource(R.drawable.remote_button_bg);
 
-        int colorIndex = cellIndex >= 0 && mCells.get(cellIndex).color > 0
-                ? mCells.get(cellIndex).color : mGlobalColor;
+        // Same two colours the widget will draw, so the editor is a preview.
+        int globalIcon = RemoteColors.icon(this, mGlobalColor, Color.WHITE);
+        int iconColor = cellIndex < 0
+                ? globalIcon
+                : RemoteColors.icon(this, mCells.get(cellIndex).color, globalIcon);
         if (cellIndex >= 0) {
-            // Same two colours the widget will draw, so the editor is a preview.
-            int buttonIndex = mCells.get(cellIndex).buttonColor > 0
-                    ? mCells.get(cellIndex).buttonColor : mGlobalButtonColor;
-            int fill = RemoteButtons.buttonColor(buttonIndex);
+            int globalFill = RemoteColors.button(this, mGlobalButtonColor, Color.TRANSPARENT);
+            int fill = RemoteColors.button(this, mCells.get(cellIndex).buttonColor, globalFill);
             if (Color.alpha(fill) != 0) holder.setBackgroundColor(fill);
         }
 
@@ -318,7 +399,7 @@ public class RemoteLayoutActivity extends Activity {
         icon.setText(button.glyph);
         icon.setTypeface(RemoteButtons.typeface(this));
         icon.setTextSize(cellIndex >= 0 ? 22 : 24);
-        icon.setTextColor(RemoteButtons.PALETTE[colorIndex]);
+        icon.setTextColor(iconColor);
         icon.setGravity(Gravity.CENTER);
         holder.addView(icon);
 

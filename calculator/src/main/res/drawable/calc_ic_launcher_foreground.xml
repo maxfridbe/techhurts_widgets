@@ -1,43 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Calculator: a screen over a keypad, with the equals key picked out. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- Calculator body (white rounded frame with transparent screen) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M36,24 H72 A10,10,0,0,1,82,34 V82 A10,10,0,0,1,72,92 H36 A10,10,0,0,1,26,82 V34 A10,10,0,0,1,36,24 Z M36,24 H72 A10,10,0,0,0,82,34 V82 A10,10,0,0,0,72,92 H36 A10,10,0,0,0,26,82 V34 A10,10,0,0,0,36,24 Z" />
-
-    <!-- Calculator body solid fill -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M36,24 H72 A10,10,0,0,1,82,34 V82 A10,10,0,0,1,72,92 H36 A10,10,0,0,1,26,82 V34 A10,10,0,0,1,36,24 Z" />
-
-    <!-- Screen cutout (teal = bg color, creates screen hole) -->
+        android:pathData="M28,18 h52 a8,8 0 0,1 8,8 v56 a8,8 0 0,1 -8,8 h-52 a8,8 0 0,1 -8,-8 v-56 a8,8 0 0,1 8,-8 Z" />
     <path
         android:fillColor="#004D40"
-        android:pathData="M31,30 H77 V52 H31 Z" />
-
-    <!-- Result value in screen (white bar, right-aligned feel) -->
+        android:pathData="M28,26 h52 v16 h-52 Z" />
+    <path
+        android:fillColor="#4DB6AC"
+        android:pathData="M72,29 h5 v10 h-5 Z M64,29 h5 v10 h-5 Z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M32,52 h10 v8 h-10 Z M47,52 h10 v8 h-10 Z M62,52 h10 v8 h-10 Z M32,65 h10 v8 h-10 Z M47,65 h10 v8 h-10 Z M62,65 h10 v8 h-10 Z M32,78 h10 v8 h-10 Z M47,78 h10 v8 h-10 Z M62,78 h10 v8 h-10 Z" />
+    <path
+        android:fillColor="#E65100"
+        android:pathData="M62,65 h14 v21 a4,4 0 0,1 -4,4 h-6 a4,4 0 0,1 -4,-4 Z" />
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M58,38 H74 V44 H58 Z" />
-    <path
-        android:fillColor="#66FFFFFF"
-        android:pathData="M44,46 H74 V50 H44 Z" />
-
-    <!-- Button grid rows 1–2 (white) -->
-    <path android:fillColor="#FFFFFF"
-        android:pathData="M29,56 h11 v8 h-11 Z  M43,56 h11 v8 h-11 Z  M57,56 h11 v8 h-11 Z  M71,56 h8  v8 h-8  Z"/>
-    <path android:fillColor="#FFFFFF"
-        android:pathData="M29,67 h11 v8 h-11 Z  M43,67 h11 v8 h-11 Z  M57,67 h11 v8 h-11 Z  M71,67 h8  v8 h-8  Z"/>
-
-    <!-- Bottom row: 3 white buttons + orange = -->
-    <path android:fillColor="#FFFFFF"
-        android:pathData="M29,78 h11 v8 h-11 Z  M43,78 h11 v8 h-11 Z  M57,78 h11 v8 h-11 Z"/>
-    <path android:fillColor="#E65100"
-        android:pathData="M71,78 h8 v8 h-8 Z"/>
-
+        android:pathData="M66,72 h6 v2 h-6 Z M66,77 h6 v2 h-6 Z" />
 </vector>

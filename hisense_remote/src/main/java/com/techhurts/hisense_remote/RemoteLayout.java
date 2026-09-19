@@ -110,12 +110,6 @@ final class RemoteLayout {
                 .putString(KEY_PREFIX + appWidgetId, out.toString()).apply();
     }
 
-    /** Colour used by every button that has no colour of its own. */
-    static int globalColor(Context context, int appWidgetId) {
-        int index = context.getSharedPreferences(PREFS, 0).getInt("color_" + appWidgetId, 0);
-        return RemoteButtons.PALETTE[Math.max(0, Math.min(index, RemoteButtons.PALETTE.length - 1))];
-    }
-
     static int globalColorIndex(Context context, int appWidgetId) {
         return context.getSharedPreferences(PREFS, 0).getInt("color_" + appWidgetId, 0);
     }
@@ -123,11 +117,6 @@ final class RemoteLayout {
     static void setGlobalColor(Context context, int appWidgetId, int paletteIndex) {
         context.getSharedPreferences(PREFS, 0).edit()
                 .putInt("color_" + appWidgetId, paletteIndex).apply();
-    }
-
-    /** Button colour used by every button that has none of its own. */
-    static int globalButtonColor(Context context, int appWidgetId) {
-        return RemoteButtons.buttonColor(globalButtonColorIndex(context, appWidgetId));
     }
 
     static int globalButtonColorIndex(Context context, int appWidgetId) {

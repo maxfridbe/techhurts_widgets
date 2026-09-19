@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:icon="@mipmap/pack_ic_launcher"
@@ -15,6 +16,19 @@
             android:exported="true"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            The remote library carries its own launcher entry, which is right
+            for the standalone remote app and wrong here: the pack would show
+            two icons, one of them a second "TV Remote". The activity stays —
+            WidgetPackActivity opens it — but it loses its place in the drawer.
+        -->
+        <activity android:name="com.techhurts.hisense_remote.RemoteSettingsActivity">
+            <intent-filter tools:node="remove">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

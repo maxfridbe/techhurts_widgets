@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- GOES East: the disc of the Earth with a storm swirl over it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- Atmosphere glow (outermost, semi-transparent) -->
-    <path android:fillColor="#448EE2" android:fillAlpha="0.25"
-        android:pathData="M54,16 A38,38,0,0,1,54,92 A38,38,0,0,1,54,16 Z"/>
-
-    <!-- Ocean (solid deep blue) -->
-    <path android:fillColor="#1565C0"
-        android:pathData="M54,20 A34,34,0,0,1,54,88 A34,34,0,0,1,54,20 Z"/>
-
-    <!-- Simplified North America (dark green, upper-left quadrant of disk) -->
-    <path android:fillColor="#2E7D32"
-        android:pathData="M40,28 C50,24 66,26 70,35 C74,44 68,58 58,63 C48,68 36,62 30,52 C24,42 30,32 40,28 Z"/>
-
-    <!-- Gulf of Mexico / Caribbean cutout (ocean color) -->
-    <path android:fillColor="#1976D2"
-        android:pathData="M50,54 C56,50 64,52 66,58 C68,64 62,68 56,66 C50,64 44,58 50,54 Z"/>
-
-    <!-- Cloud band (white, semi-transparent swirl) -->
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.35"
-        android:pathData="M26,50 Q54,42 82,50 Q80,56 54,48 Q28,56 26,50 Z"/>
-
-    <!-- Second cloud wisp -->
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.2"
-        android:pathData="M32,38 Q52,33 70,40 Q68,44 52,38 Q34,43 32,38 Z"/>
-
-    <!-- Polar ice cap hint (white arc at north) -->
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.5"
-        android:pathData="M54,20 A34,34,0,0,1,84,42 Q70,26 54,20 Z"/>
-
+    <path
+        android:fillColor="#0D47A1"
+        android:pathData="M54,54 m-32,0 a32,32 0 1,0 64,0 a32,32 0 1,0 -64,0" />
+    <path
+        android:fillColor="#43A047"
+        android:pathData="M38,34 a14,10 0 0,1 16,6 a12,9 0 0,1 -4,12 a16,12 0 0,1 -18,-8 Z" />
+    <path
+        android:fillColor="#43A047"
+        android:pathData="M60,62 a16,11 0 0,1 18,-4 a13,10 0 0,1 -6,14 a15,11 0 0,1 -14,-6 Z" />
+    <path
+        android:fillColor="#E3F2FD"
+        android:fillAlpha="0.9"
+        android:pathData="M54,54 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0" />
+    <path
+        android:fillColor="#90A4AE"
+        android:pathData="M54,54 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
 </vector>
