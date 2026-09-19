@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Each widget's button grid, stored as "key~colour" cells separated by commas.
- * Grid dimensions come from the widget's size variant.
+ * Each widget's button grid, stored as "key~icon~button" cells separated by
+ * commas. Grid dimensions come from the widget's size variant.
  */
 final class RemoteLayout {
 
@@ -21,14 +21,20 @@ final class RemoteLayout {
     private static final String PREFS = "com.techhurts.hisense_remote.prefs";
     private static final String KEY_PREFIX = "layout_";
 
-    /** One grid position: which button, and which palette colour. */
+    /** One grid position: which button, and the two colours it is drawn with. */
     static final class Cell {
         final String key;
-        final int color;   // index into RemoteButtons.PALETTE
+        final int color;         // index into RemoteButtons.PALETTE, the icon
+        final int buttonColor;   // index into RemoteButtons.BUTTON_PALETTE
 
         Cell(String key, int color) {
+            this(key, color, 0);
+        }
+
+        Cell(String key, int color, int buttonColor) {
             this.key = key;
             this.color = color;
+            this.buttonColor = buttonColor;
         }
 
         boolean isEmpty() {
@@ -36,7 +42,7 @@ final class RemoteLayout {
         }
 
         static Cell empty() {
-            return new Cell("", 0);
+            return new Cell("", 0, 0);
         }
     }
 
@@ -49,27 +55,56 @@ final class RemoteLayout {
         }
         List<Cell> parsed = new ArrayList<>();
         for (String part : stored.split(",", -1)) {
-            int split = part.lastIndexOf('~');
-            if (split < 0) {
-                parsed.add(new Cell(part, 0));
-            } else {
-                int color = 0;
-                try {
-                    color = Integer.parseInt(part.substring(split + 1));
-                } catch (NumberFormatException ignored) {
-                    // stored by an older build without colours
-                }
-                parsed.add(new Cell(part.substring(0, split), color));
-            }
+            parsed.add(parseCell(part));
         }
         return pad(parsed, cells);
+    }
+
+    /**
+     * "key", "key~icon" and "key~icon~button" all read back, because a layout
+     * saved by an older build has to keep working. Colours are taken from the
+     * right and only when they are numbers: a key can be a URL, and a URL can
+     * contain a tilde.
+     */
+    private static Cell parseCell(String part) {
+        String key = part;
+        int icon = 0;
+        int button = 0;
+
+        int last = key.lastIndexOf('~');
+        Integer lastValue = last < 0 ? null : toInt(key.substring(last + 1));
+        if (lastValue == null) {
+            return new Cell(key, 0, 0);
+        }
+
+        String head = key.substring(0, last);
+        int previous = head.lastIndexOf('~');
+        Integer previousValue = previous < 0 ? null : toInt(head.substring(previous + 1));
+        if (previousValue == null) {
+            icon = lastValue;              // "key~icon"
+            key = head;
+        } else {
+            icon = previousValue;          // "key~icon~button"
+            button = lastValue;
+            key = head.substring(0, previous);
+        }
+        return new Cell(key, icon, button);
+    }
+
+    private static Integer toInt(String text) {
+        try {
+            return Integer.valueOf(text);
+        } catch (NumberFormatException notANumber) {
+            return null;
+        }
     }
 
     static void save(Context context, int appWidgetId, List<Cell> cells) {
         StringBuilder out = new StringBuilder();
         for (Cell cell : cells) {
             if (out.length() > 0) out.append(',');
-            out.append(cell.key).append('~').append(cell.color);
+            out.append(cell.key).append('~').append(cell.color)
+                    .append('~').append(cell.buttonColor);
         }
         context.getSharedPreferences(PREFS, 0).edit()
                 .putString(KEY_PREFIX + appWidgetId, out.toString()).apply();
@@ -90,10 +125,25 @@ final class RemoteLayout {
                 .putInt("color_" + appWidgetId, paletteIndex).apply();
     }
 
+    /** Button colour used by every button that has none of its own. */
+    static int globalButtonColor(Context context, int appWidgetId) {
+        return RemoteButtons.buttonColor(globalButtonColorIndex(context, appWidgetId));
+    }
+
+    static int globalButtonColorIndex(Context context, int appWidgetId) {
+        return context.getSharedPreferences(PREFS, 0).getInt("button_" + appWidgetId, 0);
+    }
+
+    static void setGlobalButtonColor(Context context, int appWidgetId, int paletteIndex) {
+        context.getSharedPreferences(PREFS, 0).edit()
+                .putInt("button_" + appWidgetId, paletteIndex).apply();
+    }
+
     static void remove(Context context, int appWidgetId) {
         context.getSharedPreferences(PREFS, 0).edit()
                 .remove(KEY_PREFIX + appWidgetId)
                 .remove("color_" + appWidgetId)
+                .remove("button_" + appWidgetId)
                 .apply();
     }
 

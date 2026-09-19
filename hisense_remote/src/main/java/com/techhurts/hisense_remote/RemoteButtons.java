@@ -128,24 +128,39 @@ final class RemoteButtons {
      * deliberately different rather than just slightly off-white.
      */
     static Bitmap render(Context context, String glyph, int sizePx, int color, boolean standOut) {
+        return render(context, glyph, sizePx, color,
+                standOut ? Color.argb(60, Color.red(color), Color.green(color), Color.blue(color))
+                         : Color.TRANSPARENT);
+    }
+
+    /**
+     * The icon colour and the button behind it are set separately, so a red
+     * power key on a dark button is as easy to say as a white key on a red one.
+     * A transparent button colour leaves the layout's own background showing.
+     */
+    static Bitmap renderButton(Context context, String glyph, int sizePx, int iconColor, int buttonColor) {
         Bitmap bmp = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        if (standOut) {
+        if (Color.alpha(buttonColor) != 0) {
             Paint background = new Paint(Paint.ANTI_ALIAS_FLAG);
-            background.setColor(Color.argb(60, Color.red(color), Color.green(color), Color.blue(color)));
+            background.setColor(buttonColor);
             float radius = sizePx * 0.22f;
             canvas.drawRoundRect(new android.graphics.RectF(0, 0, sizePx, sizePx), radius, radius, background);
         }
 
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(typeface(context));
-        paint.setColor(color);
+        paint.setColor(iconColor);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(sizePx * 0.72f);
         Paint.FontMetrics fm = paint.getFontMetrics();
         canvas.drawText(glyph, sizePx / 2f, sizePx / 2f - (fm.ascent + fm.descent) / 2f, paint);
         return bmp;
+    }
+
+    private static Bitmap render(Context context, String glyph, int sizePx, int color, int buttonColor) {
+        return renderButton(context, glyph, sizePx, color, buttonColor);
     }
 
     static Bitmap render(Context context, String glyph, int sizePx, int color) {
@@ -167,6 +182,32 @@ final class RemoteButtons {
     static final String[] PALETTE_NAMES = {
             "Default", "Red", "Amber", "Yellow", "Green", "Blue", "Purple", "Cyan",
     };
+
+    /**
+     * The button behind the icon. Index 0 is no fill at all, which leaves the
+     * widget's own rounded background showing — what every button looked like
+     * before this was settable. The rest are dimmed so a white icon still
+     * reads on top of them.
+     */
+    static final int[] BUTTON_PALETTE = {
+            Color.TRANSPARENT,
+            Color.parseColor("#33FFFFFF"),
+            Color.parseColor("#CC37474F"),
+            Color.parseColor("#CCB71C1C"),
+            Color.parseColor("#CCE65100"),
+            Color.parseColor("#CC1B5E20"),
+            Color.parseColor("#CC0D47A1"),
+            Color.parseColor("#CC4A148C"),
+            Color.parseColor("#CC006064"),
+    };
+
+    static final String[] BUTTON_PALETTE_NAMES = {
+            "None", "Light", "Slate", "Red", "Orange", "Green", "Blue", "Purple", "Teal",
+    };
+
+    static int buttonColor(int index) {
+        return BUTTON_PALETTE[Math.max(0, Math.min(index, BUTTON_PALETTE.length - 1))];
+    }
 
     static Bitmap render(Context context, String glyph, int sizePx) {
         return render(context, glyph, sizePx, Color.WHITE);

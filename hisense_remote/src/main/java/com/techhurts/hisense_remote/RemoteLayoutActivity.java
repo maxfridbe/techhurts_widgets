@@ -34,9 +34,11 @@ public class RemoteLayoutActivity extends Activity {
     private final List<RemoteLayout.Cell> mCells = new ArrayList<>();
     private RemoteSize mSize;
     private int mGlobalColor;
+    private int mGlobalButtonColor;
     private GridLayout mGrid;
     private GridLayout mPalette;
     private LinearLayout mColorRow;
+    private LinearLayout mButtonColorRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +54,14 @@ public class RemoteLayoutActivity extends Activity {
 
         mSize = RemoteSize.of(this, mAppWidgetId);
         mGlobalColor = RemoteLayout.globalColorIndex(this, mAppWidgetId);
+        mGlobalButtonColor = RemoteLayout.globalButtonColorIndex(this, mAppWidgetId);
         mCells.clear();
         mCells.addAll(RemoteLayout.load(this, mAppWidgetId));
 
         mGrid = findViewById(R.id.layout_grid);
         mPalette = findViewById(R.id.layout_palette);
         mColorRow = findViewById(R.id.layout_colors);
+        mButtonColorRow = findViewById(R.id.layout_button_colors);
         mGrid.setColumnCount(mSize.columns);
 
         ((TextView) findViewById(R.id.layout_subtitle)).setText(
@@ -65,12 +69,14 @@ public class RemoteLayoutActivity extends Activity {
                         + ". Tap an icon then a cell to place it; tap a placed button to colour it.");
 
         buildColorRow();
+        buildButtonColorRow();
         buildPalette();
         buildGrid();
 
         findViewById(R.id.btn_layout_save).setOnClickListener(v -> {
             RemoteLayout.save(this, mAppWidgetId, mCells);
             RemoteLayout.setGlobalColor(this, mAppWidgetId, mGlobalColor);
+            RemoteLayout.setGlobalButtonColor(this, mAppWidgetId, mGlobalButtonColor);
             HisenseRemoteWidgetProvider.updateWidget(
                     this, AppWidgetManager.getInstance(this), mAppWidgetId);
             setResult(RESULT_OK, new Intent()
@@ -83,7 +89,9 @@ public class RemoteLayoutActivity extends Activity {
             mCells.clear();
             mCells.addAll(RemoteLayout.load(this, mAppWidgetId));
             mGlobalColor = 0;
+            mGlobalButtonColor = 0;
             buildColorRow();
+            buildButtonColorRow();
             buildGrid();
         });
 
@@ -119,6 +127,45 @@ public class RemoteLayoutActivity extends Activity {
             });
             mColorRow.addView(swatch);
         }
+    }
+
+    /**
+     * Swatches for the button behind the icon. Drawn as filled blocks rather
+     * than the icon row's rings, because "none" has to look like nothing and a
+     * ring would look like a colour.
+     */
+    private void buildButtonColorRow() {
+        mButtonColorRow.removeAllViews();
+        for (int i = 0; i < RemoteButtons.BUTTON_PALETTE.length; i++) {
+            final int index = i;
+            TextView swatch = new TextView(this);
+            swatch.setText(index == mGlobalButtonColor ? "■" : "□");
+            swatch.setTextSize(22);
+            swatch.setTextColor(index == 0
+                    ? Color.parseColor("#88FFFFFF")
+                    : swatchColor(RemoteButtons.BUTTON_PALETTE[index]));
+            swatch.setGravity(Gravity.CENTER);
+            swatch.setPadding(10, 4, 10, 4);
+            swatch.setOnClickListener(v -> {
+                mGlobalButtonColor = index;
+                buildButtonColorRow();
+                buildGrid();
+            });
+            mButtonColorRow.addView(swatch);
+        }
+    }
+
+    /**
+     * A swatch has to be visible on a black screen. The button colours are
+     * deliberately dark so a white icon reads on top of them, which makes them
+     * almost invisible as swatches, so the swatch shows a lightened version of
+     * the same hue. Only the swatch — the widget draws the real colour.
+     */
+    private static int swatchColor(int color) {
+        return Color.rgb(
+                Math.min(255, Color.red(color) + 90),
+                Math.min(255, Color.green(color) + 90),
+                Math.min(255, Color.blue(color) + 90));
     }
 
     private void buildPalette() {
@@ -198,16 +245,45 @@ public class RemoteLayoutActivity extends Activity {
                 .show();
     }
 
-    /** Per-button colour, or "Use widget colour" to fall back to the global one. */
+    /** Tapping a placed button asks which of its two colours to change. */
     private void pickColor(int index) {
+        new AlertDialog.Builder(this)
+                .setTitle("Colour this button")
+                .setItems(new String[]{"Icon colour", "Button colour"}, (dialog, which) -> {
+                    if (which == 0) {
+                        pickIconColor(index);
+                    } else {
+                        pickButtonColor(index);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    /** Per-button icon colour, or "Use widget colour" for the global one. */
+    private void pickIconColor(int index) {
         String[] names = new String[RemoteButtons.PALETTE_NAMES.length];
         names[0] = "Use widget colour";
         System.arraycopy(RemoteButtons.PALETTE_NAMES, 1, names, 1, names.length - 1);
         new AlertDialog.Builder(this)
+                .setTitle("Icon colour")
+                .setItems(names, (dialog, which) -> {
+                    RemoteLayout.Cell cell = mCells.get(index);
+                    mCells.set(index, new RemoteLayout.Cell(cell.key, which, cell.buttonColor));
+                    buildGrid();
+                })
+                .show();
+    }
+
+    private void pickButtonColor(int index) {
+        String[] names = new String[RemoteButtons.BUTTON_PALETTE_NAMES.length];
+        names[0] = "Use widget colour";
+        System.arraycopy(RemoteButtons.BUTTON_PALETTE_NAMES, 1, names, 1, names.length - 1);
+        new AlertDialog.Builder(this)
                 .setTitle("Button colour")
                 .setItems(names, (dialog, which) -> {
                     RemoteLayout.Cell cell = mCells.get(index);
-                    mCells.set(index, new RemoteLayout.Cell(cell.key, which));
+                    mCells.set(index, new RemoteLayout.Cell(cell.key, cell.color, which));
                     buildGrid();
                 })
                 .show();
@@ -230,6 +306,13 @@ public class RemoteLayoutActivity extends Activity {
 
         int colorIndex = cellIndex >= 0 && mCells.get(cellIndex).color > 0
                 ? mCells.get(cellIndex).color : mGlobalColor;
+        if (cellIndex >= 0) {
+            // Same two colours the widget will draw, so the editor is a preview.
+            int buttonIndex = mCells.get(cellIndex).buttonColor > 0
+                    ? mCells.get(cellIndex).buttonColor : mGlobalButtonColor;
+            int fill = RemoteButtons.buttonColor(buttonIndex);
+            if (Color.alpha(fill) != 0) holder.setBackgroundColor(fill);
+        }
 
         TextView icon = new TextView(this);
         icon.setText(button.glyph);

@@ -60,6 +60,7 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
             // a custom typeface, so each Nerd Font glyph is drawn into a bitmap.
             java.util.List<RemoteLayout.Cell> cells = RemoteLayout.load(context, appWidgetId);
             int globalColor = RemoteLayout.globalColor(context, appWidgetId);
+            int globalButton = RemoteLayout.globalButtonColor(context, appWidgetId);
             // Matches the 48dp cells in remote_grid_*.xml; a smaller bitmap would
             // just be upscaled and come out soft.
             int iconPx = Math.round(context.getResources().getDisplayMetrics().density * 48);
@@ -74,9 +75,11 @@ public class HisenseRemoteWidgetProvider extends AppWidgetProvider {
                     continue;
                 }
                 int color = cell.color > 0 ? RemoteButtons.PALETTE[cell.color] : globalColor;
+                int buttonColor = cell.buttonColor > 0
+                        ? RemoteButtons.buttonColor(cell.buttonColor) : globalButton;
                 views.setViewVisibility(cellId, android.view.View.VISIBLE);
                 views.setImageViewBitmap(cellId,
-                        RemoteButtons.render(context, button.glyph, iconPx, color));
+                        RemoteButtons.renderButton(context, button.glyph, iconPx, color, buttonColor));
                 views.setContentDescription(cellId, button.label);
                 views.setOnClickPendingIntent(cellId,
                         getPendingIntent(context, appWidgetId, button.key));

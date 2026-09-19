@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 3x1 buttons in a 2x1 tile widget. A button is 48dp with 2dp
+     margins, so a row of 3 needs 156dp and the widget has about 162dp. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
@@ -6,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/remote_widget_bg"
-    android:padding="4dp">
+    android:padding="2dp">
 
     <TextView
         android:id="@+id/txt_title"
@@ -40,7 +42,7 @@
                 android:id="@+id/cell_0_0"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_margin="3dp"
+                android:layout_margin="2dp"
                 android:background="@drawable/remote_button_bg"
                 android:padding="4dp"
                 android:scaleType="fitCenter" />
@@ -48,7 +50,15 @@
                 android:id="@+id/cell_0_1"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_margin="3dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/remote_button_bg"
+                android:padding="4dp"
+                android:scaleType="fitCenter" />
+            <ImageView
+                android:id="@+id/cell_0_2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="2dp"
                 android:background="@drawable/remote_button_bg"
                 android:padding="4dp"
                 android:scaleType="fitCenter" />

@@ -61,7 +61,7 @@
 
         <receiver
             android:name=".Remote1x1Provider"
-            android:label="TV Remote 1×1"
+            android:label="TV Remote 1×1 (1 button)"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -73,7 +73,7 @@
 
         <receiver
             android:name=".Remote2x1Provider"
-            android:label="TV Remote 2×1"
+            android:label="TV Remote 2×1 (3 buttons)"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -85,7 +85,7 @@
 
         <receiver
             android:name=".Remote2x2Provider"
-            android:label="TV Remote 2×2"
+            android:label="TV Remote 2×2 (9 buttons)"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -97,7 +97,7 @@
 
         <receiver
             android:name=".Remote3x1Provider"
-            android:label="TV Remote 3×1"
+            android:label="TV Remote 3×1 (4 buttons)"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -109,7 +109,7 @@
 
         <receiver
             android:name=".Remote3x3Provider"
-            android:label="TV Remote 3×3"
+            android:label="TV Remote 3×3 (16 buttons)"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

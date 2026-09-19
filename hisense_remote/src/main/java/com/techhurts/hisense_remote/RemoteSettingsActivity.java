@@ -39,6 +39,11 @@ public class RemoteSettingsActivity extends Activity {
 
     private LinearLayout mList;
 
+    /** setPadding and friends take pixels; everything here is written in dp. */
+    private int dp(int value) {
+        return Math.round(getResources().getDisplayMetrics().density * value);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +71,10 @@ public class RemoteSettingsActivity extends Activity {
             empty.setText("No remotes on the home screen yet.\n\n"
                     + "Add one below, or long-press the home screen and pick "
                     + "a TV Remote widget.");
-            empty.setTextColor(Color.parseColor("#CCFFFFFF"));
+            empty.setTextColor(Color.parseColor("#99FFFFFF"));
             empty.setTextSize(14);
-            empty.setPadding(8, 24, 8, 24);
+            empty.setLineSpacing(dp(4), 1f);
+            empty.setPadding(dp(4), dp(24), dp(4), dp(24));
             mList.addView(empty);
             return;
         }
@@ -96,29 +102,55 @@ public class RemoteSettingsActivity extends Activity {
         String protocol = prefs.getString("protocol_" + appWidgetId, "android_tv");
 
         LinearLayout row = new LinearLayout(this);
-        row.setOrientation(LinearLayout.VERTICAL);
-        row.setPadding(20, 18, 20, 18);
-        row.setBackgroundResource(R.drawable.remote_button_bg);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(16), dp(14), dp(16), dp(14));
+        row.setBackgroundResource(R.drawable.remote_settings_row);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 12);
+        params.setMargins(0, 0, 0, dp(10));
         row.setLayoutParams(params);
 
+        // The grid shape, so a list of several remotes is told apart at a glance.
+        TextView shape = new TextView(this);
+        shape.setText(size.columns + "×" + size.rows);
+        shape.setTextColor(Color.WHITE);
+        shape.setTextSize(15);
+        shape.setGravity(Gravity.CENTER);
+        shape.setBackgroundResource(R.drawable.remote_button_bg);
+        LinearLayout.LayoutParams shapeParams =
+                new LinearLayout.LayoutParams(dp(48), dp(48));
+        shapeParams.setMargins(0, 0, dp(14), 0);
+        shape.setLayoutParams(shapeParams);
+        row.addView(shape);
+
+        LinearLayout text = new LinearLayout(this);
+        text.setOrientation(LinearLayout.VERTICAL);
+        text.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
         TextView title = new TextView(this);
-        title.setText(size.columns + "×" + size.rows + " remote");
+        title.setText(ip.isEmpty() ? "Not set up yet" : ip);
         title.setTextColor(Color.WHITE);
         title.setTextSize(16);
-        row.addView(title);
+        text.addView(title);
 
         TextView detail = new TextView(this);
         detail.setText(ip.isEmpty()
-                ? "No TV set — tap to choose one"
-                : ip + " · " + protocolLabel(protocol) + " · " + placedButtons(appWidgetId)
+                ? "Tap to choose a TV"
+                : protocolLabel(protocol) + " · " + placedButtons(appWidgetId)
                         + " of " + size.cells() + " buttons");
-        detail.setTextColor(Color.parseColor("#AAFFFFFF"));
+        detail.setTextColor(Color.parseColor("#99FFFFFF"));
         detail.setTextSize(12);
-        detail.setPadding(0, 4, 0, 0);
-        row.addView(detail);
+        detail.setPadding(0, dp(2), 0, 0);
+        text.addView(detail);
+        row.addView(text);
+
+        TextView chevron = new TextView(this);
+        chevron.setText("›");
+        chevron.setTextColor(Color.parseColor("#66FFFFFF"));
+        chevron.setTextSize(22);
+        row.addView(chevron);
 
         row.setOnClickListener(v -> showMenu(appWidgetId, size));
         return row;
@@ -133,13 +165,18 @@ public class RemoteSettingsActivity extends Activity {
         return count;
     }
 
+    /** Dark dialogs, so a menu does not flash white over a black screen. */
+    private AlertDialog.Builder dialog() {
+        return new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+    }
+
     private void showMenu(int appWidgetId, RemoteSize size) {
         String[] choices = {
             "Edit buttons",
             "Change TV",
             "Reset buttons to default",
         };
-        new AlertDialog.Builder(this)
+        dialog()
                 .setTitle(size.columns + "×" + size.rows + " remote")
                 .setItems(choices, (dialog, which) -> {
                     switch (which) {
@@ -165,7 +202,7 @@ public class RemoteSettingsActivity extends Activity {
     }
 
     private void confirmReset(int appWidgetId) {
-        new AlertDialog.Builder(this)
+        dialog()
                 .setTitle("Reset buttons?")
                 .setMessage("The layout goes back to the default for this size. "
                         + "The TV it points at is left alone.")

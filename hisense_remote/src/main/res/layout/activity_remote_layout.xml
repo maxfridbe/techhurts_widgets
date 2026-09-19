@@ -25,9 +25,33 @@
         android:textSize="13sp"
         android:gravity="center" />
 
-    <!-- Colour for every button that has no colour of its own -->
+    <!-- Icon colour for every button that has none of its own -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Icon colour"
+        android:textColor="#88FFFFFF"
+        android:textSize="11sp"
+        android:gravity="center" />
+
     <LinearLayout
         android:id="@+id/layout_colors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" />
+
+    <!-- And the button behind it -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button colour"
+        android:textColor="#88FFFFFF"
+        android:textSize="11sp"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:id="@+id/layout_button_colors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
